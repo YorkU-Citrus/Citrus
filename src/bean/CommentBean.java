@@ -1,20 +1,50 @@
 package bean;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class CommentBean {
-
-	private UserBean user;
-	private int rating;
-	private Date timestamp;
-	private int status;
 	
-	public UserBean getUser() {
-		return user;
+	private int cmtid;
+	private int userid;
+	private int bookid;
+	private int rating;
+	private Timestamp timestamp;
+	private String status;
+	private String content;
+	
+	public CommentBean(int id, int uid, int bookid, Timestamp time, int rate, String content, String status) {
+		
+		this.cmtid = id;
+		this.userid = uid;
+		this.bookid = bookid;
+		this.rating = rate;
+		this.content = content;
+		this.status = status;
 	}
 
-	public void setUser(UserBean user) {
-		this.user = user;
+	public int getCmtid() {
+		return cmtid;
+	}
+
+	public void setCmtid(int cmtid) {
+		this.cmtid = cmtid;
+	}
+
+	public int getUserid() {
+		return userid;
+	}
+
+	public void setUserid(int userid) {
+		this.userid = userid;
+	}
+
+	public int getBookid() {
+		return bookid;
+	}
+
+	public void setBookid(int bookid) {
+		this.bookid = bookid;
 	}
 
 	public int getRating() {
@@ -25,11 +55,11 @@ public class CommentBean {
 		this.rating = rating;
 	}
 
-	public Date getTimestamp() {
+	public Timestamp getTimestamp() {
 		return timestamp;
 	}
 
-	public void setTimestamp(Date timestamp) {
+	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
 	}
 
@@ -41,18 +71,18 @@ public class CommentBean {
 		this.status = status;
 	}
 
-	public String getComment() {
-		return comment;
+	public String getContent() {
+		return content;
 	}
 
-	public void setComment(String comment) {
-		this.comment = comment;
+	public void setContent(String content) {
+		this.content = content;
 	}
-
-	private String comment;
 	
-	public CommentBean() {
-		// TODO Auto-generated constructor stub
-	}
+	
+	
+	
+
+	
 
 }

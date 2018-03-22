@@ -1,9 +1,16 @@
 package DAO;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.*;
+
 
 public class CitrusDAO {
-	private Connection conDB;    // Connection to the database system.
+	Connection conDB;    // Connection to the database system.
 	private String url;          // URL: Which database?
 	
 	
@@ -49,5 +56,119 @@ public class CitrusDAO {
 		}
 		
 		
+	}
+	
+	/**
+	 * Execute a database query on citrus_db
+	 * Return a list, each element in the list is a hashMap representing one row in the query results
+	 * Entry in HashMap: <String, Object>
+	 * THIS METHOD SHOULD BE YOUR LAST CHOICE!
+	 * @param sql - The sql text you want to execute
+	 */
+	public List<Object> citrusQuery(String sql){
+		String queryText = sql; // query text
+		PreparedStatement querySt = null; // the query handle
+		ResultSet results = null; // a cursor
+		ResultSetMetaData md = null;
+		int columnCount = -1 ;
+		List list = new ArrayList();
+		
+		
+		//prepare the query
+		try{
+			querySt = conDB.prepareStatement(queryText);
+		}catch(SQLException e){
+			System.out.println("SQL#1 failed in preparation.");
+			System.out.println(e.toString());
+			System.exit(0);
+		}
+		
+		// execute the query
+		try{
+			results = querySt.executeQuery();
+			md = results.getMetaData();
+			columnCount = md.getColumnCount(); // get # of columns
+		}catch(SQLException e){
+			System.out.println("citrusQuery failed in execute.");
+			System.out.println(e.toString());
+			System.exit(0);
+		}
+		
+		// any results?
+		try{
+			
+			while(results.next()){
+				Map rowData = new HashMap();
+				for (int i = 1; i <= columnCount; i++) {
+					rowData.put(md.getColumnName(i), results.getObject(i));
+				}
+				
+				list.add(rowData);
+			}
+
+		}catch(SQLException e){
+			System.out.println("citrusQuery failed in cursor.");
+			System.out.println(e.toString());
+			System.exit(0);
+		}
+		
+		// close the cursor
+		try{
+			results.close();
+		}catch(SQLException e){
+			System.out.println("citrusQuery failed in closing cursor.");
+			System.out.println(e.toString());
+			System.exit(0);
+		}
+		
+		// close the handle
+		try{
+			querySt.close();
+		}catch(SQLException e){
+			System.out.println("citrusQuery failed in closing the handle.");
+			System.out.println(e.toString());
+			System.exit(0);
+		}
+		
+		return list;
+	}
+	
+	/**
+	 * Execute a database update on citrus_db
+	 * @param sql - The sql text you want to execute
+	 */
+	public void citrusUpdate(String sql){
+		String queryText = sql; // query text
+		PreparedStatement querySt = null; // the query handle
+		
+		//prepare the query
+		try{
+			querySt = conDB.prepareStatement(queryText);
+		}catch(SQLException e){
+			System.out.println("citrusUpdate failed in preparation.");
+			System.out.println(e.toString());
+			System.exit(0);
+		}
+				
+		// execute the query
+		try{		
+			querySt.executeUpdate();
+			conDB.commit();   // commit
+			System.out.println("update committed");
+					
+		}catch(SQLException e){
+			System.out.println("citrusUpdate failed in execute.");
+			System.out.println(e.toString());
+			System.exit(0);
+		}
+				
+		// close the handle
+		try{
+			querySt.close();
+		}catch(SQLException e){
+			System.out.println("citrusUpdate failed in closing the handle.");
+			System.out.println(e.toString());
+			System.exit(0);
+		}
 	}
 }
