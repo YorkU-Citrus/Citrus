@@ -6,15 +6,15 @@ import java.util.Date;
 public class UserBean {
 	private int uid;  //AUTO
 	private String uname;
-	private String upassword;
+	//private String upassword;
 	private Timestamp ulastactive; //timestamp
 	
 	
 	
-	public UserBean(int id, String name, String pwd, Timestamp ts) {
+	public UserBean(int id, String name, Timestamp ts) {
 		this.uid= id;
 		this.uname = name;
-		this.upassword = pwd;
+		//this.upassword = pwd;
 		this.ulastactive = ts;
 	}
 	
@@ -39,20 +39,6 @@ public class UserBean {
 	public void setUname(String uname) {
 		this.uname = uname;
 	}
-
-
-
-	public String getUpassword() {
-		return upassword;
-	}
-
-
-
-	public void setUpassword(String upassword) {
-		this.upassword = upassword;
-	}
-
-
 
 	public Timestamp getUlastactive() {
 		return ulastactive;

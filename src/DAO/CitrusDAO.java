@@ -7,11 +7,11 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.*;
-
+import org.mariadb.jdbc.Driver;
 
 public class CitrusDAO {
 	Connection conDB;    // Connection to the database system.
-	private String url;          // URL: Which database?
+	private String url;  // URL: Which database?
 	
 	
 	//Constructor
@@ -19,17 +19,17 @@ public class CitrusDAO {
 		// Set up the DB connection.
 		try {
 		    // Register the driver with DriverManager.
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			Class.forName("org.mariadb.jdbc.Driver").newInstance();
 		} catch (ClassNotFoundException e) {
 			System.out.println("What happened, cant find DriverManager");
 			e.printStackTrace();
-			System.exit(0);
+			
 		} catch (InstantiationException e) {
 			e.printStackTrace();
-			System.exit(0);
+			
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
-			System.exit(0);
+			
 		}
 				
 		// url: which database
@@ -42,7 +42,7 @@ public class CitrusDAO {
 		} catch(SQLException e) {
 			System.out.print("\nSQL: database connection error.\n");
 		    System.out.println(e.toString());
-			System.exit(0);
+			
 		}   
 				
 				
@@ -52,7 +52,7 @@ public class CitrusDAO {
 		}catch(SQLException e){
 			System.out.print("\nFailed trying to turn autocommit off.\n");
 			e.printStackTrace();
-			System.exit(0);
+			
 		}
 		
 		
@@ -80,7 +80,7 @@ public class CitrusDAO {
 		}catch(SQLException e){
 			System.out.println("SQL#1 failed in preparation.");
 			System.out.println(e.toString());
-			System.exit(0);
+			
 		}
 		
 		// execute the query
@@ -91,7 +91,7 @@ public class CitrusDAO {
 		}catch(SQLException e){
 			System.out.println("citrusQuery failed in execute.");
 			System.out.println(e.toString());
-			System.exit(0);
+			
 		}
 		
 		// any results?
@@ -109,7 +109,7 @@ public class CitrusDAO {
 		}catch(SQLException e){
 			System.out.println("citrusQuery failed in cursor.");
 			System.out.println(e.toString());
-			System.exit(0);
+			
 		}
 		
 		// close the cursor
@@ -118,7 +118,7 @@ public class CitrusDAO {
 		}catch(SQLException e){
 			System.out.println("citrusQuery failed in closing cursor.");
 			System.out.println(e.toString());
-			System.exit(0);
+			
 		}
 		
 		// close the handle
@@ -127,7 +127,7 @@ public class CitrusDAO {
 		}catch(SQLException e){
 			System.out.println("citrusQuery failed in closing the handle.");
 			System.out.println(e.toString());
-			System.exit(0);
+			
 		}
 		
 		return list;
@@ -147,7 +147,7 @@ public class CitrusDAO {
 		}catch(SQLException e){
 			System.out.println("citrusUpdate failed in preparation.");
 			System.out.println(e.toString());
-			System.exit(0);
+			
 		}
 				
 		// execute the query
@@ -159,7 +159,7 @@ public class CitrusDAO {
 		}catch(SQLException e){
 			System.out.println("citrusUpdate failed in execute.");
 			System.out.println(e.toString());
-			System.exit(0);
+			
 		}
 				
 		// close the handle
@@ -168,7 +168,7 @@ public class CitrusDAO {
 		}catch(SQLException e){
 			System.out.println("citrusUpdate failed in closing the handle.");
 			System.out.println(e.toString());
-			System.exit(0);
+			
 		}
 	}
 }

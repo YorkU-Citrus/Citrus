@@ -32,7 +32,7 @@ public class bookDAO extends CitrusDAO {
 		}catch(SQLException e){
 			System.out.println("getBookByID failed in preparation.");
 			System.out.println(e.toString());
-			System.exit(0);
+			
 		}
 		
 		// execute the query
@@ -42,7 +42,7 @@ public class bookDAO extends CitrusDAO {
 		}catch(SQLException e){
 			System.out.println("getBookByID failed in execute.");
 			System.out.println(e.toString());
-			System.exit(0);
+			
 		}
 		
 		// any results?
@@ -64,7 +64,7 @@ public class bookDAO extends CitrusDAO {
 		}catch(SQLException e){
 			System.out.println("getBookByID failed in cursor.");
 			System.out.println(e.toString());
-			System.exit(0);
+			
 		}
 		
 		// close the cursor
@@ -73,7 +73,7 @@ public class bookDAO extends CitrusDAO {
 		}catch(SQLException e){
 			System.out.println("getBookByID failed in closing cursor.");
 			System.out.println(e.toString());
-			System.exit(0);
+			
 		}
 		
 		// close the handle
@@ -82,7 +82,7 @@ public class bookDAO extends CitrusDAO {
 		}catch(SQLException e){
 			System.out.println("getBookByID failed in closing the handle.");
 			System.out.println(e.toString());
-			System.exit(0);
+			
 		}
 		
 		return book;
@@ -107,7 +107,7 @@ public class bookDAO extends CitrusDAO {
 		}catch(SQLException e){
 			System.out.println("retrieveAllBooks() failed in preparation.");
 			System.out.println(e.toString());
-			System.exit(0);
+			
 		}
 		
 		// execute the query
@@ -116,7 +116,7 @@ public class bookDAO extends CitrusDAO {
 		}catch(SQLException e){
 			System.out.println("retrieveAllBooks() failed in execute.");
 			System.out.println(e.toString());
-			System.exit(0);
+			
 		}
 		
 		// any results?
@@ -141,7 +141,7 @@ public class bookDAO extends CitrusDAO {
 		}catch(SQLException e){
 			System.out.println("retrieveAllBooks() failed in cursor.");
 			System.out.println(e.toString());
-			System.exit(0);
+			
 		}
 		
 		// close the cursor
@@ -150,7 +150,7 @@ public class bookDAO extends CitrusDAO {
 		}catch(SQLException e){
 			System.out.println("retrieveAllBooks() failed in closing cursor.");
 			System.out.println(e.toString());
-			System.exit(0);
+			
 		}
 		
 		// close the handle
@@ -159,7 +159,7 @@ public class bookDAO extends CitrusDAO {
 		}catch(SQLException e){
 			System.out.println("retrieveAllBooks() failed in closing the handle.");
 			System.out.println(e.toString());
-			System.exit(0);
+			
 		}
 		
 		

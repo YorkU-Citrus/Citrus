@@ -32,8 +32,8 @@ public class CommentDAO extends CitrusDAO {
 		
 		queryText = 
 				"Select * "
-			+   "From citrus_comment "
-			+	"Where cmtbid = ?"
+			+   "From citrus_comment, citrus_user"
+			+	"Where citrus_comment.cmtbid = ? And citrus_user.uid = citrus_comment.cmtuid "
 			;
 		
 		//prepare the query
@@ -42,7 +42,7 @@ public class CommentDAO extends CitrusDAO {
 		}catch(SQLException e){
 			System.out.println("Cmt getCommentsForItem( bid) failed in preparation.");
 			System.out.println(e.toString());
-			System.exit(0);
+			
 		}
 		
 		// execute the query
@@ -52,21 +52,26 @@ public class CommentDAO extends CitrusDAO {
 		}catch(SQLException e){
 			System.out.println("Cmt getCommentsForItem( bid) failed in execute.");
 			System.out.println(e.toString());
-			System.exit(0);
+			
 		}
 		
 		// any results?
 		try{
 			while(results.next()){
-				Integer id = results.getInt("cmtid");
+				
 				Integer uid = results.getInt("cmtuid");
-				Integer bookid = results.getInt("cmtbid");
-				Timestamp time = results.getTimestamp("cmttime");
+				Timestamp ts = results.getTimestamp("cmttime");
 				Integer rate = results.getInt("cmtrate");
 				String content = results.getString("cmtcontent");
 				String status = results.getString("cmtstatus");
 				
-				CommentBean cmtBean = new CommentBean(id, uid, bookid, time, rate, content, status);
+				String name = results.getString("uname");
+				//String password = results.getString("upassword");
+				Timestamp lastactive = results.getTimestamp("ulastactive");
+				
+				UserBean user = new UserBean(uid, name, lastactive);
+				
+				CommentBean cmtBean = new CommentBean(user, ts, rate, status, content);
 				
 				list.add(cmtBean);
 				
@@ -76,7 +81,7 @@ public class CommentDAO extends CitrusDAO {
 		}catch(SQLException e){
 			System.out.println("Cmt getCommentsForItem( bid) failed in cursor.");
 			System.out.println(e.toString());
-			System.exit(0);
+			
 		}
 		
 		// close the cursor
@@ -85,7 +90,7 @@ public class CommentDAO extends CitrusDAO {
 		}catch(SQLException e){
 			System.out.println("Cmt getCommentsForItem( bid) failed in closing cursor.");
 			System.out.println(e.toString());
-			System.exit(0);
+			
 		}
 		
 		// close the handle
@@ -94,7 +99,7 @@ public class CommentDAO extends CitrusDAO {
 		}catch(SQLException e){
 			System.out.println("Cmt getCommentsForItem( bid) failed in closing the handle.");
 			System.out.println(e.toString());
-			System.exit(0);
+			
 		}
 		
 		

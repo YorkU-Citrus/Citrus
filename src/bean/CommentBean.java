@@ -4,7 +4,15 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 public class CommentBean {
+	private UserBean user;
+	private int rating;
+	private Timestamp timestamp;
+	//private int status;
+	private String status;
+	private String content;
+	 
 	
+	/*
 	private int cmtid;
 	private int userid;
 	private int bookid;
@@ -12,72 +20,69 @@ public class CommentBean {
 	private Timestamp timestamp;
 	private String status;
 	private String content;
+	*/
 	
-	public CommentBean(int id, int uid, int bookid, Timestamp time, int rate, String content, String status) {
+	public CommentBean(UserBean ub,  Timestamp ts, int rate, String content, String status) {
 		
-		this.cmtid = id;
-		this.userid = uid;
-		this.bookid = bookid;
+		this.user = ub;
 		this.rating = rate;
+		this.timestamp = ts;
 		this.content = content;
 		this.status = status;
 	}
 
-	public int getCmtid() {
-		return cmtid;
+
+	public UserBean getUser() {
+		return user;
 	}
 
-	public void setCmtid(int cmtid) {
-		this.cmtid = cmtid;
+
+	public void setUser(UserBean user) {
+		this.user = user;
 	}
 
-	public int getUserid() {
-		return userid;
-	}
-
-	public void setUserid(int userid) {
-		this.userid = userid;
-	}
-
-	public int getBookid() {
-		return bookid;
-	}
-
-	public void setBookid(int bookid) {
-		this.bookid = bookid;
-	}
 
 	public int getRating() {
 		return rating;
 	}
 
+
 	public void setRating(int rating) {
 		this.rating = rating;
 	}
+
 
 	public Timestamp getTimestamp() {
 		return timestamp;
 	}
 
+
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
 	}
 
-	public int getStatus() {
+
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+
+	public void setStatus(String status) {
 		this.status = status;
 	}
+
 
 	public String getContent() {
 		return content;
 	}
 
+
 	public void setContent(String content) {
 		this.content = content;
 	}
+
+	
+	
 	
 	
 	

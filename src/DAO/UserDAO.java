@@ -16,6 +16,11 @@ public class UserDAO extends CitrusDAO{
 		super();
 	}
 	
+	public String getUserPassword(String uname){
+		
+		return null;
+	}
+	
 	
 	public UserBean getUserByID(int uid){
 		UserBean user = null;
@@ -34,7 +39,7 @@ public class UserDAO extends CitrusDAO{
 		}catch(SQLException e){
 			System.out.println("getUserByID failed in preparation.");
 			System.out.println(e.toString());
-			System.exit(0);
+			
 		}
 		
 		// execute the query
@@ -44,7 +49,7 @@ public class UserDAO extends CitrusDAO{
 		}catch(SQLException e){
 			System.out.println("getUserByID failed in execute.");
 			System.out.println(e.toString());
-			System.exit(0);
+			
 		}
 		
 		// any results?
@@ -52,17 +57,17 @@ public class UserDAO extends CitrusDAO{
 			while(results.next()){
 				Integer id = results.getInt("uid");
 				String name = results.getString("uname");
-				String password = results.getString("upassword");
+				//String password = results.getString("upassword");
 				Timestamp lastactive = results.getTimestamp("ulastactive");
 				
-				user = new UserBean(id, name, password, lastactive);
+				user = new UserBean(id, name, lastactive);
 			}
 			
 			
 		}catch(SQLException e){
 			System.out.println("getUserByID failed in cursor.");
 			System.out.println(e.toString());
-			System.exit(0);
+			
 		}
 		
 		// close the cursor
@@ -71,7 +76,7 @@ public class UserDAO extends CitrusDAO{
 		}catch(SQLException e){
 			System.out.println("getUserByID failed in closing cursor.");
 			System.out.println(e.toString());
-			System.exit(0);
+			
 		}
 		
 		// close the handle
@@ -80,7 +85,7 @@ public class UserDAO extends CitrusDAO{
 		}catch(SQLException e){
 			System.out.println("getUserByID failed in closing the handle.");
 			System.out.println(e.toString());
-			System.exit(0);
+			
 		}
 		
 		return user;
@@ -104,7 +109,7 @@ public class UserDAO extends CitrusDAO{
 		}catch(SQLException e){
 			System.out.println("User retrieveAll() failed in preparation.");
 			System.out.println(e.toString());
-			System.exit(0);
+			
 		}
 		
 		// execute the query
@@ -113,7 +118,7 @@ public class UserDAO extends CitrusDAO{
 		}catch(SQLException e){
 			System.out.println("User retrieveAll() failed in execute.");
 			System.out.println(e.toString());
-			System.exit(0);
+			
 		}
 		
 		// any results?
@@ -121,10 +126,10 @@ public class UserDAO extends CitrusDAO{
 			while(results.next()){
 				Integer id = results.getInt("uid");
 				String name = results.getString("uname");
-				String password = results.getString("upassword");
+				//String password = results.getString("upassword");
 				Timestamp lastactive = results.getTimestamp("ulastactive");
 				
-				UserBean uBean = new UserBean(id, name, password, lastactive);
+				UserBean uBean = new UserBean(id, name, lastactive);
 				
 				resultMap.put(id, uBean);
 				
@@ -134,7 +139,7 @@ public class UserDAO extends CitrusDAO{
 		}catch(SQLException e){
 			System.out.println("User retrieveAll() failed in cursor.");
 			System.out.println(e.toString());
-			System.exit(0);
+			
 		}
 		
 		// close the cursor
@@ -143,7 +148,7 @@ public class UserDAO extends CitrusDAO{
 		}catch(SQLException e){
 			System.out.println("User retrieveAll() failed in closing cursor.");
 			System.out.println(e.toString());
-			System.exit(0);
+			
 		}
 		
 		// close the handle
@@ -152,7 +157,7 @@ public class UserDAO extends CitrusDAO{
 		}catch(SQLException e){
 			System.out.println("User retrieveAll() failed in closing the handle.");
 			System.out.println(e.toString());
-			System.exit(0);
+			
 		}
 		
 		
