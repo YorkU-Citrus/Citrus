@@ -32,7 +32,7 @@ public class CommentDAO extends CitrusDAO {
 		
 		queryText = 
 				"Select * "
-			+   "From citrus_comment, citrus_user"
+			+   "From citrus_comment, citrus_user "
 			+	"Where citrus_comment.cmtbid = ? And citrus_user.uid = citrus_comment.cmtuid "
 			;
 		
