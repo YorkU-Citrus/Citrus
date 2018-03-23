@@ -264,8 +264,10 @@ public class bookDAO extends CitrusDAO {
 		bookDAO bDao = new bookDAO();
 		bookBean book1 = new bookBean(1, "test_book1", 10, 1, "isbn1", "book1", 32, "url1");
 		bookBean book2 = new bookBean(2, "test_book2", 111, 10, "isbn2", "book2", 32, "url2");
+		bookBean book3 = new bookBean(0, "test_book3", 1, 110, "isbn3", "book3", 3, "url3");
 		//bDao.addBook(book1);
 		//bDao.addBook(book2);
+		//bDao.addBook(book3);
 		System.out.println(bDao.retrieveAllBooks().size());
 	}
 }

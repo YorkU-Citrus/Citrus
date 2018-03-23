@@ -24,8 +24,49 @@ public class CommentDAO extends CitrusDAO {
 		super();
 	}
 	
-	public ArrayList<CommentBean> getCommentsForBook(Integer bid){
-		ArrayList<CommentBean> list = new ArrayList<CommentBean>();
+	public void removeComment() {
+		
+	}
+	
+	public void publishComment() {
+		
+	}
+	
+	public void addComment(CommentBean cb) {
+		String queryText = ""; 
+		PreparedStatement querySt = null; 
+		
+		queryText = "Insert "
+				+ "into citrus_comment "
+				+ "value( ?, ?, ?, ?, ?, ?, ?)";
+		
+		try {
+			//prepare
+			querySt = conDB.prepareStatement(queryText);
+			
+			//execute
+			// 1 cmtid AUTO_INCREMENT
+			querySt.setInt(1, 0); 
+			querySt.setInt(2, cb.getUser().getUid()); 
+			querySt.setInt(3, cb.getBookid());
+			querySt.setTimestamp(4, cb.getTimestamp());
+			querySt.setInt(5, cb.getRating());
+			querySt.setString(6, cb.getContent());
+			querySt.setString(7, cb.getStatus());
+			
+			querySt.executeUpdate();
+			
+			//close
+			querySt.close();
+			
+		} catch (SQLException e) {
+			System.out.println("CommentDAO addComment failed.");	
+			System.out.println(e.toString());
+		}
+	}
+	
+	public List<CommentBean> getCommentsForBook(Integer bid){
+		List<CommentBean> list = new ArrayList<CommentBean>();
 		String queryText = ""; //SQL TEXT
 		PreparedStatement querySt = null; // the query handle
 		ResultSet results = null; // a cursor
@@ -71,7 +112,7 @@ public class CommentDAO extends CitrusDAO {
 				
 				UserBean user = new UserBean(uid, name, lastactive);
 				
-				CommentBean cmtBean = new CommentBean(user, ts, rate, status, content);
+				CommentBean cmtBean = new CommentBean(user, bid, ts, rate, status, content);
 				
 				list.add(cmtBean);
 				
@@ -106,5 +147,13 @@ public class CommentDAO extends CitrusDAO {
 		return list;
 	}
 	
+	public static void main(String[] args) {
+		UserDAO uDao = new UserDAO();
+		CommentDAO cDao = new CommentDAO();
+		
+		UserBean user1 = uDao.getUserByID(1);
+		CommentBean cb = new CommentBean(user1, 1, new Timestamp(new Date().getTime()), 5, "I like it ", "PENDING");
+		//cDao.addComment(cb);
+	}
 	
 }

@@ -5,11 +5,12 @@ import java.util.Date;
 
 public class CommentBean {
 	private UserBean user;
-	private int rating;
+	private Integer bookid;
 	private Timestamp timestamp;
-	//private int status;
-	private String status;
+	private int rating;
 	private String content;
+	private String status;
+	
 	 
 	
 	/*
@@ -22,16 +23,26 @@ public class CommentBean {
 	private String content;
 	*/
 	
-	public CommentBean(UserBean ub,  Timestamp ts, int rate, String content, String status) {
+	public CommentBean(UserBean ub, Integer bid, Timestamp ts, int rate, String content, String status) {
 		
 		this.user = ub;
+		this.bookid = bid;
 		this.rating = rate;
 		this.timestamp = ts;
 		this.content = content;
 		this.status = status;
 	}
 
+	public Integer getBookid() {
+		return bookid;
+	}
 
+
+	public void setBookid(Integer bookid) {
+		this.bookid = bookid;
+	}
+	
+	
 	public UserBean getUser() {
 		return user;
 	}
