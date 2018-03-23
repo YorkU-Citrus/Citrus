@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 public class CommentBean {
+	private int cmtid;
 	private UserBean user;
 	private Integer bookid;
 	private Timestamp timestamp;
@@ -23,8 +24,8 @@ public class CommentBean {
 	private String content;
 	*/
 	
-	public CommentBean(UserBean ub, Integer bid, Timestamp ts, int rate, String content, String status) {
-		
+	public CommentBean(int cmtid, UserBean ub, Integer bid, Timestamp ts, int rate, String content, String status) {
+		this.cmtid = cmtid;
 		this.user = ub;
 		this.bookid = bid;
 		this.rating = rate;
@@ -32,6 +33,17 @@ public class CommentBean {
 		this.content = content;
 		this.status = status;
 	}
+
+	
+	public int getCmtid() {
+		return cmtid;
+	}
+
+
+	public void setCmtid(int cmtid) {
+		this.cmtid = cmtid;
+	}
+
 
 	public Integer getBookid() {
 		return bookid;

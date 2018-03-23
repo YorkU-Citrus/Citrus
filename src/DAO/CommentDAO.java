@@ -24,12 +24,58 @@ public class CommentDAO extends CitrusDAO {
 		super();
 	}
 	
-	public void removeComment() {
+	//update
+	public void removeComment(int cmtid) {
+		String queryText = ""; 
+		PreparedStatement querySt = null; 
 		
+		queryText = "Update citrus_comment "
+				+ "Set cmtstatus = ? "
+				+ "Where cmtid = ? ";
+		
+		try {
+			//prepare
+			querySt = conDB.prepareStatement(queryText);
+			
+			//execute
+			querySt.setString(1, "REMOVE");
+			querySt.setInt(2, cmtid);
+			querySt.executeUpdate();
+			
+			//close
+			querySt.close();
+			
+		} catch (SQLException e) {
+			System.out.println("CommentDAO removeComment failed.");	
+			System.out.println(e.toString());
+		}
 	}
 	
-	public void publishComment() {
+	//update
+	public void publishComment(int cmtid) {
+		String queryText = ""; 
+		PreparedStatement querySt = null; 
 		
+		queryText = "Update citrus_comment "
+				+ "Set cmtstatus = ? "
+				+ "Where cmtid = ? ";
+		
+		try {
+			//prepare
+			querySt = conDB.prepareStatement(queryText);
+			
+			//execute
+			querySt.setString(1, "PUBLISH");
+			querySt.setInt(2, cmtid);
+			querySt.executeUpdate();
+			
+			//close
+			querySt.close();
+			
+		} catch (SQLException e) {
+			System.out.println("CommentDAO publishComment failed.");	
+			System.out.println(e.toString());
+		}
 	}
 	
 	public void addComment(CommentBean cb) {
@@ -46,7 +92,7 @@ public class CommentDAO extends CitrusDAO {
 			
 			//execute
 			// 1 cmtid AUTO_INCREMENT
-			querySt.setInt(1, 0); 
+			querySt.setInt(1, cb.getCmtid()); 
 			querySt.setInt(2, cb.getUser().getUid()); 
 			querySt.setInt(3, cb.getBookid());
 			querySt.setTimestamp(4, cb.getTimestamp());
@@ -100,6 +146,7 @@ public class CommentDAO extends CitrusDAO {
 		try{
 			while(results.next()){
 				
+				Integer cmtid = results.getInt("cmtid");
 				Integer uid = results.getInt("cmtuid");
 				Timestamp ts = results.getTimestamp("cmttime");
 				Integer rate = results.getInt("cmtrate");
@@ -112,7 +159,7 @@ public class CommentDAO extends CitrusDAO {
 				
 				UserBean user = new UserBean(uid, name, lastactive);
 				
-				CommentBean cmtBean = new CommentBean(user, bid, ts, rate, status, content);
+				CommentBean cmtBean = new CommentBean(cmtid, user, bid, ts, rate, status, content);
 				
 				list.add(cmtBean);
 				
@@ -152,8 +199,10 @@ public class CommentDAO extends CitrusDAO {
 		CommentDAO cDao = new CommentDAO();
 		
 		UserBean user1 = uDao.getUserByID(1);
-		CommentBean cb = new CommentBean(user1, 1, new Timestamp(new Date().getTime()), 5, "I like it ", "PENDING");
+		CommentBean cb = new CommentBean(0, user1, 2, new Timestamp(new Date().getTime()), 3, "I dont like it ", "PENDING");
 		//cDao.addComment(cb);
+		cDao.publishComment(1);
+		cDao.removeComment(2);
 	}
 	
 }
