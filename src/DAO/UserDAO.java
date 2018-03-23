@@ -6,13 +6,8 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
 
-import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
-
-import com.sun.org.apache.xml.internal.resolver.helpers.PublicId;
-
 import bean.UserBean;
-import bean.bookBean;
-import sun.security.util.Password;
+
 
 public class UserDAO extends CitrusDAO{
 
@@ -361,8 +356,8 @@ public class UserDAO extends CitrusDAO{
 		
 	public static void main(String[] args) {
 		UserDAO uDao = new UserDAO();
-		uDao.signUp(new UserBean(1, "test_u1", new Timestamp(new Date().getTime())), "test_u1pwd");
-		System.out.println(uDao.signIn("test_t1", "test_u1pwd"));
+		//uDao.signUp(new UserBean(1, "test_u1", new Timestamp(new Date().getTime())), "test_u1pwd");
+		System.out.println(uDao.signIn("test_u1", "test_u1pwd"));
 	}
 		
 }
