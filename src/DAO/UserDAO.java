@@ -282,11 +282,11 @@ public class UserDAO extends CitrusDAO{
 		
 	}
 	
-	public Map<Integer, UserBean> retrieveAllUsers(){
+	public List<UserBean> retrieveAllUsers(){
 		String queryText = ""; //SQL TEXT
 		PreparedStatement querySt = null; // the query handle
 		ResultSet results = null; // a cursor
-		Map<Integer, UserBean> resultMap = new HashMap<Integer, UserBean>();
+		List<UserBean> list = new ArrayList<UserBean>();
 		
 		queryText = 
 				"Select * "
@@ -321,7 +321,7 @@ public class UserDAO extends CitrusDAO{
 				
 				UserBean uBean = new UserBean(id, name, lastactive);
 				
-				resultMap.put(id, uBean);
+				list.add(uBean);
 				
 			}
 			
@@ -351,7 +351,7 @@ public class UserDAO extends CitrusDAO{
 		}
 		
 		
-		return resultMap;
+		return list;
 	}
 		
 	public static void main(String[] args) {
