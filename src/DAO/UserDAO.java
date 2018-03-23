@@ -6,6 +6,10 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
 
+import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
+
+import com.sun.org.apache.xml.internal.resolver.helpers.PublicId;
+
 import bean.UserBean;
 import bean.bookBean;
 import sun.security.util.Password;
@@ -16,11 +20,202 @@ public class UserDAO extends CitrusDAO{
 		super();
 	}
 	
-	public String getUserPassword(String uname){
+	//update user info,change password
+	public void changePassword(String uname, String password){
+		String queryText = ""; 
+		PreparedStatement querySt = null; 
 		
-		return null;
+		queryText = "Update citrus_user "
+				+ "Set upassword = ? "
+				+ "Where uname = ?";
+		
+		try {
+			//prepare
+			querySt = conDB.prepareStatement(queryText);
+			
+			//execute
+			querySt.setString(1, password);
+			querySt.setString(3, uname); 
+			querySt.executeUpdate();
+			
+			//close
+			querySt.close();
+			
+		} catch (SQLException e) {
+			System.out.println("UserDAO changePassword failed.");	
+			System.out.println(e.toString());
+		}
 	}
 	
+	
+	//add user
+	public void signUp(UserBean ub, String password){
+		String queryText = ""; 
+		PreparedStatement querySt = null; 
+		
+		queryText = "Insert "
+				+ "into citrus_user "
+				+ "value( ? , ?, ?, ?)";
+		
+		try {
+			//prepare
+			querySt = conDB.prepareStatement(queryText);
+			
+			//execute
+			querySt.setInt(1, ub.getUid()); 
+			querySt.setString(2, ub.getUname()); 
+			querySt.setString(3, password);
+			querySt.setTimestamp(4, ub.getUlastactive());
+			querySt.executeUpdate();
+			
+			//close
+			querySt.close();
+			
+		} catch (SQLException e) {
+			System.out.println("UserDAO signUp failed.");	
+			System.out.println(e.toString());
+		}
+	}
+	
+	//login
+	public boolean signIn(String uname, String upassword){
+		String queryText = ""; //SQL TEXT
+		PreparedStatement querySt = null; // the query handle
+		ResultSet results = null; // a cursor
+		boolean success = false;
+		
+		queryText = 
+				"Select * "
+			+   "From citrus_user "
+			+	"Where uname = ? And upassword = ? ";
+		
+		try {
+			//prepare
+			querySt = conDB.prepareStatement(queryText);
+			
+			//execute
+			querySt.setString(1, uname); 
+			querySt.setString(2, upassword); 
+			results = querySt.executeQuery();
+			
+			//check results
+			if(results.next()){
+				success = true;
+			}
+			
+			//close
+			results.close();
+			querySt.close();
+			
+		} catch (SQLException e) {
+			System.out.println("UserDAO signIn failed.");	
+			System.out.println(e.toString());
+		}
+		
+		return success;
+	}
+	
+	
+	//check if uname is taken
+	public boolean checkUname(String uname){
+		String queryText = ""; //SQL TEXT
+		PreparedStatement querySt = null; // the query handle
+		ResultSet results = null; // a cursor
+		boolean userExist = false;
+		
+		queryText = 
+				"Select * "
+			+   "From citrus_user "
+			+	"Where uname = ?";
+		
+		//prepare the query
+		try{
+			querySt = conDB.prepareStatement(queryText);
+		}catch(SQLException e){
+			System.out.println("checkUname failed in preparation.");
+			System.out.println(e.toString());
+		}
+		
+		// execute the query
+		try{
+			querySt.setString(1, uname); 
+			results = querySt.executeQuery();
+		}catch(SQLException e){
+			System.out.println("checkUname failed in execute.");
+			System.out.println(e.toString());
+		}
+		
+		// any results?
+		try{
+			if(results.next()){
+				userExist = true;
+			}
+			
+			
+		}catch(SQLException e){
+			System.out.println("checkUname failed in cursor.");
+			System.out.println(e.toString());
+		}
+		
+		// close the cursor
+		try{
+			results.close();
+		}catch(SQLException e){
+			System.out.println("checkUname failed in closing cursor.");
+			System.out.println(e.toString());
+		}
+		
+		// close the handle
+		try{
+			querySt.close();
+		}catch(SQLException e){
+			System.out.println("checkUname failed in closing the handle.");
+			System.out.println(e.toString());
+		}
+
+		return userExist;
+	}
+	
+	public UserBean getUsreByName(String uname){
+		UserBean userBean = null;
+		String queryText = ""; 
+		PreparedStatement querySt = null; 
+		ResultSet results = null; 
+		
+		queryText = 
+				"Select * "
+			+   "From citrus_user "
+			+	"Where uname = ?";
+		
+		try {
+			//prepare
+			querySt = conDB.prepareStatement(queryText);
+			
+			//execute
+			querySt.setString(1, uname); 
+			results = querySt.executeQuery();
+			
+			//check results
+			if(results.next()){
+				Integer id = results.getInt("uid");
+				String name = results.getString("uname");
+				Timestamp lastactive = results.getTimestamp("ulastactive");
+				
+				userBean = new UserBean(id, name, lastactive);
+			}
+			
+			//close
+			results.close();
+			querySt.close();
+			
+		} catch (SQLException e) {
+			System.out.println("UserDAO getUsreByName failed.");	
+			System.out.println(e.toString());
+		}
+		
+		
+		return userBean;
+	}
 	
 	public UserBean getUserByID(int uid){
 		UserBean user = null;
@@ -164,5 +359,10 @@ public class UserDAO extends CitrusDAO{
 		return resultMap;
 	}
 		
+	public static void main(String[] args) {
+		UserDAO uDao = new UserDAO();
+		uDao.signUp(new UserBean(1, "test_u1", new Timestamp(new Date().getTime())), "test_u1pwd");
+		System.out.println(uDao.signIn("test_t1", "test_u1pwd"));
+	}
 		
 }

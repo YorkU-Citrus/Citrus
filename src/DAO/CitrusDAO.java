@@ -46,11 +46,11 @@ public class CitrusDAO {
 		}   
 				
 				
-		// turn off auto commit
+		// turn on auto commit
 		try{
-			conDB.setAutoCommit(false);
+			conDB.setAutoCommit(true);
 		}catch(SQLException e){
-			System.out.print("\nFailed trying to turn autocommit off.\n");
+			System.out.print("\nFailed trying to turn autocommit on.\n");
 			e.printStackTrace();
 			
 		}
@@ -153,8 +153,8 @@ public class CitrusDAO {
 		// execute the query
 		try{		
 			querySt.executeUpdate();
-			conDB.commit();   // commit
-			System.out.println("update committed");
+			//conDB.commit();   // commit
+			//System.out.println("update committed");
 					
 		}catch(SQLException e){
 			System.out.println("citrusUpdate failed in execute.");
