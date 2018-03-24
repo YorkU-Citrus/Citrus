@@ -35,7 +35,7 @@ public class CommentDAO extends CitrusDAO {
 		
 		try {
 			//prepare
-			querySt = conDB.prepareStatement(queryText);
+			querySt = db_connection.prepareStatement(queryText);
 			
 			//execute
 			querySt.setString(1, "REMOVE");
@@ -62,7 +62,7 @@ public class CommentDAO extends CitrusDAO {
 		
 		try {
 			//prepare
-			querySt = conDB.prepareStatement(queryText);
+			querySt = db_connection.prepareStatement(queryText);
 			
 			//execute
 			querySt.setString(1, "PUBLISH");
@@ -88,7 +88,7 @@ public class CommentDAO extends CitrusDAO {
 		
 		try {
 			//prepare
-			querySt = conDB.prepareStatement(queryText);
+			querySt = db_connection.prepareStatement(queryText);
 			
 			//execute
 			// 1 cmtid AUTO_INCREMENT
@@ -125,7 +125,7 @@ public class CommentDAO extends CitrusDAO {
 		
 		//prepare the query
 		try{
-			querySt = conDB.prepareStatement(queryText);
+			querySt = db_connection.prepareStatement(queryText);
 		}catch(SQLException e){
 			System.out.println("Cmt getCommentsForItem( bid) failed in preparation.");
 			System.out.println(e.toString());

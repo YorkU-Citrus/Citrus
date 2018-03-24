@@ -26,7 +26,7 @@ public class UserDAO extends CitrusDAO{
 		
 		try {
 			//prepare
-			querySt = conDB.prepareStatement(queryText);
+			querySt = db_connection.prepareStatement(queryText);
 			
 			//execute
 			querySt.setString(1, password);
@@ -54,7 +54,7 @@ public class UserDAO extends CitrusDAO{
 		
 		try {
 			//prepare
-			querySt = conDB.prepareStatement(queryText);
+			querySt = db_connection.prepareStatement(queryText);
 			
 			//execute
 			querySt.setInt(1, ub.getUid()); 
@@ -86,7 +86,7 @@ public class UserDAO extends CitrusDAO{
 		
 		try {
 			//prepare
-			querySt = conDB.prepareStatement(queryText);
+			querySt = db_connection.prepareStatement(queryText);
 			
 			//execute
 			querySt.setString(1, uname); 
@@ -125,7 +125,7 @@ public class UserDAO extends CitrusDAO{
 		
 		//prepare the query
 		try{
-			querySt = conDB.prepareStatement(queryText);
+			querySt = db_connection.prepareStatement(queryText);
 		}catch(SQLException e){
 			System.out.println("checkUname failed in preparation.");
 			System.out.println(e.toString());
@@ -184,7 +184,7 @@ public class UserDAO extends CitrusDAO{
 		
 		try {
 			//prepare
-			querySt = conDB.prepareStatement(queryText);
+			querySt = db_connection.prepareStatement(queryText);
 			
 			//execute
 			querySt.setString(1, uname); 
@@ -225,7 +225,7 @@ public class UserDAO extends CitrusDAO{
 		
 		//prepare the query
 		try{
-			querySt = conDB.prepareStatement(queryText);
+			querySt = db_connection.prepareStatement(queryText);
 		}catch(SQLException e){
 			System.out.println("getUserByID failed in preparation.");
 			System.out.println(e.toString());
@@ -295,7 +295,7 @@ public class UserDAO extends CitrusDAO{
 		
 		//prepare the query
 		try{
-			querySt = conDB.prepareStatement(queryText);
+			querySt = db_connection.prepareStatement(queryText);
 		}catch(SQLException e){
 			System.out.println("User retrieveAll() failed in preparation.");
 			System.out.println(e.toString());

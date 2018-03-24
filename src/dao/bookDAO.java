@@ -40,7 +40,7 @@ public class bookDAO extends CitrusDAO {
 		
 		try {
 			//prepare
-			querySt = conDB.prepareStatement(queryText);
+			querySt = db_connection.prepareStatement(queryText);
 			
 			//execute
 			querySt.setInt(1, bBean.getBid()); 
@@ -76,7 +76,7 @@ public class bookDAO extends CitrusDAO {
 		
 		try {
 			//prepare
-			querySt = conDB.prepareStatement(queryText);
+			querySt = db_connection.prepareStatement(queryText);
 			
 			//execute
 			querySt.setInt(1, catid); 
@@ -123,7 +123,7 @@ public class bookDAO extends CitrusDAO {
 		
 		//prepare the query
 		try{
-			querySt = conDB.prepareStatement(queryText);
+			querySt = db_connection.prepareStatement(queryText);
 		}catch(SQLException e){
 			System.out.println("getBookByID failed in preparation.");
 			System.out.println(e.toString());
@@ -197,7 +197,7 @@ public class bookDAO extends CitrusDAO {
 		
 		//prepare the query
 		try{
-			querySt = conDB.prepareStatement(queryText);
+			querySt = db_connection.prepareStatement(queryText);
 		}catch(SQLException e){
 			System.out.println("retrieveAllBooks() failed in preparation.");
 			System.out.println(e.toString());
