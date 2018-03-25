@@ -1,9 +1,9 @@
 package dao;
 
-public class CartDAO extends CitrusDAO{
+public class CartDAO{
 
 	public CartDAO() {
-		super();
+		
 	}
 	
 	

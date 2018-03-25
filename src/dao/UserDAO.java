@@ -1,18 +1,10 @@
 package dao;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.*;
+public class UserDAO{
 
-import bean.UserBean;
-
-
-public class UserDAO extends CitrusDAO{
-
+	/*
 	public UserDAO(){
-		super();
+		
 	}
 	
 	//update user info,change password
@@ -359,5 +351,7 @@ public class UserDAO extends CitrusDAO{
 		//uDao.signUp(new UserBean(1, "test_u1", new Timestamp(new Date().getTime())), "test_u1pwd");
 		System.out.println(uDao.signIn("test_u1", "test_u1pwd"));
 	}
+	
+	*/
 		
 }

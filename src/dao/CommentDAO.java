@@ -1,17 +1,7 @@
 package dao;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
 
-import java.util.List;
-
-import bean.*;
-
-public class CommentDAO extends CitrusDAO {
+public class CommentDAO {
 	/*
 	 * private UserBean user;
 	private int rating;
@@ -19,9 +9,10 @@ public class CommentDAO extends CitrusDAO {
 	private int status;
 	private String comment;
 	 */
-	
+
+	/*
 	public CommentDAO(){
-		super();
+		//super();
 	}
 	
 	//update
@@ -204,5 +195,7 @@ public class CommentDAO extends CitrusDAO {
 		cDao.publishComment(1);
 		cDao.removeComment(2);
 	}
+	
+	*/
 	
 }

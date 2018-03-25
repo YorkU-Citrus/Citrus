@@ -20,12 +20,13 @@ public class CitrusDAO {
 	 * Prevents duplicate model.
 	 * 
 	 * @return singleton object of this model
-	 * @throws ClassNotFoundException 
-	 * @throws IllegalAccessException 
-	 * @throws InstantiationException 
-	 * @throws Exception 
+	 * @throws ClassNotFoundException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
+	 * @throws Exception
 	 */
-	public static synchronized CitrusDAO getInstance() throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+	public static synchronized CitrusDAO getInstance()
+			throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 		if (instance == null) {
 			instance = new CitrusDAO();
 		}
@@ -35,7 +36,8 @@ public class CitrusDAO {
 	// Implementation
 
 	// Connection to the database system.
-	Connection db_connection;
+	private Connection db_connection;
+	
 	// Database location
 	public static final String url = "jdbc:mariadb://yukikaze.yuri.moe:3366/citrus_db";
 
@@ -52,31 +54,39 @@ public class CitrusDAO {
 		db_connection.setAutoCommit(true);
 	}
 
+	// Methods
 	/**
 	 * Execute a database query on citrus_db Return a list, each element in the list
 	 * is a hashMap representing one row in the query results Entry in HashMap:
-	 * <String, Object>
-	 * THIS METHOD SHOULD BE YOUR LAST CHOICE!
+	 * <String, Object> THIS METHOD SHOULD BE YOUR LAST CHOICE!
 	 * 
 	 * @param sql
 	 *            - The SQL text you want to execute
 	 */
 	public List<Map<String, Object>> citrusQuery(String queryText) throws SQLException {
-
+		// Query
 		PreparedStatement preparedStatement = db_connection.prepareStatement(queryText);
 		ResultSet results = preparedStatement.executeQuery();
+
+		// Table Titles
 		ResultSetMetaData metaData = results.getMetaData();
 		int columnCount = metaData.getColumnCount();
-		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+		String[] columnLabel = new String[columnCount];
+		for (int i = 1; i <= columnCount; i++) {
+			columnLabel[i - 1] = metaData.getColumnLabel(i);
+		}
 
+		// Table Content
+		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
 		while (results.next()) {
 			Map<String, Object> rowData = new HashMap<String, Object>();
 			for (int i = 1; i <= columnCount; i++) {
-				rowData.put(metaData.getColumnName(i), results.getObject(i));
+				rowData.put(columnLabel[i - 1], results.getObject(i));
 			}
 			result.add(rowData);
 		}
 
+		// Terminate
 		results.close();
 		preparedStatement.close();
 
@@ -84,16 +94,44 @@ public class CitrusDAO {
 	}
 
 	/**
-	 * Execute a database update on citrus_db
-	 * THIS METHOD SHOULD BE YOUR LAST CHOICE!
+	 * Execute a database update on citrus_db THIS METHOD SHOULD BE YOUR LAST
+	 * CHOICE!
 	 * 
 	 * @param sql
 	 *            - The SQL text you want to execute
 	 */
-	public void citrusUpdate(String queryText) throws SQLException {
-		
+	public int citrusUpdate(String queryText) throws SQLException {
+		// Query
 		PreparedStatement preparedStatement = db_connection.prepareStatement(queryText);
-		preparedStatement.executeUpdate();
+		int effectedRow = preparedStatement.executeUpdate();
+		
+		// Terminate
 		preparedStatement.close();
+		
+		return effectedRow;
+	}
+	
+	public Connection getConnection() {
+		return this.db_connection;
+	}
+
+	public static void main(String[] args) {
+		try {
+			// Test
+			CitrusDAO test = CitrusDAO.getInstance();
+			List<Map<String, Object>> result = test.citrusQuery("show tables;");
+			System.out.println(result);
+
+			test.citrusUpdate("INSERT INTO `citrus_db`.`citrus_comment` (`cmtid`, `cmtuid`, `cmtbid`, `cmttime`, `cmtrate`, `cmtcontent`, `cmtstatus`) VALUES (NULL, '1', '2', CURRENT_TIMESTAMP, '2', 'sdfgsdfg', 'PENDING');");
+			
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }
