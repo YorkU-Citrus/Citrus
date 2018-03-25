@@ -1,6 +1,6 @@
 package bean;
 
-public class bookBean {
+public class BookBean {
 	//bid, title, price, bcat, isbn, dscpt, amount, image
 	private int bid;
 	private String title;
@@ -9,9 +9,9 @@ public class bookBean {
 	private String isbn; 
 	private String description;
 	private int amount;
-	private String image; // url
+	private String image;
 	
-	public bookBean(int bid, String title, int price, int bcat, String isbn, String dscpt, int amount, String image){
+	public BookBean(int bid, String title, int price, int bcat, String isbn, String dscpt, int amount, String image){
 		this.bid = bid;
 		this.title = title;
 		this.price = price;
@@ -20,6 +20,23 @@ public class bookBean {
 		this.description = dscpt;
 		this.amount = amount;
 		this.image = image;
+	}
+	
+
+	public BookBean(String title, int price, int bcat, String isbn, String dscpt, int amount, String image){
+		this.title = title;
+		this.price = price;
+		this.category = bcat;
+		this.isbn = isbn;
+		this.description = dscpt;
+		this.amount = amount;
+		this.image = image;
+	}
+
+	@Override
+	public String toString() {
+		return "BookBean [bid=" + bid + ", title=" + title + ", price=" + price + ", category=" + category + ", isbn="
+				+ isbn + ", description=" + description + ", amount=" + amount + ", image=" + image + "] \n";
 	}
 
 	public int getBid() {
