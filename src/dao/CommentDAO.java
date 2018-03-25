@@ -1,201 +1,120 @@
 package dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import bean.CommentBean;
 
 public class CommentDAO {
-	/*
-	 * private UserBean user;
-	private int rating;
-	private Timestamp timestamp;
-	private int status;
-	private String comment;
-	 */
 
-	/*
-	public CommentDAO(){
-		//super();
+	// Singleton
+	/**
+	 * Only one object per program.
+	 */
+	private static CommentDAO instance = null;
+
+	public static synchronized CommentDAO getInstance()
+			throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+		if (instance == null) {
+			instance = new CommentDAO();
+		}
+		return instance;
+	}
+
+	// Implementation
+	// Constructor
+	private PreparedStatement insertCommentStatement;
+	private PreparedStatement updateCommentStatusStatement;
+	private PreparedStatement getCommentsByBookId;
+
+	protected CommentDAO() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		Connection connection = CitrusDAO.getInstance().getConnection();
+		this.insertCommentStatement = connection.prepareStatement("INSERT "
+				+ "INTO `citrus_db`.`citrus_comment` (`cmtid`, `cmtuid`, `cmtbid`, `cmttime`, `cmtrate`, `cmtcontent`, `cmtstatus`) "
+				+ "VALUES (NULL, ?, ?, CURRENT_TIMESTAMP, ?, ?, ?);");
+		this.updateCommentStatusStatement = connection.prepareStatement("UPDATE `citrus_db`.`citrus_comment` "
+				+ "SET `cmtstatus` = ? WHERE `citrus_comment`.`cmtid` = ?;");
+		this.getCommentsByBookId = connection.prepareStatement("SELECT `cmtid`, `cmtuid`, `cmttime`, `cmtrate`, `cmtcontent`, `cmtstatus`, `uname` FROM `citrus_comment` LEFT JOIN `citrus_user` ON `citrus_comment`.`cmtuid` = `citrus_user`.`uid` WHERE `cmtbid` = ? AND `cmtstatus` = ? ORDER BY `cmttime` DESC LIMIT ?,?;");
+
+	}
+
+	// Insert new comment
+	public int addComment(CommentBean comment) throws SQLException {
+		// Execute
+		insertCommentStatement.setInt(1, comment.getUserId());
+		insertCommentStatement.setInt(2, comment.getBookId());
+		if (comment.getRating() == 0) {
+			insertCommentStatement.setNull(3, java.sql.Types.INTEGER);
+		}else {
+			insertCommentStatement.setInt(3, comment.getRating());	
+		}
+		insertCommentStatement.setString(4, comment.getContent());
+		insertCommentStatement.setString(5, comment.getStatus());
+		return insertCommentStatement.executeUpdate();
 	}
 	
-	//update
-	public void removeComment(int cmtid) {
-		String queryText = ""; 
-		PreparedStatement querySt = null; 
-		
-		queryText = "Update citrus_comment "
-				+ "Set cmtstatus = ? "
-				+ "Where cmtid = ? ";
-		
-		try {
-			//prepare
-			querySt = db_connection.prepareStatement(queryText);
-			
-			//execute
-			querySt.setString(1, "REMOVE");
-			querySt.setInt(2, cmtid);
-			querySt.executeUpdate();
-			
-			//close
-			querySt.close();
-			
-		} catch (SQLException e) {
-			System.out.println("CommentDAO removeComment failed.");	
-			System.out.println(e.toString());
-		}
+	// Update comments
+	public int updateCommentStatus(int commentId, String status) throws SQLException {
+		// Execute
+		updateCommentStatusStatement.setString(1, status);
+		updateCommentStatusStatement.setInt(2, commentId);
+		return updateCommentStatusStatement.executeUpdate();		
 	}
 	
-	//update
-	public void publishComment(int cmtid) {
-		String queryText = ""; 
-		PreparedStatement querySt = null; 
+	// Get comments for a book
+	public List<CommentBean> getCommentByBookId(int bookId, String status, int offset, int limit) throws SQLException{
+		// Execute
+		getCommentsByBookId.setInt(1, bookId);
+		getCommentsByBookId.setString(2, status);
+		getCommentsByBookId.setInt(3, offset);
+		getCommentsByBookId.setInt(4, limit);
 		
-		queryText = "Update citrus_comment "
-				+ "Set cmtstatus = ? "
-				+ "Where cmtid = ? ";
+		// Get Result
+		ResultSet result = getCommentsByBookId.executeQuery();
+		List<CommentBean> resultList = new ArrayList<CommentBean>();
 		
-		try {
-			//prepare
-			querySt = db_connection.prepareStatement(queryText);
-			
-			//execute
-			querySt.setString(1, "PUBLISH");
-			querySt.setInt(2, cmtid);
-			querySt.executeUpdate();
-			
-			//close
-			querySt.close();
-			
-		} catch (SQLException e) {
-			System.out.println("CommentDAO publishComment failed.");	
-			System.out.println(e.toString());
+		while (result.next()) {
+			resultList.add(new CommentBean(
+					result.getInt("cmtid"), 
+					result.getInt("cmtuid"), 
+					result.getString("uname"),
+					bookId, 
+					result.getTimestamp("cmttime"), 
+					result.getInt("cmtrate"), 
+					result.getString("cmtcontent"), 
+					result.getString("cmtstatus")
+					));
 		}
+		result.close();
+		
+		return resultList;
 	}
-	
-	public void addComment(CommentBean cb) {
-		String queryText = ""; 
-		PreparedStatement querySt = null; 
-		
-		queryText = "Insert "
-				+ "into citrus_comment "
-				+ "value( ?, ?, ?, ?, ?, ?, ?)";
-		
-		try {
-			//prepare
-			querySt = db_connection.prepareStatement(queryText);
-			
-			//execute
-			// 1 cmtid AUTO_INCREMENT
-			querySt.setInt(1, cb.getCmtid()); 
-			querySt.setInt(2, cb.getUser().getUid()); 
-			querySt.setInt(3, cb.getBookid());
-			querySt.setTimestamp(4, cb.getTimestamp());
-			querySt.setInt(5, cb.getRating());
-			querySt.setString(6, cb.getContent());
-			querySt.setString(7, cb.getStatus());
-			
-			querySt.executeUpdate();
-			
-			//close
-			querySt.close();
-			
-		} catch (SQLException e) {
-			System.out.println("CommentDAO addComment failed.");	
-			System.out.println(e.toString());
-		}
-	}
-	
-	public List<CommentBean> getCommentsForBook(Integer bid){
-		List<CommentBean> list = new ArrayList<CommentBean>();
-		String queryText = ""; //SQL TEXT
-		PreparedStatement querySt = null; // the query handle
-		ResultSet results = null; // a cursor
-		
-		queryText = 
-				"Select * "
-			+   "From citrus_comment, citrus_user "
-			+	"Where citrus_comment.cmtbid = ? And citrus_user.uid = citrus_comment.cmtuid "
-			;
-		
-		//prepare the query
-		try{
-			querySt = db_connection.prepareStatement(queryText);
-		}catch(SQLException e){
-			System.out.println("Cmt getCommentsForItem( bid) failed in preparation.");
-			System.out.println(e.toString());
-			
-		}
-		
-		// execute the query
-		try{
-			querySt.setInt(1, bid); // set the place holder
-			results = querySt.executeQuery();
-		}catch(SQLException e){
-			System.out.println("Cmt getCommentsForItem( bid) failed in execute.");
-			System.out.println(e.toString());
-			
-		}
-		
-		// any results?
-		try{
-			while(results.next()){
-				
-				Integer cmtid = results.getInt("cmtid");
-				Integer uid = results.getInt("cmtuid");
-				Timestamp ts = results.getTimestamp("cmttime");
-				Integer rate = results.getInt("cmtrate");
-				String content = results.getString("cmtcontent");
-				String status = results.getString("cmtstatus");
-				
-				String name = results.getString("uname");
-				//String password = results.getString("upassword");
-				Timestamp lastactive = results.getTimestamp("ulastactive");
-				
-				UserBean user = new UserBean(uid, name, lastactive);
-				
-				CommentBean cmtBean = new CommentBean(cmtid, user, bid, ts, rate, status, content);
-				
-				list.add(cmtBean);
-				
-			}
-			
-			
-		}catch(SQLException e){
-			System.out.println("Cmt getCommentsForItem( bid) failed in cursor.");
-			System.out.println(e.toString());
-			
-		}
-		
-		// close the cursor
-		try{
-			results.close();
-		}catch(SQLException e){
-			System.out.println("Cmt getCommentsForItem( bid) failed in closing cursor.");
-			System.out.println(e.toString());
-			
-		}
-		
-		// close the handle
-		try{
-			querySt.close();
-		}catch(SQLException e){
-			System.out.println("Cmt getCommentsForItem( bid) failed in closing the handle.");
-			System.out.println(e.toString());
-			
-		}
-		
-		
-		return list;
-	}
-	
+
+
 	public static void main(String[] args) {
-		UserDAO uDao = new UserDAO();
-		CommentDAO cDao = new CommentDAO();
-		
-		UserBean user1 = uDao.getUserByID(1);
-		CommentBean cb = new CommentBean(0, user1, 2, new Timestamp(new Date().getTime()), 3, "I dont like it ", "PENDING");
-		//cDao.addComment(cb);
-		cDao.publishComment(1);
-		cDao.removeComment(2);
+		// Test
+		try {
+			CommentDAO test = CommentDAO.getInstance();
+			// test.addComment(new CommentBean(1, 15, null, 5, "hello world", "PENDING"));
+			
+			System.out.println(test.updateCommentStatus(5, "PUBLISH"));
+			
+			List<CommentBean> list = test.getCommentByBookId(2, "PUBLISH", 0, 3);
+			System.out.println(list);
+			
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
-	
-	*/
-	
+
 }

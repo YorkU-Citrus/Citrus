@@ -1,50 +1,25 @@
 package bean;
 
 public class BookBean {
-	//bid, title, price, bcat, isbn, dscpt, amount, image
-	private int bid;
+	// bookId, title, price, bcat, isbn, dscpt, amount, image
+	private int bookId;
 	private String title;
 	private int price;
 	private int category;
-	private String isbn; 
+	private String categoryTitle;
+	private String isbn;
 	private String description;
 	private int amount;
 	private String image;
-	
-	public BookBean(int bid, String title, int price, int bcat, String isbn, String dscpt, int amount, String image){
-		this.bid = bid;
-		this.title = title;
-		this.price = price;
-		this.category = bcat;
-		this.isbn = isbn;
-		this.description = dscpt;
-		this.amount = amount;
-		this.image = image;
-	}
-	
+	private double rating;
+	private int numberOfComment;
 
-	public BookBean(String title, int price, int bcat, String isbn, String dscpt, int amount, String image){
-		this.title = title;
-		this.price = price;
-		this.category = bcat;
-		this.isbn = isbn;
-		this.description = dscpt;
-		this.amount = amount;
-		this.image = image;
+	public int getBookId() {
+		return bookId;
 	}
 
-	@Override
-	public String toString() {
-		return "BookBean [bid=" + bid + ", title=" + title + ", price=" + price + ", category=" + category + ", isbn="
-				+ isbn + ", description=" + description + ", amount=" + amount + ", image=" + image + "] \n";
-	}
-
-	public int getBid() {
-		return bid;
-	}
-
-	public void setBid(int bid) {
-		this.bid = bid;
+	public void setBookId(int bookId) {
+		this.bookId = bookId;
 	}
 
 	public String getTitle() {
@@ -69,6 +44,14 @@ public class BookBean {
 
 	public void setCategory(int category) {
 		this.category = category;
+	}
+
+	public String getCategoryTitle() {
+		return categoryTitle;
+	}
+
+	public void setCategoryTitle(String categoryTitle) {
+		this.categoryTitle = categoryTitle;
 	}
 
 	public String getIsbn() {
@@ -102,6 +85,56 @@ public class BookBean {
 	public void setImage(String image) {
 		this.image = image;
 	}
-	
-	
+
+	public double getRating() {
+		return rating;
+	}
+
+	public void setRating(double rating) {
+		this.rating = rating;
+	}
+
+	public int getNumberOfComment() {
+		return numberOfComment;
+	}
+
+	public void setNumberOfComment(int numberOfComment) {
+		this.numberOfComment = numberOfComment;
+	}
+
+	@Override
+	public String toString() {
+		return String.format(
+				"BookBean [bookId=%s, title=%s, price=%s, category=%s, categoryTitle=%s, isbn=%s, description=%s, amount=%s, image=%s, rating=%s, numberOfComment=%s]",
+				bookId, title, price, category, categoryTitle, isbn, description, amount, image, rating,
+				numberOfComment);
+	}
+
+	public BookBean(int bookId, String title, int price, int category, String categoryTitle, String isbn,
+			String description, int amount, String image, double rating, int numberOfComment) {
+		super();
+		this.bookId = bookId;
+		this.title = title;
+		this.price = price;
+		this.category = category;
+		this.categoryTitle = categoryTitle;
+		this.isbn = isbn;
+		this.description = description;
+		this.amount = amount;
+		this.image = image;
+		this.rating = rating;
+		this.numberOfComment = numberOfComment;
+	}
+
+	public BookBean(String title, int price, int category, String isbn, String description, int amount, String image) {
+		super();
+		this.title = title;
+		this.price = price;
+		this.category = category;
+		this.isbn = isbn;
+		this.description = description;
+		this.amount = amount;
+		this.image = image;
+	}
+
 }
