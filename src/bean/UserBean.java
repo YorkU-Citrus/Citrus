@@ -24,7 +24,7 @@ public class UserBean {
 	@Override
 	public String toString() {
 		return String.format(
-				"UserBean [userId=%s, userName=%s, price=%s, lastActive=%s]",
+				"UserBean [userId=%s, userName=%s, lastActive=%s]",
 				uid, uname, ulastactive.toString());
 	}
 	
