@@ -6,16 +6,26 @@ import java.util.Date;
 public class UserBean {
 	private int uid;  //AUTO
 	private String uname;
-	//private String upassword;
 	private Timestamp ulastactive; //timestamp
 	
 	
 	
-	public UserBean(int id, String name, Timestamp ts) {
+	public UserBean(int id, String name, Timestamp timeStamp) {
 		this.uid= id;
 		this.uname = name;
-		//this.upassword = pwd;
-		this.ulastactive = ts;
+		this.ulastactive = timeStamp;
+	}
+	
+	public UserBean(String name, Timestamp timeStamp) {
+		this.uname = name;
+		this.ulastactive = timeStamp;
+	}
+	
+	@Override
+	public String toString() {
+		return String.format(
+				"UserBean [userId=%s, userName=%s, price=%s, lastActive=%s]",
+				uid, uname, ulastactive.toString());
 	}
 	
 	public int getUid() {
