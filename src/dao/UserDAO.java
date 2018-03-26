@@ -1,7 +1,135 @@
 package dao;
 
-public class UserDAO{
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
 
+import bean.UserBean;
+
+public class UserDAO{
+	// Singleton
+	/**
+	 * Only one object per program.
+	 */
+	private static UserDAO instance = null;
+
+	public static synchronized UserDAO getInstance()
+			throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+		if (instance == null) {
+			instance = new UserDAO();
+		}
+		return instance;
+	}
+	
+	// Implementation
+	// Constructor
+	private PreparedStatement insertUserStatement;
+	private PreparedStatement getUserByNameStatement;
+	private PreparedStatement signInStatement;
+	
+	protected UserDAO() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		Connection connection = CitrusDAO.getInstance().getConnection();
+		this.insertUserStatement = connection.prepareStatement("INSERT "
+				+ "INTO `citrus_db`.`citrus_user` (`uid`, `uname`, `upassword`, `ulastactive`) "
+				+ "VALUES (NULL, ?, ?, CURRENT_TIMESTAMP);");
+		
+		this.getUserByNameStatement = connection.prepareStatement("SELECT `uid` as 'id', `uname` as 'name', `ulastactive` as 'lastactive' "
+				+ "FROM `citrus_db`.`citrus_user` "
+				+ "WHERE `uname` = ?; ");
+		
+		this.signInStatement = connection.prepareStatement("SELECT * "
+				+ "From `citrus_db`.`citrus_user` "
+				+ "WHERE `uname`= ? AND `upassword`=?; ");
+		
+	}
+	
+	public boolean signIn(String name, String password)  throws SQLException{
+		signInStatement.setString(1, name);
+		signInStatement.setString(2, password);
+		ResultSet result = signInStatement.executeQuery();
+		
+		if(result.next()) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	//Insert user
+	public int addUser(UserBean user, String password) throws SQLException{
+		
+		insertUserStatement.setString(1, user.getUname());
+		insertUserStatement.setString(2, password);
+		
+		return insertUserStatement.executeUpdate();
+		
+	}
+	
+	public UserBean getUserByName(String name) throws SQLException{
+		getUserByNameStatement.setString(1, name);
+		ResultSet result = getUserByNameStatement.executeQuery();
+		
+		if (result.next()) {
+
+			return new UserBean(
+					result.getInt("id"), 
+					result.getString("name"),
+					result.getTimestamp("lastactive")
+			);
+			
+		} else {
+			return null;
+		}
+		
+	
+	}
+	
+	public static void main(String[] args) {
+
+		try {
+			UserDAO test = UserDAO.getInstance();
+			
+			System.out.println("add test_u2");
+			test.addUser(new UserBean("test_u2", new Timestamp(new Date().getTime())), "test_u2pwd");
+			UserBean user = test.getUserByName("test_u2");
+			System.out.println(user);
+			System.out.println("sign in with name=test_u1 and password=test_u1pwd: " + test.signIn("test_u1", "test_u1pwd"));
+			System.out.println("sign in with name=test_u1 and password=wrong_u1pwd: " + test.signIn("test_u1", "wrong_u1pwd"));
+
+
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/*
 	public UserDAO(){
 		
