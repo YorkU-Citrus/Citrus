@@ -8,6 +8,8 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.catalina.User;
+
 import bean.UserBean;
 
 public class UserDAO{
@@ -37,7 +39,7 @@ public class UserDAO{
 				+ "INTO `citrus_db`.`citrus_user` (`uid`, `uname`, `upassword`, `ulastactive`) "
 				+ "VALUES (NULL, ?, ?, CURRENT_TIMESTAMP);");
 		
-		this.getUserByNameStatement = connection.prepareStatement("SELECT `uid` as 'id', `uname` as 'name', `ulastactive` as 'lastactive' "
+		this.getUserByNameStatement = connection.prepareStatement("SELECT `uid` as 'id', `uname` as 'name', `upassword` as 'password', `ulastactive` as 'lastactive' "
 				+ "FROM `citrus_db`.`citrus_user` "
 				+ "WHERE `uname` = ?; ");
 		
@@ -47,9 +49,9 @@ public class UserDAO{
 		
 	}
 	
-	public boolean signIn(String name, String password)  throws SQLException{
-		signInStatement.setString(1, name);
-		signInStatement.setString(2, password);
+	public boolean signIn(UserBean user)  throws SQLException{
+		signInStatement.setString(1, user.getUname());
+		signInStatement.setString(2, user.getHashedPassword());
 		ResultSet result = signInStatement.executeQuery();
 		
 		if(result.next()) {
@@ -60,10 +62,10 @@ public class UserDAO{
 	}
 	
 	//Insert user
-	public int addUser(UserBean user, String password) throws SQLException{
+	public int addUser(UserBean user) throws SQLException{
 		
 		insertUserStatement.setString(1, user.getUname());
-		insertUserStatement.setString(2, password);
+		insertUserStatement.setString(2, user.getHashedPassword());
 		
 		return insertUserStatement.executeUpdate();
 		
@@ -78,6 +80,7 @@ public class UserDAO{
 			return new UserBean(
 					result.getInt("id"), 
 					result.getString("name"),
+					result.getString("password"),
 					result.getTimestamp("lastactive")
 			);
 			
@@ -93,12 +96,15 @@ public class UserDAO{
 		try {
 			UserDAO test = UserDAO.getInstance();
 			
-			System.out.println("add test_u2");
-			test.addUser(new UserBean("test_u2", new Timestamp(new Date().getTime())), "test_u2pwd");
-			UserBean user = test.getUserByName("test_u2");
+			System.out.println("add test_u3");
+			test.addUser(new UserBean("test_u3", "test_u3pwd".hashCode()+"",new Timestamp(new Date().getTime())));
+			UserBean user = test.getUserByName("test_u3");
 			System.out.println(user);
-			System.out.println("sign in with name=test_u1 and password=test_u1pwd: " + test.signIn("test_u1", "test_u1pwd"));
-			System.out.println("sign in with name=test_u1 and password=wrong_u1pwd: " + test.signIn("test_u1", "wrong_u1pwd"));
+			
+			UserBean t1 = new UserBean("test_u3", "test_u3pwd".hashCode()+"", new Timestamp(new Date().getTime()));
+			UserBean t2 = new UserBean("test_u3", "wrong_u3pwd".hashCode()+"", new Timestamp(new Date().getTime()));
+			System.out.println("sign in with name=test_u3 and password=test_u3pwd: " + test.signIn(t1));
+			System.out.println("sign in with name=test_u3 and password=wrong_u3pwd: " + test.signIn(t2));
 
 
 		} catch (InstantiationException e) {
