@@ -39,7 +39,7 @@ public class AddressDAO {
 		
 		if(result.next()) {
 			return new AddressBean(
-					result.getInt("said"), 
+					//result.getInt("said"), 
 					result.getInt("sauid"), 
 					result.getString("safirst"), 
 					result.getString("salast"), 
@@ -70,9 +70,9 @@ public class AddressDAO {
 	public static void main(String[] args) {
 		try {
 			AddressDAO test = AddressDAO.getInstance();
-			AddressBean a1 = new AddressBean(0, 1, "u1_first", "u1_last", "younge", "ON", "Canada", "M3J 1P3");
-			AddressBean a2 = new AddressBean(0, 1, "u1_first", "u1_last", "finch", "ON", "Canada", "M3K 4Q5");
-			AddressBean a3 = new AddressBean(0, 2, "u2_first", "u2_last", "Byng", "ON", "Canada", "M4O UFO");
+			AddressBean a1 = new AddressBean (1, "u1_first", "u1_last", "younge", "ON", "Canada", "M3J 1P3");
+			AddressBean a2 = new AddressBean(1, "u1_first", "u1_last", "finch", "ON", "Canada", "M3K 4Q5");
+			AddressBean a3 = new AddressBean(2, "u2_first", "u2_last", "Byng", "ON", "Canada", "M4O UFO");
 			
 			
 			//System.out.println(test.addAddress(a1));

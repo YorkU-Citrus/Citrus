@@ -2,7 +2,7 @@ package bean;
 
 public class AddressBean {
 	//said, sauid, satime, safirst, salast, sastreet, saprovince, sacountry, sazip
-	private int id;
+	//private int id;
 	private int userId;
 	private String firstName;
 	private String lastName;
@@ -14,15 +14,14 @@ public class AddressBean {
 	
 	@Override
 	public String toString() {
-		return "AddressBean [id=" + id + ", userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName
+		return "AddressBean [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName
 				+ ", street=" + street + ", province=" + province + ", country=" + country + ", zip=" + zip + "]";
 	}
 	
 	
-	public AddressBean(int id, int userId, String firstName, String lastName, String street, String province,
+	public AddressBean(int userId, String firstName, String lastName, String street, String province,
 			String country, String zip) {
 		super();
-		this.id = id;
 		this.userId = userId;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -32,12 +31,6 @@ public class AddressBean {
 		this.zip = zip;
 	}
 	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
 	public int getUserId() {
 		return userId;
 	}
