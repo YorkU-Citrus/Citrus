@@ -10,6 +10,13 @@ public class CategoryBean {
 		this.cid = cid;
 	}
 	
+	@Override
+	public String toString() {
+		return String.format(
+				"CategoryBean [categoryId=%s, categoryTitle=%s]",
+				cid, ctitle);
+	}
+	
 	public CategoryBean(int cid, String ctitle) {
 		super();
 		this.cid = cid;
