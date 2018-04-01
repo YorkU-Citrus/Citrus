@@ -10,7 +10,14 @@ public class OrderBean {
 	private String status;
 	private int totalPrice;
 	
-	
+	public OrderBean(int id, int userId, Timestamp timestamp, String status, int totalPrice) {
+		super();
+		this.id = id;
+		this.userId = userId;
+		this.timestamp = timestamp;
+		this.status = status;
+		this.totalPrice = totalPrice;
+	}
 	
 	public OrderBean(int userId, Timestamp timestamp, String status, int totalPrice) {
 		super();
