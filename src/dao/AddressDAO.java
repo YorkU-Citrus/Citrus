@@ -42,26 +42,13 @@ public class AddressDAO {
 				+ "WHERE BA.bauid=? AND BA.batime = tempTable.latestTime ");
 		
 		this.addBillingAddressStatement = connection.prepareStatement("INSERT INTO `citrus_billing_address`(`baid`, `bauid`, `batime`, `bafirst`, `balast`, `bacredit`, `bacvv`, `bastreet`, `baprovince`, `bacountry`, `bazip`) "
-				+ "VALUES (NULL, 3, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?, ?)");
+				+ "VALUES (NULL, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?, ?)");
 	}
 	
 	public int addBillingAddress(BillingAddressBean billing) throws SQLException{
 		//System.out.println(billing);
 		//System.out.println(billing.getUserId());
-		
-
-		addBillingAddressStatement.setString(1, billing.getFirstName());
-		addBillingAddressStatement.setString(2, billing.getLastName());
-		addBillingAddressStatement.setString(3, billing.getCredit());
-		addBillingAddressStatement.setString(4, billing.getCvv());
-		addBillingAddressStatement.setString(5, billing.getStreet());
-		addBillingAddressStatement.setString(6, billing.getProvince());
-		addBillingAddressStatement.setString(7, billing.getCountry());
-		addBillingAddressStatement.setString(8, billing.getZip());
-		
-		
-		
-		/*
+	
 		addBillingAddressStatement.setInt(1, billing.getUserId());
 		addBillingAddressStatement.setString(2, billing.getFirstName());
 		addBillingAddressStatement.setString(3, billing.getLastName());
@@ -71,7 +58,7 @@ public class AddressDAO {
 		addBillingAddressStatement.setString(7, billing.getProvince());
 		addBillingAddressStatement.setString(8, billing.getCountry());
 		addBillingAddressStatement.setString(9, billing.getZip());
-		*/
+		
 		
 		return addAddressStatement.executeUpdate();
 	}
