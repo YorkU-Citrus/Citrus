@@ -130,8 +130,8 @@ public class UserDAO{
 			//UserBean user3 = test.getUserByName("test_u3");
 			//System.out.println("User3: " + user3);
 			
-			UserBean t3 = new UserBean("test_u3", "test_u3pwd", new Timestamp(new Date().getTime()));
-			UserBean t4 = new UserBean("test_u4", "test_u4pwd", new Timestamp(new Date().getTime()));
+			UserBean t3 = new UserBean("test_u3", "test_u3pwd");
+			UserBean t4 = new UserBean("test_u4", "test_u4pwd");
 			
 			System.out.println("add user3: " + test.addUser(t3));
 			System.out.println("add user4: " + test.addUser(t4));

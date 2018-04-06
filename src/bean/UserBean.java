@@ -15,16 +15,16 @@ public class UserBean {
 	private Timestamp ulastactive; //timestamp
 	
 	
-	//for signing up, signing in
-	public UserBean(String name, String password, Timestamp timeStamp) {
+	//create an user for signing up
+	public UserBean(String name, String password) {
 		this.uname = name;
 		this.salt = Encryption.generateSalt();
 		this.hashedPassword = Encryption.getHashedPassword(password, salt);
-		this.ulastactive = timeStamp;
+		this.ulastactive = new Timestamp(new Date().getTime());
 	}
 	
 	
-	//for UserDAO to return a user in database
+	//get an user in database
 	public UserBean(Integer id, String name, String password, String salt, Timestamp timeStamp) {
 		this.uid= id;
 		this.uname = name;
