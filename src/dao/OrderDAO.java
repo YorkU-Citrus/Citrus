@@ -143,6 +143,9 @@ public class OrderDAO {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		try {
+			
+			
+			//Delete entries in DB then try
 			OrderDAO testOrder = OrderDAO.getInstance();
 			List<OrderItemBean> list = new ArrayList<OrderItemBean>();
 			
