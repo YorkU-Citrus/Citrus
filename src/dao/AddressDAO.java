@@ -27,6 +27,7 @@ public class AddressDAO {
 				+ "FROM citrus_shipping_address SA, "
 				+ "( SELECT SA1.sauid, MAX(satime) as 'latestTime' FROM citrus_shipping_address SA1 WHERE sauid=? GROUP BY sauid ) tempTable "
 				+ "WHERE SA.sauid=? AND SA.satime = tempTable.latestTime; ");
+		
 		this.addAddressStatement = connection.prepareStatement("INSERT INTO `citrus_shipping_address`(`said`, `sauid`, `satime`, `safirst`, `salast`, `sastreet`, `saprovince`, `sacountry`, `sazip`) "
 				+ "VALUES (NULL,?,CURRENT_TIMESTAMP,?,?,?,?,?,?)");
 	}
