@@ -1,6 +1,8 @@
 package bean;
 
 import java.sql.*;
+import java.sql.Timestamp;
+import java.util.Date;
 
 public class OrderBean {
 	//oid, ouid, otime, ostatus, oprice
@@ -19,11 +21,11 @@ public class OrderBean {
 		this.totalPrice = totalPrice;
 	}
 	
-	public OrderBean(int userId, Timestamp timestamp, String status, int totalPrice) {
+	public OrderBean(int userId, int totalPrice) {
 		super();
 		this.userId = userId;
-		this.timestamp = timestamp;
-		this.status = status;
+		this.timestamp = new Timestamp(new Date().getTime());
+		//this.status = "PROCESSED";
 		this.totalPrice = totalPrice;
 	}
 	

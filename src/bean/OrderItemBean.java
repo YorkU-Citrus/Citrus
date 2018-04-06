@@ -2,35 +2,34 @@ package bean;
 
 public class OrderItemBean {
 	//oiid, oioid, oibid, oiamount
-	//private int id;
+	private int id;
 	private int orderId;
 	private int bookId;
 	private int amount;
-	private int price;
+	//private int price;
 
 	
-	public OrderItemBean(int orderId, int bookId, int amount) {
+	public OrderItemBean(int orderId, int bookId, int amount ) {
 		super();
 		this.orderId = orderId;
 		this.bookId = bookId;
 		this.amount = amount;
+		
 	}
 
-	public OrderItemBean(int orderId, int bookId, int amount, int price) {
+	public OrderItemBean(int bookId, int amount ) {
 		super();
-		this.orderId = orderId;
 		this.bookId = bookId;
 		this.amount = amount;
-		this.price = price;
+		
 	}
 	
 	
-	public int getPrice() {
-		return price;
-	}
 	
-	public void setPrice(int price) {
-		this.price = price;
+
+	@Override
+	public String toString() {
+		return "OrderItemBean [orderId=" + orderId + ", bookId=" + bookId + ", amount=" + amount + "]";
 	}
 
 	public int getOrderId() {
