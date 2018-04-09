@@ -41,14 +41,14 @@ public class AddressDAO {
 				+ "( SELECT BA1.sauid, MAX(batime) as 'latestTime' FROM citrus_billing_address BA1 WHERE bauid=? GROUP BY bauid ) tempTable "
 				+ "WHERE BA.bauid=? AND BA.batime = tempTable.latestTime ");
 		
-		this.addBillingAddressStatement = connection.prepareStatement("INSERT INTO `citrus_billing_address`(`baid`, `bauid`, `batime`, `bafirst`, `balast`, `bacredit`, `bacvv`, `bastreet`, `baprovince`, `bacountry`, `bazip`) "
-				+ "VALUES (NULL, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?, ?)");
+		this.addBillingAddressStatement = connection.prepareStatement("Insert Into citrus_biling_address Values(NULL, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?, ?,)");
 	}
 	
 	public int addBillingAddress(BillingAddressBean billing) throws SQLException{
-		//System.out.println(billing);
-		//System.out.println(billing.getUserId());
+		System.out.println(billing);
+		System.out.println(billing.getUserId());
 	
+		//addBillingAddressStatement.setInt(1, billing.getUserId());
 		addBillingAddressStatement.setInt(1, billing.getUserId());
 		addBillingAddressStatement.setString(2, billing.getFirstName());
 		addBillingAddressStatement.setString(3, billing.getLastName());
@@ -139,7 +139,7 @@ public class AddressDAO {
 			
 			//System.out.println(test.getAddressByUser(1));
 			
-			BillingAddressBean ba1 = new BillingAddressBean(3, new Timestamp(new Date().getTime()), " My dad", "pays for me", "TD 11223344", "CVV", "Jane", "AN", "Wakada", "666 666");
+			BillingAddressBean ba1 = new BillingAddressBean(3, new Timestamp(new Date().getTime()), " My dad ", "pays for me", "TD 11223344", "CVV", "Jane", "AN", "Wakada", "666 666");
 			//System.out.println(ba1);
 			
 			test.addBillingAddress(ba1);
