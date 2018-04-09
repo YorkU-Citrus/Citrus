@@ -41,7 +41,7 @@ public class AddressDAO {
 				+ "( SELECT BA1.sauid, MAX(batime) as 'latestTime' FROM citrus_billing_address BA1 WHERE bauid=? GROUP BY bauid ) tempTable "
 				+ "WHERE BA.bauid=? AND BA.batime = tempTable.latestTime ");
 		
-		this.addBillingAddressStatement = connection.prepareStatement("Insert Into citrus_biling_address Values(NULL, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?, ?,)");
+		this.addBillingAddressStatement = connection.prepareStatement("Insert Into citrus_biling_address Values(NULL, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?, ?)");
 	}
 	
 	public int addBillingAddress(BillingAddressBean billing) throws SQLException{
