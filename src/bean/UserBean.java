@@ -1,11 +1,7 @@
 package bean;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
-import org.eclipse.jdt.internal.compiler.ast.WhileStatement;
-
-import security.Encryption;
 
 public class UserBean {
 	private int uid;  //AUTO
@@ -15,22 +11,15 @@ public class UserBean {
 	private Timestamp ulastactive; //timestamp
 	
 	
-	//create an user for signing up
+	//create an user from sign up
 	public UserBean(String name, String password) {
-		this.uname = name;
-		this.salt = Encryption.generateSalt();
-		this.hashedPassword = Encryption.getHashedPassword(password, salt);
-		this.ulastactive = new Timestamp(new Date().getTime());
+		// TODO: create user from sign up
 	}
 	
 	
 	//get an user in database
 	public UserBean(Integer id, String name, String password, String salt, Timestamp timeStamp) {
-		this.uid= id;
-		this.uname = name;
-		this.hashedPassword = password;
-		this.salt = salt;
-		this.ulastactive = timeStamp;
+		// TODO: load user from database
 	}
 	
 	
