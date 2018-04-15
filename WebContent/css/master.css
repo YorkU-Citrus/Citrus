@@ -17,6 +17,10 @@ hr {
 	border: 0.5px solid rgb(255, 242, 158);
 }
 
+form {
+	margin-bottom: 1em;
+}
+
 #main-body {
 	min-height: 50%;
 }
@@ -28,6 +32,8 @@ hr {
 .img-box img{
 	width: 100%;
 	height: auto;
+	margin-bottom: -5px;
+	margin-top: -5px;
 }
 
 .red-dot {

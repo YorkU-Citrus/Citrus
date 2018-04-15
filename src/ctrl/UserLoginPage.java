@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class MainPage
+ * Servlet implementation class UserLoginPage
  */
-@WebServlet({ "/home" })
-public class MainPage extends HttpServlet {
+@WebServlet("/login")
+public class UserLoginPage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MainPage() {
+    public UserLoginPage() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -26,8 +26,7 @@ public class MainPage extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setAttribute("slide", "display");
-		request.getRequestDispatcher("/WEB-INF/page-home.jsp").forward(request,response);
+		request.getRequestDispatcher("/WEB-INF/page-login.jsp").forward(request,response);
 	}
 
 	/**

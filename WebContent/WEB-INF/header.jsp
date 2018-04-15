@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<%@ page language="java" pageEncoding="UTF-8" session="false"%>
+<%@ page language="java" pageEncoding="UTF-8" session="true"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<html>
+<html lang="en">
 <head>
-	<meta charset="UTF-8">
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
 	<title>EECS 4413 Project</title>
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/grid.css">
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/master.css">
@@ -31,34 +31,4 @@
 			</div>
 		</div>
 		<!--Header end-->
-
-		<!--Menu begin-->
-		<div class="container header-panel">
-			<div class="row">
-				<div class="width-full">
-					<div id="menu">
-						<ul class="nav-menu">
-							<li><img src="res/logo-sm.png" id="logo-small"/></li>
-						</ul>
-						<ul class="nav-menu hide-on-mobile">
-							<li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
-							<li><a href="category.html"><i class="fas fa-bars"></i> Category</a></li>
-						</ul>
-						<ul class="nav-menu right-menu">
-							<li><a href="login.html"><i class="fas fa-user"></i> Login</a></li>
-							<li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a><div class="red-dot" style="top: -43px;left: 21px;">2</div></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="width-full">
-					<div id="header-slide">
-						<div class="img-box">
-							<img src="res/20180316235046.png" />
-						</div>
-					</div>				
-				</div>
-			</div>
-		</div>
-		<!--Menu end-->
+<jsp:include page="menu.jsp" />

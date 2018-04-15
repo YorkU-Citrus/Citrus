@@ -27,7 +27,7 @@
       var footer = document.getElementById("footer");
       if (footer == null){return;}
 
-      var delta = document.body.scrollHeight - main.clientHeight - footer.clientHeight - 2;
+      var delta = window.innerHeight - main.clientHeight - footer.clientHeight - 2;
       if (delta > 0){
         main.style = "min-height:" + (delta + main.clientHeight) + "px";
       }
