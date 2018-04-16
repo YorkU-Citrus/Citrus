@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 
+import bean.AddressBean;
 import bean.BillingAddressBean;
 import bean.UserBean;
 import dao.AddressDAO;
@@ -172,6 +173,69 @@ public class User {
 			e.printStackTrace();
 			throw new CitrusFormException("Undefined Error: " + e.getMessage());
 		}
+	}
+	
+	public static void loadShippingInformation(HttpServletRequest request) throws CitrusFormException {
+		try {
+			AddressDAO dataSource = AddressDAO.getInstance();
+			HttpSession session = request.getSession(true);
+			UserBean user = (UserBean) session.getAttribute("user");
+			if (user == null) {
+				throw new CitrusFormException("Please login!");
+			}
+			AddressBean data = dataSource.getAddressByUser(user.getUid());
+			session.setAttribute("shipping", data);		
+		} catch (CitrusFormException e) {
+			throw e;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new CitrusFormException("Undefined Error: " + e.getMessage());
+		}
+		
+	}
+	
+	public static void updateShippingInformation(String firstName, String lastName, String address, String province
+			, String country, String postalCode, HttpServletRequest request)
+			throws CitrusFormException {
+		
+		if (firstName == null) {
+			throw new CitrusFormException("First name cannot be empty!");
+		}
+		if (lastName == null) {
+			throw new CitrusFormException("Last name cannot be empty!");
+		}
+		if (address == null) {
+			throw new CitrusFormException("Address/street cannot be empty!");
+		}
+		if (province == null) {
+			throw new CitrusFormException("Province cannot be empty!");
+		}
+		if (country == null) {
+			throw new CitrusFormException("Country cannot be empty!");
+		}
+		if (postalCode == null) {
+			throw new CitrusFormException("Postal code cannot be empty!");
+		}
+		
+		try {
+			AddressDAO dataSource = AddressDAO.getInstance();
+			HttpSession session = request.getSession(true);
+			UserBean user = (UserBean) session.getAttribute("user");
+			if (user == null) {
+				throw new CitrusFormException("Please login!");
+			}
+
+			AddressBean data = new AddressBean(user.getUid(), firstName, lastName,
+					address, province, country, postalCode);
+			dataSource.addAddress(data);
+			
+		} catch (CitrusFormException e) {
+			throw e;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new CitrusFormException("Undefined Error: " + e.getMessage());
+		}
+		
 	}
 	
 	public static void main(String[] args) {

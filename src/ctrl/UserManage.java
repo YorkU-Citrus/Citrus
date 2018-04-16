@@ -81,13 +81,20 @@ public class UserManage extends HttpServlet {
 		try {
 			if (request.getParameter("formtype") != null) {
 				// TODO: METHOD
-				request.setAttribute("success", "Your information has been updated.");
+				
+				User.updateShippingInformation(request.getParameter("firstname"), request.getParameter("lastname"), 
+						request.getParameter("address"), request.getParameter("province"), 
+						request.getParameter("country"), request.getParameter("pcode"), request);
+				
+	
+				request.setAttribute("success", "Your shipping information has been updated.");
 			}
-			User.loadBillingInformation(request);// TODO: load shipping information
+			User.loadShippingInformation(request); // TODO: load shipping information
+			
 		} catch (CitrusFormException e) {
 			request.setAttribute("error", e.getMessage());
 		}
-		request.getRequestDispatcher("/WEB-INF/page-manage-billing.jsp").forward(request, response); // TODO: change to page-shipping-billing.jsp
+		request.getRequestDispatcher("/WEB-INF/page-manage-shipping.jsp").forward(request, response); // TODO: change to page-shipping-billing.jsp
 	}
 
 	/**
