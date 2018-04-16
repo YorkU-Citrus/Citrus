@@ -8,7 +8,8 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
-
+import javax.json.Json;
+import javax.json.JsonObject;
 
 import bean.UserBean;
 import security.Encryption;
@@ -123,6 +124,7 @@ public class UserDAO{
 	public static void main(String[] args) {
 
 		try {
+			
 			UserDAO test = UserDAO.getInstance();
 			
 			//System.out.println("add test_u3");

@@ -15,4 +15,8 @@ public class User {
 		return result.toString();
 	}
 
+	public static void main(String[] args) {
+		//JsonObject result = Json.createObjectBuilder().add("firstName", "John").build();
+		//System.out.println(result.toString());
+	}
 }
