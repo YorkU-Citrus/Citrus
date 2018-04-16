@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import core.User;
+import exception.CitrusFormException;
+
 /**
  * Servlet implementation class UserRegisterPage
  */
@@ -26,6 +29,15 @@ public class UserRegisterPage extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if (request.getParameter("formtype") != null) {
+			try {				
+				User.registerUser(request.getParameter("username"), request.getParameter("password"),  request.getParameter("repassword"), request);
+				response.sendRedirect(request.getContextPath());
+				return;
+			} catch (CitrusFormException e) {
+				request.setAttribute("error", e.getMessage());
+			}			
+		}		
 		request.getRequestDispatcher("/WEB-INF/page-register.jsp").forward(request,response);
 	}
 

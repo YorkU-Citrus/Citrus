@@ -16,7 +16,14 @@
 							Category</a></li>
 				</ul>
 				<ul class="nav-menu right-menu">
-					<li><a href="${pageContext.request.contextPath}/login"><i class="fas fa-user"></i> Login</a></li>
+					<c:choose>
+						<c:when test="${not empty sessionScope.user}">
+							<li><a href="${pageContext.request.contextPath}/manage"><i class="fas fa-user"></i> ${sessionScope.user.getUserName()}</a></li>
+						</c:when>
+						<c:otherwise>
+							<li><a href="${pageContext.request.contextPath}/login"><i class="fas fa-user"></i> Login</a></li>
+						</c:otherwise>
+					</c:choose>
 					<li><a href="${pageContext.request.contextPath}/cart"><i class="fas fa-shopping-cart"></i>
 							Cart</a>
 						<div class="red-dot" style="top: -43px; left: 21px;">2</div></li>
