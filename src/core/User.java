@@ -165,8 +165,7 @@ public class User {
 				throw new CitrusFormException("Please login!");
 			}
 			BillingAddressBean data = dataSource.getBillingAddressByUser(user.getUid());
-			session.setAttribute("billing", data);
-		
+			session.setAttribute("billing", data);		
 		} catch (CitrusFormException e) {
 			throw e;
 		} catch (Exception e) {

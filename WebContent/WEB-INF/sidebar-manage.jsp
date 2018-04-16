@@ -7,19 +7,19 @@
 	<div class="special-outline sidebar">
 		<h3>My Account</h3>
 		<ul>
-			<li class="${billing-active}"><a href="?type=billing">Billing Information</a></li>
-			<li class="${shipping-active}"><a href="?type=shipping">Shipping Information</a></li>
-			<li class="${history-active}"><a href="?type=history">Order History</a></li>
+			<li class="${billingactive}"><a href="?type=billing">Billing Information</a></li>
+			<li class="${shippingactive}"><a href="?type=shipping">Shipping Information</a></li>
+			<li class="${historyactive}"><a href="?type=history">Order History</a></li>
 		</ul>
 	</div>
 	<div class="row spacing"></div>
 	<div class="special-outline sidebar">
 		<h3>Webmaster Tools</h3>
 		<ul>
-			<li class="${analytics-active}"><a href="?type=analytics">Analytics Page</a></li>
-			<li class="${products-active}"><a href="?type=products">Products</a></li>
-			<li class="${orders-active}"><a href="?type=orders">Orders</a></li>
-			<li class="${comments-active}"><a href="?type=comments">Comments</a></li>
+			<li class="${analyticsactive}"><a href="?type=analytics">Analytics Page</a></li>
+			<li class="${productsactive}"><a href="?type=products">Products</a></li>
+			<li class="${ordersactive}"><a href="?type=orders">Orders</a></li>
+			<li class="${commentsactive}"><a href="?type=comments">Comments</a></li>
 		</ul>
 	</div>
 	<div class="row spacing"></div>

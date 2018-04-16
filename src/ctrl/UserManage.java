@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bean.BillingAddressBean;
 import core.User;
 import exception.CitrusFormException;
 
@@ -54,7 +55,7 @@ public class UserManage extends HttpServlet {
 	protected void functionBilling(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		request.setAttribute("billing-active", "active");
+		request.setAttribute("billingactive", "active");
 		try {
 			//
 			if (request.getParameter("formtype") != null) {

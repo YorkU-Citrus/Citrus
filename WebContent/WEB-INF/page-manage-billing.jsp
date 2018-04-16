@@ -34,21 +34,21 @@
 								<label for="firstname">First Name</label> <input type="text"
 									name="firstname" class="normal-textfield" value="${sessionScope.billing.getFirstName()}" /> <label
 									for="lastname">Last Name</label> <input type="text"
-									name="lastname" class="normal-textfield" />
+									name="lastname" class="normal-textfield" value="${sessionScope.billing.getLastName()}"/>
 								<hr />
 								<span><strong>Credit Card Information</strong></span> <label
 									for="creditcard">Credit Car Number</label> <input type="text"
-									name="creditcard" class="normal-textfield" /> <label
+									name="creditcard" class="normal-textfield" autocomplete="off" value="${sessionScope.billing.getCredit()}" /> <label
 									for="creditcard-password">CVV</label> <input type="password"
-									name="creditcard-password" class="normal-textfield" />
+									name="creditcard-password" class="normal-textfield" autocomplete="off" value="${sessionScope.billing.getCvv()}"/>
 								<hr />
 								<span><strong>Billing address</strong></span> <label
 									for="address">Address</label> <input type="text" name="address"
-									class="normal-textfield" /> <label for="province">Province</label>
-								<input type="text" name="province" class="normal-textfield" />
+									class="normal-textfield"  value="${sessionScope.billing.getStreet()}"/> <label for="province">Province</label>
+								<input type="text" name="province" class="normal-textfield"  value="${sessionScope.billing.getProvince()}" />
 								<label for="country">Country</label> <input type="text"
-									name="country" class="normal-textfield" /> <label for="pcode">Postal
-									Code</label> <input type="text" name="pcode" class="normal-textfield" />
+									name="country" class="normal-textfield"  value="${sessionScope.billing.getCountry()}"/> <label for="pcode">Postal
+									Code</label> <input type="text" name="pcode" class="normal-textfield"  value="${sessionScope.billing.getZip()}"/>
 								<input type="hidden" name="formtype" value="manage" />
 
 

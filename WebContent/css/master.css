@@ -298,10 +298,6 @@ span.info-span.info-star {
 
 }
 
-.sidebar .active a {
-	background-color: rgb(251, 189, 112);
-}
-
 .sidebar h3, .sidebar h4{
 	margin: 0;
 	padding: 5px 20px;
@@ -326,6 +322,11 @@ span.info-span.info-star {
 	margin: 0;
 	padding: 0;
 }
+
+.sidebar .active a {
+	background-color: rgb(251, 189, 112);
+}
+
 
 span.list-price{
 	float: right;
