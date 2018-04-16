@@ -34,7 +34,7 @@ public class UserManage extends HttpServlet {
 		if (request.getParameter("type") != null) {
 			if (request.getParameter("type").equals("shipping")) {
 				functionShipping(request, response);
-
+				return;
 			} else if (request.getParameter("type").equals("history")) {
 
 			} else if (request.getParameter("type").equals("analytic")) {
@@ -77,24 +77,21 @@ public class UserManage extends HttpServlet {
 	protected void functionShipping(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		request.setAttribute("shipping", "active");
+		request.setAttribute("shippingactive", "active");
 		try {
 			if (request.getParameter("formtype") != null) {
-				// TODO: METHOD
 				
 				User.updateShippingInformation(request.getParameter("firstname"), request.getParameter("lastname"), 
 						request.getParameter("address"), request.getParameter("province"), 
 						request.getParameter("country"), request.getParameter("pcode"), request);
-				
-	
-				request.setAttribute("success", "Your shipping information has been updated.");
+					request.setAttribute("success", "Your shipping information has been updated.");
 			}
-			User.loadShippingInformation(request); // TODO: load shipping information
+			User.loadShippingInformation(request);
 			
 		} catch (CitrusFormException e) {
 			request.setAttribute("error", e.getMessage());
 		}
-		request.getRequestDispatcher("/WEB-INF/page-manage-shipping.jsp").forward(request, response); // TODO: change to page-shipping-billing.jsp
+		request.getRequestDispatcher("/WEB-INF/page-manage-shipping.jsp").forward(request, response);
 	}
 
 	/**

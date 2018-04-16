@@ -15,7 +15,7 @@
 					<div class="special-outline side-content">
 
 						<div class="special-outline side-content">
-							<h2 class="title-left form-title">Billing Information</h2>
+							<h2 class="title-left form-title">Shipping Information</h2>
 							<c:choose>
 								<c:when test="${not empty error }">
 <!-- payment form -->				<div class="payment-form message-box">
