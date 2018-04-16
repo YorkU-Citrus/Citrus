@@ -21,25 +21,19 @@ public class AddressDAO {
 		return instance;
 	}
 	
-	private PreparedStatement getAddressByUserStatement;
-	private PreparedStatement addAddressStatement;
+	private PreparedStatement getShippingAddressByUserStatement;
+	private PreparedStatement addShippingAddressStatement;
 	private PreparedStatement getBillingAddressByUserStatement;
 	private PreparedStatement addBillingAddressStatement;
 	
 	protected AddressDAO() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		Connection connection = CitrusDAO.getInstance().getConnection();
-		this.getAddressByUserStatement = connection.prepareStatement("SELECT * "
-				+ "FROM citrus_shipping_address SA, "
-				+ "( SELECT SA1.sauid, MAX(satime) as 'latestTime' FROM citrus_shipping_address SA1 WHERE sauid=? GROUP BY sauid ) tempTable "
-				+ "WHERE SA.sauid=? AND SA.satime = tempTable.latestTime; ");
+		this.getShippingAddressByUserStatement = connection.prepareStatement("SELECT *  FROM `citrus_shipping_address` WHERE `sauid` = ? ORDER BY `satime` DESC LIMIT 1");
 		
-		this.addAddressStatement = connection.prepareStatement("INSERT INTO `citrus_shipping_address`(`said`, `sauid`, `satime`, `safirst`, `salast`, `sastreet`, `saprovince`, `sacountry`, `sazip`) "
+		this.addShippingAddressStatement = connection.prepareStatement("INSERT INTO `citrus_shipping_address`(`said`, `sauid`, `satime`, `safirst`, `salast`, `sastreet`, `saprovince`, `sacountry`, `sazip`) "
 				+ "VALUES (NULL,?,CURRENT_TIMESTAMP,?,?,?,?,?,?)");
 		
-		this.getBillingAddressByUserStatement = connection.prepareStatement("SELECT * "
-				+ "FROM citrus_billing_address BA, "
-				+ "( SELECT BA1.sauid, MAX(batime) as 'latestTime' FROM citrus_billing_address BA1 WHERE bauid=? GROUP BY bauid ) tempTable "
-				+ "WHERE BA.bauid=? AND BA.batime = tempTable.latestTime ");
+		this.getBillingAddressByUserStatement = connection.prepareStatement("SELECT *  FROM `citrus_billing_address` WHERE `bauid` = ? ORDER BY `batime` DESC LIMIT 1");
 		
 		this.addBillingAddressStatement = connection.prepareStatement("INSERT INTO `citrus_billing_address`"
 				+ "(`baid`, `bauid`, `batime`, `bafirst`, `balast`, `bacredit`, `bacvv`, `bastreet`, `baprovince`, `bacountry`, `bazip`) "
@@ -50,7 +44,6 @@ public class AddressDAO {
 		System.out.println(billing);
 		System.out.println(billing.getUserId());
 	
-		//addBillingAddressStatement.setInt(1, billing.getUserId());
 		addBillingAddressStatement.setInt(1, billing.getUserId());
 		addBillingAddressStatement.setString(2, billing.getFirstName());
 		addBillingAddressStatement.setString(3, billing.getLastName());
@@ -62,17 +55,15 @@ public class AddressDAO {
 		addBillingAddressStatement.setString(9, billing.getZip());
 		
 		
-		return addAddressStatement.executeUpdate();
+		return addBillingAddressStatement.executeUpdate();
 	}
 	
 	
 	
 	//choose the lastest address
 	public BillingAddressBean getBillingAddressByUser(int userId) throws SQLException{
-		getBillingAddressByUserStatement.setInt(1, userId);
-		getBillingAddressByUserStatement.setInt(2, userId);
-		
-		ResultSet result = getAddressByUserStatement.executeQuery();
+		getBillingAddressByUserStatement.setInt(1, userId);		
+		ResultSet result = getBillingAddressByUserStatement.executeQuery();
 		
 		if(result.next()) {
 			return new BillingAddressBean(result.getInt("bauid"), result.getTimestamp("batime"), 
@@ -93,9 +84,8 @@ public class AddressDAO {
 	
 	//choose the lastest address
 	public AddressBean getAddressByUser(int userId) throws SQLException{
-		getAddressByUserStatement.setInt(1, userId);
-		getAddressByUserStatement.setInt(2, userId);
-		ResultSet result = getAddressByUserStatement.executeQuery();
+		getShippingAddressByUserStatement.setInt(1, userId);
+		ResultSet result = getShippingAddressByUserStatement.executeQuery();
 		
 		if(result.next()) {
 			return new AddressBean(
@@ -115,15 +105,15 @@ public class AddressDAO {
 	
 	//add or update
 	public int addAddress(AddressBean address) throws SQLException {
-		addAddressStatement.setInt(1, address.getUserId());
-		addAddressStatement.setString(2, address.getFirstName());
-		addAddressStatement.setString(3, address.getLastName());
-		addAddressStatement.setString(4, address.getStreet());
-		addAddressStatement.setString(5, address.getProvince());
-		addAddressStatement.setString(6, address.getCountry());
-		addAddressStatement.setString(7, address.getZip());
+		addShippingAddressStatement.setInt(1, address.getUserId());
+		addShippingAddressStatement.setString(2, address.getFirstName());
+		addShippingAddressStatement.setString(3, address.getLastName());
+		addShippingAddressStatement.setString(4, address.getStreet());
+		addShippingAddressStatement.setString(5, address.getProvince());
+		addShippingAddressStatement.setString(6, address.getCountry());
+		addShippingAddressStatement.setString(7, address.getZip());
 		
-		return addAddressStatement.executeUpdate();
+		return addShippingAddressStatement.executeUpdate();
 	}
 	
 	
@@ -145,7 +135,7 @@ public class AddressDAO {
 			//System.out.println(ba1);
 			
 			test.addBillingAddress(ba1);
-			System.out.println(test.getBillingAddressByUser(3));
+			//System.out.println(test.getBillingAddressByUser(3));
 			
 			
 			

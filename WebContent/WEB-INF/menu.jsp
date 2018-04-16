@@ -11,7 +11,7 @@
 					<li><img src="${pageContext.request.contextPath}/res/logo-sm.png" id="logo-small" /></li>
 				</ul>
 				<ul class="nav-menu hide-on-mobile">
-					<li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+					<li><a href="${pageContext.request.contextPath}/"><i class="fas fa-home"></i> Home</a></li>
 					<li><a href="category.html"><i class="fas fa-bars"></i>
 							Category</a></li>
 				</ul>

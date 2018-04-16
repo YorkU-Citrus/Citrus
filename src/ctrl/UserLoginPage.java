@@ -31,7 +31,7 @@ public class UserLoginPage extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if (request.getParameter("formtype") != null) {
 			try {
-				User.userLogin(request.getParameter("username"), request.getParameter("password"), request);
+				User.login(request.getParameter("username"), request.getParameter("password"), request);
 				response.sendRedirect(request.getContextPath());
 				return;
 			} catch (CitrusFormException e) {

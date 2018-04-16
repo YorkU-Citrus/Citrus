@@ -298,6 +298,9 @@ span.info-span.info-star {
 
 }
 
+.sidebar .active a {
+	background-color: rgb(251, 189, 112);
+}
 
 .sidebar h3, .sidebar h4{
 	margin: 0;
@@ -378,6 +381,7 @@ span.list-price{
 	border-radius: 4px;
 	height: 24px;
 }
+
 
 .add-btn{
 	border-radius: 0 4px 4px 0;

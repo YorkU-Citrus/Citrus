@@ -32,7 +32,6 @@ public class BillingAddressBean {
 	
 	public BillingAddressBean(int userId, Timestamp timestamp, String firstName, String lastName, String credit,
 			String cvv, String street, String province, String country, String zip) {
-		super();
 		this.userId = userId;
 		this.timestamp = timestamp;
 		this.firstName = firstName;
@@ -44,16 +43,20 @@ public class BillingAddressBean {
 		this.country = country;
 		this.zip = zip;
 	}
-
-
-	@Override
-	public String toString() {
-		return "BillingAddressBean [id=" + id + ", userId=" + userId + ", timestamp=" + timestamp + ", firstName="
-				+ firstName + ", lastName=" + lastName + ", credit=" + credit + ", cvv=" + cvv + ", street=" + street
-				+ ", province=" + province + ", country=" + country + ", zip=" + zip + "]";
+	
+	public BillingAddressBean(int userId, String firstName, String lastName, String credit,
+			String cvv, String street, String province, String country, String zip) {
+		this.userId = userId;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.credit = credit;
+		this.cvv = cvv;
+		this.street = street;
+		this.province = province;
+		this.country = country;
+		this.zip = zip;
 	}
-
-
+	
 	public int getId() {
 		return id;
 	}
