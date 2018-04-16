@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.Path;
+
 import bean.BookBean;
 import bean.CategoryBean;
 
