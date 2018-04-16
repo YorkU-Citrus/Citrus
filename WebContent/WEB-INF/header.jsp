@@ -20,7 +20,7 @@
 		<div class="container">
 			<div class="row" id="header">
 				<div class="width-three-fourth" id="logo">
-					<h1 id="title"><img src="res/logo.png" id="logo-img" alt="Citrus"><span class="hidden-xs hidden-sm" id="sub-title">Your Online Manga Book Store</span></h1>
+					<h1 id="title"><img src="${pageContext.request.contextPath}/res/logo.png" id="logo-img" alt="Citrus"><span class="hidden-xs hidden-sm" id="sub-title">Your Online Manga Book Store</span></h1>
 				</div>
 				<div class="width-one-fourth width-md-full" id="logo">
 					<form id="search">

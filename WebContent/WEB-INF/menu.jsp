@@ -8,7 +8,7 @@
 		<div class="width-full">
 			<div id="menu">
 				<ul class="nav-menu">
-					<li><img src="res/logo-sm.png" id="logo-small" /></li>
+					<li><img src="${pageContext.request.contextPath}/res/logo-sm.png" id="logo-small" /></li>
 				</ul>
 				<ul class="nav-menu hide-on-mobile">
 					<li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
@@ -16,8 +16,8 @@
 							Category</a></li>
 				</ul>
 				<ul class="nav-menu right-menu">
-					<li><a href="${pageContext.request.contextPath}\login"><i class="fas fa-user"></i> Login</a></li>
-					<li><a href="${pageContext.request.contextPath}\cart"><i class="fas fa-shopping-cart"></i>
+					<li><a href="${pageContext.request.contextPath}/login"><i class="fas fa-user"></i> Login</a></li>
+					<li><a href="${pageContext.request.contextPath}/cart"><i class="fas fa-shopping-cart"></i>
 							Cart</a>
 						<div class="red-dot" style="top: -43px; left: 21px;">2</div></li>
 				</ul>
@@ -30,7 +30,7 @@
 				<div class="width-full">
 					<div id="header-slide">
 						<div class="img-box">
-							<img src="res/20180316235046.png" />
+							<img src="${pageContext.request.contextPath}/res/20180316235046.png" />
 						</div>
 					</div>
 				</div>
