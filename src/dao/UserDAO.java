@@ -4,12 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
-
-import javax.json.Json;
-import javax.json.JsonObject;
 
 import bean.UserBean;
 import security.Encryption;
@@ -56,17 +50,16 @@ public class UserDAO{
 		
 		//updated, add salt
 		this.updateUserStatement = connection.prepareStatement("UPDATE `citrus_db`.`citrus_user` "
-				+ "SET `upassword`=?,  'usalt'=?, `ulastactive`=? "
+				+ "SET `upassword`=?,  'usalt'=?, `ulastactive`=CURRENT_TIMESTAMP "
 				+ "WHERE `uname`=?; ");
 		
 	}
 	
-	//change password, refresh last active timestamp
+	//change password, refresh last active time stamp
 	public int updateUser(UserBean user) throws SQLException{
 		updateUserStatement.setString(1, user.getHashedPassword());
 		updateUserStatement.setString(2, user.getSalt());
-		updateUserStatement.setTimestamp(3, user.getUlastactive());
-		updateUserStatement.setString(4, user.getUname());
+		updateUserStatement.setString(3, user.getUserName());
 		
 		
 		return updateUserStatement.executeUpdate();
@@ -92,7 +85,7 @@ public class UserDAO{
 	//Insert user
 	public int addUser(UserBean user) throws SQLException{
 		
-		insertUserStatement.setString(1, user.getUname());
+		insertUserStatement.setString(1, user.getUserName());
 		insertUserStatement.setString(2, user.getHashedPassword());
 		insertUserStatement.setString(3, user.getSalt());
 		
@@ -152,7 +145,7 @@ public class UserDAO{
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 

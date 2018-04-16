@@ -1,36 +1,72 @@
 package bean;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
+import java.util.Random;
 
 public class UserBean {
 	private int uid; // AUTO
-	private String uname;
+	private String userName;
 	private String hashedPassword;
 	private String salt;
-	private Timestamp ulastactive; // Time Stamp
+	private Timestamp lastActive; // Time Stamp
 
 	// create an user from sign up
-	public UserBean(String name, String password) {
-		// TODO: create user from sign up
+	public UserBean(String name, String password) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+		Random random = new Random();
+		this.userName = name;
+		this.salt = (new Integer(random.nextInt(99999))).toString();
+		this.hashedPassword = hashPassword(password, salt);
 	}
 
 	// get an user in database
 	public UserBean(Integer id, String name, String password, String salt, Timestamp timeStamp) {
-		// TODO: load user from database
-	}
-
-	@Override
-	public String toString() {
-		return "UserBean [uid=" + uid + ", uname=" + uname + ", hashedPassword=" + hashedPassword + ", salt=" + salt
-				+ ", ulastactive=" + ulastactive + "]";
-	}
-
-	public String getSalt() {
-		return salt;
-	}
-
-	public void setSalt(String salt) {
+		this.uid = id;
+		this.userName = name;
+		this.hashedPassword = password;
 		this.salt = salt;
+		this.lastActive = timeStamp;
+	}
+
+	public boolean verifyPassword(String password) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+		return this.hashedPassword.equals(hashPassword(password, this.salt));
+	}
+	
+	public static String hashPassword(String password, String salt) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+	    MessageDigest digest = MessageDigest.getInstance("SHA-256");
+	    return new String(digest.digest((password + salt).getBytes("UTF-8")), StandardCharsets.UTF_8);
+	}
+
+	public static void main(String[] args) {
+		// Testing
+		try {
+			System.out.println(hashPassword("funny", "666666"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+	}
+	
+
+
+	public int getUid() {
+		return uid;
+	}
+
+	public void setUid(int uid) {
+		this.uid = uid;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getHashedPassword() {
@@ -41,28 +77,19 @@ public class UserBean {
 		this.hashedPassword = hashedPassword;
 	}
 
-	public int getUid() {
-		return uid;
+	public String getSalt() {
+		return salt;
 	}
 
-	public void setUid(int uid) {
-		this.uid = uid;
+	public void setSalt(String salt) {
+		this.salt = salt;
 	}
 
-	public String getUname() {
-		return uname;
+	public Timestamp getLastActive() {
+		return lastActive;
 	}
 
-	public void setUname(String uname) {
-		this.uname = uname;
+	public void setLastActive(Timestamp lastActive) {
+		this.lastActive = lastActive;
 	}
-
-	public Timestamp getUlastactive() {
-		return ulastactive;
-	}
-
-	public void setUlastactive(Timestamp ulastactive) {
-		this.ulastactive = ulastactive;
-	}
-
 }
