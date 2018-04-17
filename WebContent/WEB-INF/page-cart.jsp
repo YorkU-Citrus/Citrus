@@ -46,7 +46,9 @@
 				</div>
 			</div>
 			<div class="row spacing"></div>	
-
+			<form id="submit_order" action="checkout" method="post">
+				<input name="cart" type="hidden">
+			</form>
 			<div class="row spacing" id="push-bottom"></div>
 			<div class="row spacing"></div>
 			<div class="row spacing"></div>
@@ -229,7 +231,8 @@
             if (count == 0){
             	return;
             }else{
-            	window.location.href = "checkout";
+            	document.forms[2].children[0].value=getCookie('cart');
+            	document.forms[2].submit();
             }
 		}
 		

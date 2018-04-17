@@ -42,7 +42,9 @@ function getCookie(cname) {
         let origin_method = window.onscroll;
         window.onscroll = function() {
           check_position();
-          origin_method();
+          if (origin_method != null){
+        	  origin_method(); 
+          }          
         };
         check_position();
 
