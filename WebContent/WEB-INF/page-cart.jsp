@@ -39,7 +39,7 @@
 							<div class="row spacing"></div>	
 
 							<div class="special-outline sidebar">
-								<button class="normal-button checkout-btn"><i class="far fa-check-circle"></i> CHECK OUT</button>
+								<button class="normal-button checkout-btn" id="check_out_btn"><i class="far fa-check-circle"></i> CHECK OUT</button>
 							</div>
 						</div>
 					</div>
@@ -220,6 +220,19 @@
 
 		loadShoppingCart();
 
+		var check_out_btn = document.getElementById("check_out_btn");
+		check_out_btn.onclick = function(){
+			var count = 0;
+            for (var item in cart_obj)   {
+            	count += cart_obj[item];
+            }
+            if (count == 0){
+            	return;
+            }else{
+            	window.location.href = "checkout";
+            }
+		}
+		
       });
 })();
 </script>

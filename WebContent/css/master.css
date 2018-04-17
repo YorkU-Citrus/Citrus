@@ -57,6 +57,7 @@ span.subtitle {
 	color: white;
 	font-size: 12px;
 	font-weight: lighter;
+	pointer-events: none;
 }
 
 /*Navigation*/

@@ -32,7 +32,11 @@ public class UserLoginPage extends HttpServlet {
 		if (request.getParameter("formtype") != null) {
 			try {
 				User.login(request.getParameter("username"), request.getParameter("password"), request);
-				response.sendRedirect(request.getContextPath());
+				if (request.getParameter("checkout") != null) {
+					response.sendRedirect(request.getContextPath() + "/checkout");
+				}else {
+					response.sendRedirect(request.getContextPath());
+				}
 				return;
 			} catch (CitrusFormException e) {
 				request.setAttribute("error", e.getMessage());
@@ -45,9 +49,6 @@ public class UserLoginPage extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if (request.getAttribute("submit") != null) {
-			
-		}
 		doGet(request, response);
 	}
 
