@@ -79,7 +79,7 @@ public class BookDAO {
 		return insertBookStatement.executeUpdate();
 	}
 
-	public BookBean getBookByID(int bid) throws SQLException {
+	public synchronized BookBean getBookByID(int bid) throws SQLException {
 
 		getBookByIdStatement.setInt(1, bid); // set the place holder
 		ResultSet result = getBookByIdStatement.executeQuery();

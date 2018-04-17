@@ -45,6 +45,7 @@ public class Book {
 	@Produces("application/json")
 	public String RestGetBookById(@PathParam("id") int bookId, @Context HttpServletResponse response) {
 		response.addHeader("Access-Control-Allow-Origin", "*"); // TODO: Please remove after testing
+		
 		try {
 			BookDAO dataSource = BookDAO.getInstance();
 			BookBean data = dataSource.getBookByID(bookId);

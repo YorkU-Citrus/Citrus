@@ -12,16 +12,16 @@ import core.User;
 import exception.CitrusFormException;
 
 /**
- * Servlet implementation class UserManage
+ * Servlet implementation class UserManagePage
  */
 @WebServlet("/manage")
-public class UserManage extends HttpServlet {
+public class UserManagePage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public UserManage() {
+	public UserManagePage() {
 		super();
 	}
 
