@@ -70,7 +70,7 @@ public class Book {
 		response.addHeader("Access-Control-Allow-Origin", "*"); // TODO: Please remove after testing
 		try {
 			BookDAO dataSource = BookDAO.getInstance();
-			List<BookBean> data = dataSource.getBooksByCategory(categoryId, offset, 10);
+			List<BookBean> data = dataSource.getBooksByCategory(categoryId, offset, 5);
 			JsonArrayBuilder list = Json.createArrayBuilder();
 			for (BookBean b : data) {
 				list.add(Json.createObjectBuilder().add("id", b.getBookId()).add("title", b.getTitle())
@@ -79,7 +79,7 @@ public class Book {
 						.add("rating", b.getRating()).add("numberOfComment", b.getNumberOfComment())
 						.add("isbn", b.getIsbn()).add("price", b.getPrice()));
 			}
-			return Json.createObjectBuilder().add("count", data.size()).add("list", list).build().toString();
+			return Json.createObjectBuilder().add("success", "ok").add("count", data.size()).add("offset", offset).add("list", list).build().toString();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Json.createObjectBuilder().build().toString();
@@ -93,7 +93,7 @@ public class Book {
 		response.addHeader("Access-Control-Allow-Origin", "*"); // TODO: Please remove after testing
 		try {
 			BookDAO dataSource = BookDAO.getInstance();
-			List<BookBean> data = dataSource.getBook(offset, 10);
+			List<BookBean> data = dataSource.getBook(offset, 5);
 			JsonArrayBuilder list = Json.createArrayBuilder();
 			for (BookBean b : data) {
 				list.add(Json.createObjectBuilder().add("id", b.getBookId()).add("title", b.getTitle())
@@ -102,7 +102,7 @@ public class Book {
 						.add("rating", b.getRating()).add("numberOfComment", b.getNumberOfComment())
 						.add("isbn", b.getIsbn()).add("price", b.getPrice()));
 			}
-			return Json.createObjectBuilder().add("count", data.size()).add("list", list).build().toString();
+			return Json.createObjectBuilder().add("success", "ok").add("count", data.size()).add("offset", offset).add("list", list).build().toString();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Json.createObjectBuilder().build().toString();
@@ -112,13 +112,13 @@ public class Book {
 	
 
 	@GET
-	@Path("/search")
+	@Path("/search/{keyword}/{offset}")
 	@Produces("application/json")
-	public String RestGetBook(@QueryParam("keyword") String keyword, @QueryParam("offset") int offset, @Context HttpServletResponse response) {
+	public String RestGetBook(@PathParam("keyword") String keyword, @PathParam("offset") int offset, @Context HttpServletResponse response) {
 		response.addHeader("Access-Control-Allow-Origin", "*"); // TODO: Please remove after testing
 		try {
 			BookDAO dataSource = BookDAO.getInstance();
-			List<BookBean> data = dataSource.getBooksBySearch(keyword, offset, 10);
+			List<BookBean> data = dataSource.getBooksBySearch(keyword, offset, 5);
 			JsonArrayBuilder list = Json.createArrayBuilder();
 			for (BookBean b : data) {
 				list.add(Json.createObjectBuilder().add("id", b.getBookId()).add("title", b.getTitle())
@@ -127,7 +127,7 @@ public class Book {
 						.add("rating", b.getRating()).add("numberOfComment", b.getNumberOfComment())
 						.add("isbn", b.getIsbn()).add("price", b.getPrice()));
 			}
-			return Json.createObjectBuilder().add("count", data.size()).add("list", list).build().toString();
+			return Json.createObjectBuilder().add("success", "ok").add("count", data.size()).add("offset", offset).add("list", list).build().toString();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Json.createObjectBuilder().build().toString();

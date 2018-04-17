@@ -366,6 +366,11 @@ span.list-price{
 	padding-left: 10px;
 }
 
+.item-list-content a{
+	color: black;
+	text-decoration: none;
+}
+
 .item-list-content h2 {
 	margin: 0;
 }

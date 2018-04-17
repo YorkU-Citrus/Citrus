@@ -39,8 +39,10 @@ function getCookie(cname) {
           }
         }
 
+        let origin_method = window.onscroll;
         window.onscroll = function() {
           check_position();
+          origin_method();
         };
         check_position();
 
@@ -63,7 +65,7 @@ function getCookie(cname) {
                 + (delta + main.clientHeight) + "px";
           }
         }
-
+        
         window.onresize = function() {
           check_height();
         }

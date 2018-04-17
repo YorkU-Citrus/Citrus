@@ -56,7 +56,14 @@
 (function() {
   document.addEventListener("DOMContentLoaded",
       function(event) {
-
+	  	function nl2br (str, is_xhtml) {
+		    if (typeof str === 'undefined' || str === null) {
+		        return '';
+		    }
+		    var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
+		    return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
+		}
+	  	
 		var cart_obj;
 		var price_obj = new Object;
 
@@ -82,6 +89,29 @@
             }
             label.innerHTML = count;
         }
+        
+
+        function updateCartRedDot(){
+          try{
+            var dot = document.getElementById("cart-dot");
+            var cart_cookie = getCookie('cart');
+            if (cart_cookie == ""){
+              dot.hidden = true;
+            }else{
+              var total = 0
+              var cart_obj = JSON.parse(cart_cookie);
+              for (var i in cart_obj){
+                total += cart_obj[i];
+              }
+              dot.innerHTML = total;
+              dot.hidden = false;
+            }
+          }catch(error){
+            setCookie("cart", "", 100);
+            var dot = document.getElementById("cart-dot");
+            dot.hidden = true;
+          }
+        }
 
         function updateTotalPrice(){
         	var sum = 0;
@@ -104,7 +134,7 @@
 					<div class="item-list-content">
 						<h2>`+data.title+`</h2>
 						<p>
-							<span>`+data.description+`</span>
+							<span>`+nl2br(data.description,false)+`</span>
 						</p>
 						<p>
 							<span class="info-span info-price">$ `+(data.price / 100)+`CAD</span> <button class="normal-button minus-btn" bid="`+data.id+`"><i class="fas fa-minus"></i></button><input type="text" class="normal-textfield list-amount" value="`+cart_obj[data.id]+`"/><button class="normal-button add-btn"><i class="fas fa-plus"></i></button>
@@ -127,12 +157,14 @@
 				display.value = cart_obj[id];
 				updateTotalPrice();
 				saveCartToCookie();
+				updateCartRedDot();
 			}
 			plusBtn.onclick = function(){
 				cart_obj[id] ++;
 				display.value = cart_obj[id];
 				updateTotalPrice();
 				saveCartToCookie();
+				updateCartRedDot();
 			}
 			display.onchange = function(){
 				if (display.value < 0){
@@ -141,6 +173,7 @@
 				cart_obj[id] = display.value;
 				updateTotalPrice();
 				saveCartToCookie();
+				updateCartRedDot();
 			}
 
 			//Add to page
