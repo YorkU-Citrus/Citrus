@@ -5,12 +5,14 @@ import java.util.List;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 
 import bean.BookBean;
 import dao.BookDAO;
@@ -24,10 +26,10 @@ public class Book {
 	public String RestAddBook(@FormParam("title") String title, @FormParam("price") int price,
 			@FormParam("category") int categoryId, @FormParam("isbn") String isbn,
 			@FormParam("description") String description, @FormParam("amount") int amount,
-			@FormParam("image") String image) {
-
+			@FormParam("image") String image, @Context HttpServletResponse response) {
+		response.addHeader("Access-Control-Allow-Origin", "*"); // TODO: Please remove after testing
 		try {
-			BookBean data = new BookBean(title, price, categoryId, isbn, description,amount, image);
+			BookBean data = new BookBean(title, price, categoryId, isbn, description, amount, image);
 			BookDAO dataSource = BookDAO.getInstance();
 			int id = dataSource.addBook(data);
 			return Json.createObjectBuilder().add("success", id).build().toString();
@@ -35,13 +37,14 @@ public class Book {
 			e.printStackTrace();
 			return Json.createObjectBuilder().add("error", e.getMessage()).build().toString();
 		}
-		
+
 	}
 
 	@GET
 	@Path("/id/{id}")
 	@Produces("application/json")
-	public String RestGetBookById(@PathParam("id") int bookId) {
+	public String RestGetBookById(@PathParam("id") int bookId, @Context HttpServletResponse response) {
+		response.addHeader("Access-Control-Allow-Origin", "*"); // TODO: Please remove after testing
 		try {
 			BookDAO dataSource = BookDAO.getInstance();
 			BookBean data = dataSource.getBookByID(bookId);
@@ -60,7 +63,9 @@ public class Book {
 	@GET
 	@Path("/category/{id}/{offset}")
 	@Produces("application/json")
-	public String RestGetBookByCategory(@PathParam("id") int categoryId, @PathParam("offset") int offset) {
+	public String RestGetBookByCategory(@PathParam("id") int categoryId, @PathParam("offset") int offset,
+			@Context HttpServletResponse response) {
+		response.addHeader("Access-Control-Allow-Origin", "*"); // TODO: Please remove after testing
 		try {
 			BookDAO dataSource = BookDAO.getInstance();
 			List<BookBean> data = dataSource.getBooksByCategory(categoryId, offset, 10);
@@ -82,7 +87,8 @@ public class Book {
 	@GET
 	@Path("/all/{offset}")
 	@Produces("application/json")
-	public String RestGetBook(@PathParam("offset") int offset) {
+	public String RestGetBook(@PathParam("offset") int offset, @Context HttpServletResponse response) {
+		response.addHeader("Access-Control-Allow-Origin", "*"); // TODO: Please remove after testing
 		try {
 			BookDAO dataSource = BookDAO.getInstance();
 			List<BookBean> data = dataSource.getBook(offset, 10);

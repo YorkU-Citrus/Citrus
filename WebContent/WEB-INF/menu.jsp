@@ -12,7 +12,7 @@
 				</ul>
 				<ul class="nav-menu hide-on-mobile">
 					<li><a href="${pageContext.request.contextPath}/"><i class="fas fa-home"></i> Home</a></li>
-					<li><a href="category.html"><i class="fas fa-bars"></i>
+					<li><a href="${pageContext.request.contextPath}/category"><i class="fas fa-bars"></i>
 							Category</a></li>
 				</ul>
 				<ul class="nav-menu right-menu">
@@ -26,7 +26,7 @@
 					</c:choose>
 					<li><a href="${pageContext.request.contextPath}/cart"><i class="fas fa-shopping-cart"></i>
 							Cart</a>
-						<div class="red-dot" style="top: -43px; left: 21px;">2</div></li>
+						<div id="cart-dot" class="red-dot" style="top: -43px; left: 21px;">2</div></li>
 				</ul>
 			</div>
 		</div>
