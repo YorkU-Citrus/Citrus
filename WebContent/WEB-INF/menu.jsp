@@ -12,7 +12,7 @@
 				</ul>
 				<ul class="nav-menu hide-on-mobile">
 					<li><a href="${pageContext.request.contextPath}/"><i class="fas fa-home"></i> Home</a></li>
-					<li><a href="${pageContext.request.contextPath}/category"><i class="fas fa-bars"></i>
+					<li><a href="${pageContext.request.contextPath}/list?category=1"><i class="fas fa-bars"></i>
 							Category</a></li>
 				</ul>
 				<ul class="nav-menu right-menu">

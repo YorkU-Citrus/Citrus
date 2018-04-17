@@ -14,7 +14,15 @@
 								<h3>Category</h3>
 								<ul>
 									<c:forEach items="${category_list}" var="item">
-										<li><a href="?category=${item.getCid()}">${item.getCtitle()}</a></li>
+										<c:choose>
+											<c:when test="${js_cat_id eq  item.getCid()}">
+												<li class="active"><a href="?category=${item.getCid()}">${item.getCtitle()}</a></li>
+											</c:when>
+											<c:otherwise>
+												<li><a href="?category=${item.getCid()}">${item.getCtitle()}</a></li>	
+											</c:otherwise>
+										</c:choose>
+										
 									</c:forEach>
 								</ul>
 							</div>
@@ -99,10 +107,10 @@
 			holder.innerHTML = `
 				<div class="item-list">
 					<div class="item-list-thumb">
-						<a href="item/?id=`+data.id+`" target="_blank"><img src="`+data.image+`" /></a>
+						<a href="item?id=`+data.id+`" target="_blank"><img src="`+data.image+`" /></a>
 					</div>
 					<div class="item-list-content">
-						<a href="item/?id=`+data.id+`" target="_blank"><h2>`+data.title+`</h2></a>
+						<a href="item?id=`+data.id+`" target="_blank"><h2>`+data.title+`</h2></a>
 						<p>
 							<span class="info-span"><i class="far fa-heart"></i> `+data.rating+`/5 </span> <span class="info-span"><i class="far fa-comment"></i> `+data.numberOfComment+` &nbsp;&nbsp;<i class="far fa-folder-open"></i> `+data.category+`</span>
 							<br />

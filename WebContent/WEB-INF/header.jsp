@@ -23,8 +23,8 @@
 					<h1 id="title"><a href="${pageContext.request.contextPath}/"><img src="${pageContext.request.contextPath}/res/logo.png" id="logo-img" alt="Citrus"></a><span class="hidden-xs hidden-sm" id="sub-title">Your Online Manga Book Store</span></h1>
 				</div>
 				<div class="width-one-fourth width-md-full" id="logo">
-					<form id="search">
-						<input type="text" class="search-text text-box" placeholder="Find your book..." />
+					<form id="search" method="GET" action="${pageContext.request.contextPath}/list">
+						<input type="text" class="search-text text-box" placeholder="Find your book..." name="search" />
 						<input type="submit" value="Search" class="search-button hide-on-mobile" /> 
 					</form>
 				</div>

@@ -28,6 +28,12 @@ form {
 .clearfix{
 	clear: both;
 }
+
+span.subtitle {
+	font-weight: 100;
+	color: rgb(76, 75, 75);
+	padding-left: 11px;
+}
 /*Utility*/
 .img-box img{
 	width: 100%;
