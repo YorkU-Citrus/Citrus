@@ -31,7 +31,7 @@ public class CategoryDAO {
 		this.getCategoryStatement = connection.prepareStatement("SELECT * FROM citrus_category; ");
 	}
 	
-	public CategoryBean getCategoryById(int cid) throws SQLException{
+	public synchronized CategoryBean getCategoryById(int cid) throws SQLException{
 		getCategoryByIdStatement.setInt(1, cid);
 		ResultSet result = getCategoryByIdStatement.executeQuery();
 		
@@ -47,7 +47,7 @@ public class CategoryDAO {
 		
 	}
 	
-	public List<CategoryBean> getCategory() throws SQLException{
+	public synchronized List<CategoryBean> getCategory() throws SQLException{
 		ResultSet resultSet = getCategoryStatement.executeQuery();
 		List<CategoryBean> list = new ArrayList<CategoryBean>();
 		while(resultSet.next()) {

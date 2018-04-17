@@ -63,7 +63,7 @@ public class CitrusDAO {
 	 * @param sql
 	 *            - The SQL text you want to execute
 	 */
-	public List<Map<String, Object>> citrusQuery(String queryText) throws SQLException {
+	public synchronized List<Map<String, Object>> citrusQuery(String queryText) throws SQLException {
 		// Query
 		PreparedStatement preparedStatement = db_connection.prepareStatement(queryText);
 		ResultSet results = preparedStatement.executeQuery();
@@ -100,7 +100,7 @@ public class CitrusDAO {
 	 * @param sql
 	 *            - The SQL text you want to execute
 	 */
-	public int citrusUpdate(String queryText) throws SQLException {
+	public synchronized int citrusUpdate(String queryText) throws SQLException {
 		// Query
 		PreparedStatement preparedStatement = db_connection.prepareStatement(queryText);
 		int effectedRow = preparedStatement.executeUpdate();

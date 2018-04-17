@@ -12,6 +12,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 
 import bean.BookBean;
@@ -93,6 +94,31 @@ public class Book {
 		try {
 			BookDAO dataSource = BookDAO.getInstance();
 			List<BookBean> data = dataSource.getBook(offset, 10);
+			JsonArrayBuilder list = Json.createArrayBuilder();
+			for (BookBean b : data) {
+				list.add(Json.createObjectBuilder().add("id", b.getBookId()).add("title", b.getTitle())
+						.add("categoryId", b.getCategory()).add("category", b.getCategoryTitle())
+						.add("description", b.getDescription()).add("image", b.getImage()).add("amount", b.getAmount())
+						.add("rating", b.getRating()).add("numberOfComment", b.getNumberOfComment())
+						.add("isbn", b.getIsbn()).add("price", b.getPrice()));
+			}
+			return Json.createObjectBuilder().add("count", data.size()).add("list", list).build().toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Json.createObjectBuilder().build().toString();
+		}
+	}
+	
+	
+
+	@GET
+	@Path("/search")
+	@Produces("application/json")
+	public String RestGetBook(@QueryParam("keyword") String keyword, @QueryParam("offset") int offset, @Context HttpServletResponse response) {
+		response.addHeader("Access-Control-Allow-Origin", "*"); // TODO: Please remove after testing
+		try {
+			BookDAO dataSource = BookDAO.getInstance();
+			List<BookBean> data = dataSource.getBooksBySearch(keyword, offset, 10);
 			JsonArrayBuilder list = Json.createArrayBuilder();
 			for (BookBean b : data) {
 				list.add(Json.createObjectBuilder().add("id", b.getBookId()).add("title", b.getTitle())

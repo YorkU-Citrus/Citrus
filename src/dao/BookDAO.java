@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.Path;
-
 import bean.BookBean;
 import bean.CategoryBean;
 
@@ -33,6 +31,7 @@ public class BookDAO {
 	private PreparedStatement insertBookStatement;
 	private PreparedStatement getBookByIdStatement;
 	private PreparedStatement getBookByCategoryStatement;
+	private PreparedStatement getBookBySearchStatement;
 	private PreparedStatement getBookStatement;
 
 	protected BookDAO() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
@@ -56,6 +55,14 @@ public class BookDAO {
 						+ "LEFT JOIN `citrus_category` ON `citrus_book`.`bcategory` = `citrus_category`.`cid` "
 						+ "LEFT JOIN `citrus_comment` ON `citrus_book`.`bid` = `citrus_comment`.`cmtbid` "
 						+ "WHERE `bcategory` = ? GROUP BY `bid` ORDER BY `citrus_book`.`bid` DESC LIMIT ?,?;");
+		this.getBookBySearchStatement = connection
+				.prepareStatement("SELECT " + "`bid` as 'id', `btitle` as 'title', `bprice` as 'price', "
+						+ "`cid` as 'category_id', `ctitle` as 'category_title', `bisbn` as 'isbn', "
+						+ "`bdescription` as 'description', `bamount` as 'amount', `bimage` as 'image', "
+						+ "AVG(`cmtrate`) as 'rating', COUNT(`cmtid`) as 'number_comment' FROM `citrus_book`  "
+						+ "LEFT JOIN `citrus_category` ON `citrus_book`.`bcategory` = `citrus_category`.`cid` "
+						+ "LEFT JOIN `citrus_comment` ON `citrus_book`.`bid` = `citrus_comment`.`cmtbid` "
+						+ "WHERE `btitle` LIKE ? GROUP BY `bid` ORDER BY `citrus_book`.`bid` DESC LIMIT ?,?;");
 		this.getBookStatement = connection
 				.prepareStatement("SELECT " + "`bid` as 'id', `btitle` as 'title', `bprice` as 'price', "
 						+ "`cid` as 'category_id', `ctitle` as 'category_title', `bisbn` as 'isbn', "
@@ -67,7 +74,7 @@ public class BookDAO {
 	}
 
 	// Insert new book
-	public int addBook(BookBean book) throws SQLException {
+	public synchronized int addBook(BookBean book) throws SQLException {
 		// Execute
 		insertBookStatement.setString(1, book.getTitle());
 		insertBookStatement.setInt(2, book.getPrice());
@@ -113,7 +120,7 @@ public class BookDAO {
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<BookBean> getBooksByCategory(int category, int offset, int limit) throws SQLException {
+	public synchronized List<BookBean> getBooksByCategory(int category, int offset, int limit) throws SQLException {
 
 		// Execute
 		getBookByCategoryStatement.setInt(1, category);
@@ -146,6 +153,37 @@ public class BookDAO {
 	public List<BookBean> getBooksByCategory(CategoryBean category, int offset, int limit) throws SQLException {
 		return getBooksByCategory(category.getCid(), offset, limit);
 	}
+	
+	
+
+	public synchronized List<BookBean> getBooksBySearch(String keyword, int offset, int limit) throws SQLException {
+		// Execute
+		getBookBySearchStatement.setString(1, "%"+ keyword+ "%");
+		getBookBySearchStatement.setInt(2, offset);
+		getBookBySearchStatement.setInt(3, limit);
+		
+		// Get Result
+		ResultSet result = getBookBySearchStatement.executeQuery();
+		List<BookBean> resultList = new ArrayList<BookBean>();
+		while (result.next()) {
+			resultList.add(new BookBean(
+					result.getInt("id"), 
+					result.getString("title"), 
+					result.getInt("price"),
+					result.getInt("category_id"), 
+					result.getString("category_title"),
+					result.getString("isbn"), 
+					result.getString("description"),
+					result.getInt("amount"), 
+					result.getString("image"),
+					result.getDouble("rating"),
+					result.getInt("number_comment")
+			));
+		}
+		result.close();
+
+		return resultList;
+	}
 
 	/**
 	 * @param offset
@@ -154,7 +192,7 @@ public class BookDAO {
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<BookBean> getBook(int offset, int limit) throws SQLException {
+	public synchronized List<BookBean> getBook(int offset, int limit) throws SQLException {
 
 		// Execute
 		getBookStatement.setInt(1, offset);

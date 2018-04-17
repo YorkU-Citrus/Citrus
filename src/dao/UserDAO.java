@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import bean.UserBean;
-import security.Encryption;
 
 public class UserDAO{
 	// Singleton
@@ -27,7 +26,6 @@ public class UserDAO{
 	// Constructor
 	private PreparedStatement insertUserStatement;
 	private PreparedStatement getUserByNameStatement;
-	private PreparedStatement signInStatement;
 	private PreparedStatement updateUserStatement;
 	
 	protected UserDAO() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
@@ -42,12 +40,7 @@ public class UserDAO{
 		this.getUserByNameStatement = connection.prepareStatement("SELECT `uid` as 'id', `uname` as 'name', `upassword` as 'password',  `usalt` as 'salt', `ulastactive` as 'lastactive' "
 				+ "FROM `citrus_db`.`citrus_user` "
 				+ "WHERE `uname` = ?; ");
-		
-		//updated, get back salt from database, then verify
-		this.signInStatement = connection.prepareStatement("SELECT * "
-				+ "From `citrus_db`.`citrus_user` "
-				+ "WHERE `uname`= ? ");
-		
+				
 		//updated, add salt
 		this.updateUserStatement = connection.prepareStatement("UPDATE `citrus_db`.`citrus_user` "
 				+ "SET `upassword`=?,  'usalt'=?, `ulastactive`=CURRENT_TIMESTAMP "
@@ -56,7 +49,7 @@ public class UserDAO{
 	}
 	
 	//change password, refresh last active time stamp
-	public int updateUser(UserBean user) throws SQLException{
+	public synchronized int updateUser(UserBean user) throws SQLException{
 		updateUserStatement.setString(1, user.getHashedPassword());
 		updateUserStatement.setString(2, user.getSalt());
 		updateUserStatement.setString(3, user.getUserName());
@@ -64,26 +57,9 @@ public class UserDAO{
 		
 		return updateUserStatement.executeUpdate();
 	}
-	
-	//get back salt from database, then verify
-	public boolean signIn(String userName, String userPassword)  throws SQLException{
-		signInStatement.setString(1, userName);
-		//signInStatement.setString(2, user.getHashedPassword());
-		ResultSet result = signInStatement.executeQuery();
 		
-		if(result.next()) {
-			
-			return result.getString("upassword").equals(
-					Encryption.getHashedPassword(userPassword, result.getString("usalt"))
-					);
-			
-		}
-		
-		return false;
-	}
-	
 	//Insert user
-	public int addUser(UserBean user) throws SQLException{
+	public synchronized int addUser(UserBean user) throws SQLException{
 		
 		insertUserStatement.setString(1, user.getUserName());
 		insertUserStatement.setString(2, user.getHashedPassword());
@@ -93,7 +69,7 @@ public class UserDAO{
 		
 	}
 	
-	public UserBean getUserByName(String name) throws SQLException{
+	public synchronized UserBean getUserByName(String name) throws SQLException{
 		getUserByNameStatement.setString(1, name);
 		ResultSet result = getUserByNameStatement.executeQuery();
 		
@@ -131,8 +107,8 @@ public class UserDAO{
 			System.out.println("add user3: " + test.addUser(t3));
 			System.out.println("add user4: " + test.addUser(t4));
 			
-			System.out.println("sign in with name=test_u3 and password=test_u3pwd: " + test.signIn("test_u3", "test_u3pwd"));
-			System.out.println("sign in with name=test_u3 and password=wrong_u3pwd: " + test.signIn("test_u3", "wrong_u3pwd"));
+			//System.out.println("sign in with name=test_u3 and password=test_u3pwd: " + test.signIn("test_u3", "test_u3pwd"));
+			//System.out.println("sign in with name=test_u3 and password=wrong_u3pwd: " + test.signIn("test_u3", "wrong_u3pwd"));
 			
 			
 			

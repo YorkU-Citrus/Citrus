@@ -1,6 +1,5 @@
 package bean;
 
-import java.sql.*;
 import java.sql.Timestamp;
 import java.util.Date;
 

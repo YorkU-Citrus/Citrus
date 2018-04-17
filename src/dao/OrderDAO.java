@@ -44,7 +44,7 @@ public class OrderDAO {
 		this.getItemsInOrderStatement = connection.prepareStatement("SELECT * FROM citrus_order_item WHERE oioid=? ");
 	}
 	
-	public List<OrderItemBean> getItemsInOrder(int orderId) throws SQLException	{
+	public synchronized List<OrderItemBean> getItemsInOrder(int orderId) throws SQLException	{
 		getItemsInOrderStatement.setInt(1, orderId);
 		ResultSet resultSet = getItemsInOrderStatement.executeQuery();
 		List<OrderItemBean> list = new ArrayList<OrderItemBean>();
@@ -58,7 +58,7 @@ public class OrderDAO {
 	
 	
 	//called by placeOrder()
-	private int addOrderItems(List<OrderItemBean> itemList) throws SQLException	{
+	private synchronized int addOrderItems(List<OrderItemBean> itemList) throws SQLException	{
 		int numItems = 0;
 		
 		for(OrderItemBean item: itemList) {
@@ -78,7 +78,7 @@ public class OrderDAO {
 		return numItems;
 	}
 	
-	public void placeOrder(OrderBean order, List<OrderItemBean> itemList) throws SQLException{
+	public synchronized void placeOrder(OrderBean order, List<OrderItemBean> itemList) throws SQLException{
 		placeOrderStatment.setInt(1, order.getUserId());
 		placeOrderStatment.setInt(2, order.getTotalPrice());
 		
@@ -97,7 +97,7 @@ public class OrderDAO {
 		}
 	}
 	
-	public int updateOrderStatus(int orderId, String status) throws SQLException{
+	public synchronized int updateOrderStatus(int orderId, String status) throws SQLException{
 		updateOrderStatement.setString(1, status);
 		updateOrderStatement.setInt(2, orderId);
 		
@@ -105,7 +105,7 @@ public class OrderDAO {
 	}
 	
 	
-	public OrderBean getOrderById(int orderId) throws SQLException{
+	public synchronized OrderBean getOrderById(int orderId) throws SQLException{
 		getOrderByIdStatement.setInt(1, orderId);
 		ResultSet result = getOrderByIdStatement.executeQuery();
 		
@@ -122,7 +122,7 @@ public class OrderDAO {
 		}
 	}
 	
-	public List<OrderBean> getOrdersByUser(int userId) throws SQLException {
+	public synchronized List<OrderBean> getOrdersByUser(int userId) throws SQLException {
 		getOrderByUserStatement.setInt(1, userId);
 		List<OrderBean> list = new ArrayList<OrderBean>();
 		ResultSet resultSet = getOrderByUserStatement.executeQuery();

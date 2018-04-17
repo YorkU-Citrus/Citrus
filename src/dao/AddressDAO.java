@@ -40,7 +40,7 @@ public class AddressDAO {
 				+ "VALUES (NULL, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?, ?)");
 	}
 	
-	public int addBillingAddress(BillingAddressBean billing) throws SQLException{
+	public synchronized int addBillingAddress(BillingAddressBean billing) throws SQLException{
 		System.out.println(billing);
 		System.out.println(billing.getUserId());
 	
@@ -60,8 +60,8 @@ public class AddressDAO {
 	
 	
 	
-	//choose the lastest address
-	public BillingAddressBean getBillingAddressByUser(int userId) throws SQLException{
+	//choose the latest address
+	public synchronized BillingAddressBean getBillingAddressByUser(int userId) throws SQLException{
 		getBillingAddressByUserStatement.setInt(1, userId);		
 		ResultSet result = getBillingAddressByUserStatement.executeQuery();
 		
@@ -83,7 +83,7 @@ public class AddressDAO {
 	
 	
 	//choose the lastest address
-	public AddressBean getAddressByUser(int userId) throws SQLException{
+	public synchronized AddressBean getAddressByUser(int userId) throws SQLException{
 		getShippingAddressByUserStatement.setInt(1, userId);
 		ResultSet result = getShippingAddressByUserStatement.executeQuery();
 		
@@ -104,7 +104,7 @@ public class AddressDAO {
 	}
 	
 	//add or update
-	public int addAddress(AddressBean address) throws SQLException {
+	public synchronized int addAddress(AddressBean address) throws SQLException {
 		addShippingAddressStatement.setInt(1, address.getUserId());
 		addShippingAddressStatement.setString(2, address.getFirstName());
 		addShippingAddressStatement.setString(3, address.getLastName());

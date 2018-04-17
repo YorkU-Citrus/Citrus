@@ -1,7 +1,5 @@
 package core;
 
-import java.sql.Timestamp;
-
 import javax.json.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

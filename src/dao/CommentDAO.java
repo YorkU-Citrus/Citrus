@@ -43,7 +43,7 @@ public class CommentDAO {
 	}
 
 	// Insert new comment
-	public int addComment(CommentBean comment) throws SQLException {
+	public synchronized int addComment(CommentBean comment) throws SQLException {
 		// Execute
 		insertCommentStatement.setInt(1, comment.getUserId());
 		insertCommentStatement.setInt(2, comment.getBookId());
@@ -58,7 +58,7 @@ public class CommentDAO {
 	}
 	
 	// Update comments
-	public int updateCommentStatus(int commentId, String status) throws SQLException {
+	public synchronized int updateCommentStatus(int commentId, String status) throws SQLException {
 		// Execute
 		updateCommentStatusStatement.setString(1, status);
 		updateCommentStatusStatement.setInt(2, commentId);
@@ -66,7 +66,7 @@ public class CommentDAO {
 	}
 	
 	// Get comments for a book
-	public List<CommentBean> getCommentByBookId(int bookId, String status, int offset, int limit) throws SQLException{
+	public synchronized List<CommentBean> getCommentByBookId(int bookId, String status, int offset, int limit) throws SQLException{
 		// Execute
 		getCommentsByBookId.setInt(1, bookId);
 		getCommentsByBookId.setString(2, status);
