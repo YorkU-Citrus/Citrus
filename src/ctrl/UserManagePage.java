@@ -52,14 +52,15 @@ public class UserManagePage extends HttpServlet {
 			} else if (request.getParameter("type").equals("analytics")) {
 				functionAnalytics(request, response);
 				return;
-			} else if (request.getParameter("type").equals("shipping")) {
-
 			} else if (request.getParameter("type").equals("products")) {
-
+				functionProducts(request, response);
+				return;
 			} else if (request.getParameter("type").equals("orders")) {
-
+				functionOrders(request, response);
+				return;
 			} else if (request.getParameter("type").equals("comments")) {
-
+				functionComments(request, response);
+				return;
 			} else if (request.getParameter("type").equals("signout")) {
 				request.getSession().setAttribute("user", null);
 				response.sendRedirect(request.getContextPath());
@@ -143,6 +144,30 @@ public class UserManagePage extends HttpServlet {
 			return;
 		}
 		request.getRequestDispatcher("/WEB-INF/page-manage-analytics.jsp").forward(request, response);
+	}
+	
+
+
+	protected void functionProducts(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		request.setAttribute("productsactive", "active");
+		request.getRequestDispatcher("/WEB-INF/page-manage-products.jsp").forward(request, response);
+	}
+	
+
+	protected void functionOrders(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		request.setAttribute("ordersactive", "active");
+		request.getRequestDispatcher("/WEB-INF/page-manage-orders.jsp").forward(request, response);
+	}
+
+	protected void functionComments(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		request.setAttribute("commentsactive", "active");
+		request.getRequestDispatcher("/WEB-INF/page-manage-comments.jsp").forward(request, response);
 	}
 
 	/**

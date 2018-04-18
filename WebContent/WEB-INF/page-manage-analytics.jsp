@@ -12,8 +12,23 @@
 					<div class="row">
 						<jsp:include page="sidebar-manage.jsp" />
 						<div class="width-three-fourth">
-							<div class="special-outline side-content">
 
+								<div class="special-outline side-content">
+									<h2 class="title-left form-title">Analytics: Books sold each month</h2>
+									<div class="description-content">
+										<c:forEach items="${monthly_list}" var="item">
+											<hr>
+											<p>
+												<strong>Year:</strong> ${item.getYear()}
+												<strong>Month:</strong> ${item.getMonth()}
+												<strong>Sold:</strong> ${item.getAmount()}
+											</p>											
+										</c:forEach>
+									</div>
+								</div>
+								
+								<div class="row spacing"></div>
+								
 								<div class="special-outline side-content">
 									<h2 class="title-left form-title">Analytics: Top 10 Seller</h2>
 									<div class="description-content">
@@ -33,7 +48,6 @@
 									</div>
 								</div>
 								
-							</div>
 						</div>
 					</div>
 					
