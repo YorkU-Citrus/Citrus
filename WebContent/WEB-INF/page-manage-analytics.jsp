@@ -19,9 +19,9 @@
 										<c:forEach items="${monthly_list}" var="item">
 											<hr>
 											<p>
-												<strong>Year:</strong> ${item.getYear()}
-												<strong>Month:</strong> ${item.getMonth()}
-												<strong>Sold:</strong> ${item.getAmount()}
+												<span class="info-span"><strong>Year:</strong> ${item.getYear()}</span>
+												<span class="info-span"><strong>Month:</strong> ${item.getMonth()}</span>
+												<span class="info-span"><strong>Sold:</strong> ${item.getSalesVolumn()}</span>
 											</p>											
 										</c:forEach>
 									</div>

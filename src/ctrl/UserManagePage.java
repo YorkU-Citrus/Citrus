@@ -10,10 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import bean.BookBean;
+import bean.MonthlyBean;
 import bean.OrderBean;
 import bean.UserBean;
 import core.User;
 import dao.BookDAO;
+import dao.MonthlyDAO;
 import dao.OrderDAO;
 import exception.CitrusFormException;
 
@@ -136,8 +138,10 @@ public class UserManagePage extends HttpServlet {
 
 		request.setAttribute("analyticsactive", "active");
 		try {
-			List<BookBean> list = BookDAO.getInstance().getMostPopularBooks(10);
-			request.setAttribute("top_list", list);	
+			List<MonthlyBean> monthlyList = MonthlyDAO.getInstance().getSalesReport();
+			request.setAttribute("monthly_list", monthlyList);
+			List<BookBean> topList = BookDAO.getInstance().getMostPopularBooks(10);
+			request.setAttribute("top_list", topList);	
 		} catch (Exception e) {
 			request.setAttribute("error", e.getMessage());
 			request.getRequestDispatcher("/WEB-INF/page-error.jsp").forward(request, response);
