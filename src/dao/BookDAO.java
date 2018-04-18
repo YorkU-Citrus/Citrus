@@ -33,6 +33,7 @@ public class BookDAO {
 	private PreparedStatement getBookByCategoryStatement;
 	private PreparedStatement getBookBySearchStatement;
 	private PreparedStatement getBookStatement;
+	private PreparedStatement getMostPopularBooksStatement;
 
 	protected BookDAO() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		Connection connection = CitrusDAO.getInstance().getConnection();
@@ -71,8 +72,46 @@ public class BookDAO {
 						+ "LEFT JOIN `citrus_category` ON `citrus_book`.`bcategory` = `citrus_category`.`cid` "
 						+ "LEFT JOIN `citrus_comment` ON `citrus_book`.`bid` = `citrus_comment`.`cmtbid` "
 						+ "GROUP BY `bid` ORDER BY `bid` DESC LIMIT ?,?;");
+		
+		this.getMostPopularBooksStatement = connection.prepareStatement("SELECT " + "`bid` as 'id', `btitle` as 'title', `bprice` as 'price', "
+				+ "`cid` as 'category_id', `ctitle` as 'category_title', `bisbn` as 'isbn', "
+				+ "`bdescription` as 'description', `bamount` as 'amount', `bimage` as 'image', "
+				+ "AVG(`cmtrate`) as 'rating', COUNT(`cmtid`) as 'number_comment', "
+				+ "SUM(oiamount) as order_amount "
+				+ "FROM citrus_book, citrus_order_item, citrus_category, citrus_comment "
+				+ "Where citrus_book.bid=citrus_order_item.oibid "
+				+ "GROUP BY citrus_book.bid "
+				+ "ORDER BY order_amount DESC LIMIT ?");
 	}
 
+	
+	//get the TOP (int top) sold books
+	public synchronized List<BookBean> getMostPopularBooks(int top) throws SQLException{
+		getMostPopularBooksStatement.setInt(1, top);
+		
+		ResultSet result = getMostPopularBooksStatement.executeQuery();
+		List<BookBean> resultList = new ArrayList<BookBean>();
+		while (result.next()) {
+			resultList.add(new BookBean(
+					result.getInt("id"), 
+					result.getString("title"), 
+					result.getInt("price"),
+					result.getInt("category_id"), 
+					result.getString("category_title"),
+					result.getString("isbn"), 
+					result.getString("description"),
+					result.getInt("amount"), 
+					result.getString("image"),
+					result.getDouble("rating"),
+					result.getInt("number_comment")
+			));
+		}
+		result.close();
+
+		return resultList;
+	}
+	
+	
 	// Insert new book
 	public synchronized int addBook(BookBean book) throws SQLException {
 		// Execute
@@ -226,7 +265,9 @@ public class BookDAO {
 
 		try {
 			// Test
+			
 			BookDAO test = BookDAO.getInstance();
+			/*
 			test.addBook(new BookBean("CLR22S", 666, 2, "978-0-262-03384-8", "Introduction to Algorithm2", 666, "eb4961b8-65de-4ac7-a9dc-fbaaa4d8972c"));
 
 			BookBean book = test.getBookByID(2);
@@ -237,6 +278,9 @@ public class BookDAO {
 
 			List<BookBean> allList = test.getBook(0, 4);
 			System.out.println(allList);
+			*/
+			System.out.println(test.getMostPopularBooks(2));
+			
 
 		} catch (InstantiationException e) {
 			e.printStackTrace();
