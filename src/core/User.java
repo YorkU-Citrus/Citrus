@@ -1,11 +1,13 @@
 package core;
-
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
 import javax.json.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-
 import bean.AddressBean;
 import bean.BillingAddressBean;
 import bean.UserBean;
@@ -15,7 +17,11 @@ import exception.CitrusFormException;
 
 @Path("user")
 public class User {
-
+	// To Check weather a country provided is valid or not.
+	private static final Set<String> ISO_COUNTRIES = new HashSet<String>(Arrays.asList(Locale.getDefault().getDisplayCountry()));
+	public static boolean isValidISOCountry(String s) {
+        return ISO_COUNTRIES.contains(s);  
+    }
 	@POST
 	@Path("/register/")
 	@Produces("application/json")
@@ -116,21 +122,35 @@ public class User {
 		if ((lastName == null) || (lastName == "")) {
 			throw new CitrusFormException("Last name cannot be empty!");
 		}
+		
 		if ((cardNumber == null) || (cardNumber == "")) {
 			throw new CitrusFormException("Credit card number cannot be empty!");
 		}
+		if ((cardNumber.length() != 14) && cardNumber.chars().allMatch(Character::isDigit)) {
+			throw new CitrusFormException("Credit card number should be of 14 digits and be of Type Number");
+		}
+		
 		if ((cvv == null) || (cvv == "")) {
 			throw new CitrusFormException("CVV cannot be empty!");
 		}
+		if((cvv.length() != 3) && (cvv.chars().allMatch(Character::isDigit))) {
+			throw new CitrusFormException("CVV should be of 3 digits and be of Type Number");
+		}
+		
 		if ((address == null) || (address == "")) {
 			throw new CitrusFormException("Address cannot be empty!");
 		}
 		if ((province == null) || (province == "")) {
 			throw new CitrusFormException("Provience cannot be empty!");
 		}
+		
 		if ((country == null) || (country == "")) {
-			throw new CitrusFormException("country cannot be empty!");
+			throw new CitrusFormException("Country cannot be empty!");
 		}
+		if(!isValidISOCountry(country)) {
+			throw new CitrusFormException("Country provided is not a Valid Country");
+		}
+		
 		if ((postalCode == null) || (postalCode == "")) {
 			throw new CitrusFormException("Postal code cannot be empty!");
 		}
@@ -209,6 +229,9 @@ public class User {
 		}
 		if ((country == null) || (country == "")) {
 			throw new CitrusFormException("Country cannot be empty!");
+		}
+		if(!isValidISOCountry(country)) {
+			throw new CitrusFormException("Country provided is not a Valid Country");
 		}
 		if ((postalCode == null) || (postalCode == "")) {
 			throw new CitrusFormException("Postal code cannot be empty!");
