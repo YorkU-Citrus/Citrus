@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import bean.BookBean;
 import bean.OrderBean;
 import bean.OrderItemBean;
 
@@ -28,6 +29,7 @@ public class OrderDAO {
 	private PreparedStatement updateOrderStatement;
 	private PreparedStatement placeOrderStatment;
 	private PreparedStatement addOrderItemStatement;
+	private PreparedStatement getBookSoldInMonthStatement;
 	
 	private final int batchSize = 1000;
 	
@@ -42,6 +44,52 @@ public class OrderDAO {
 		this.addOrderItemStatement = connection.prepareStatement("INSERT INTO `citrus_order_item`(`oiid`, `oioid`, `oibid`, `oiamount`) "
 				+ "VALUES (NULL, ?, ?, ?)");
 		this.getItemsInOrderStatement = connection.prepareStatement("SELECT * FROM citrus_order_item WHERE oioid=? ");
+		
+		this.getBookSoldInMonthStatement = connection.prepareStatement("SELECT " + "`bid` as 'id', `btitle` as 'title', `bprice` as 'price', "
+				+ "`cid` as 'category_id', `ctitle` as 'category_title', `bisbn` as 'isbn', "
+				+ "`bdescription` as 'description', `bamount` as 'amount', `bimage` as 'image', "
+				+ "AVG(`cmtrate`) as 'rating', COUNT(`cmtid`) as 'number_comment', "
+				+ "SUM(oiamount) as order_amount, "
+				+ "YEAR(citrus_order.otime) as year, "
+				+ "MONTH(citrus_order.otime) as month "
+				+ "FROM citrus_book "
+				+ "LEFT JOIN citrus_category ON citrus_book.bcategory = citrus_category.cid "
+				+ "LEFT JOIN citrus_comment ON citrus_book.bid = citrus_comment.cmtbid, "
+				+ "citrus_order_item, citrus_order "
+				+ "Where citrus_book.bid=citrus_order_item.oibid "
+				+ "AND citrus_order.oid=citrus_order_item.oioid "
+				+ "AND YEAR(citrus_order.otime)=? "
+				+ "AND MONTH(citrus_order.otime)=? "
+				+ "GROUP BY citrus_book.bid, YEAR(citrus_order.otime), MONTH(citrus_order.otime) "
+				);
+	}
+	
+	//get the books sold in year-month
+	public synchronized List<BookBean> getBookSoldInMonth(int year, int month)throws SQLException{
+		getBookSoldInMonthStatement.setInt(1, year);
+		getBookSoldInMonthStatement.setInt(2, month);
+		
+		ResultSet result = getBookSoldInMonthStatement.executeQuery();
+		List<BookBean> resultList = new ArrayList<BookBean>();
+		while (result.next()) {
+			resultList.add(new BookBean(
+					result.getInt("id"), 
+					result.getString("title"), 
+					result.getInt("price"),
+					result.getInt("category_id"), 
+					result.getString("category_title"),
+					result.getString("isbn"), 
+					result.getString("description"),
+					result.getInt("amount"), 
+					result.getString("image"),
+					result.getDouble("rating"),
+					result.getInt("number_comment"),
+					result.getInt("order_amount")
+			));
+		}
+		result.close();
+
+		return resultList;
 	}
 	
 	public synchronized List<OrderItemBean> getItemsInOrder(int orderId) throws SQLException	{
@@ -147,6 +195,7 @@ public class OrderDAO {
 			
 			//Delete entries in DB then try
 			OrderDAO testOrder = OrderDAO.getInstance();
+			/*
 			List<OrderItemBean> list = new ArrayList<OrderItemBean>();
 			
 			OrderBean order1 = new OrderBean(3, 12354);
@@ -156,10 +205,15 @@ public class OrderDAO {
 			list.add(item1); list.add(item2); list.add(item3);
 			
 			testOrder.placeOrder(order1, list);
-			
-			System.out.println(testOrder.getOrdersByUser(3));
-			System.out.println(testOrder.getItemsInOrder(order1.getId()));
-			
+			*/
+			//System.out.println(testOrder.getOrdersByUser(3));
+			//System.out.println(testOrder.getItemsInOrder(order1.getId()));
+			System.out.println();
+			List<BookBean> monthList = testOrder.getBookSoldInMonth(2018, 4);
+			System.out.println(monthList.size());
+			for(BookBean book: monthList) {
+				System.out.println(book);
+			}
 			
 			
 			
