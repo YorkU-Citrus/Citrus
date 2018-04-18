@@ -9,24 +9,8 @@
 			<div class="row">
 				<div class="width-full" >
 					<div class="row">
-						<div class="width-one-fourth width-md-full">
-							<div class="special-outline sidebar">
-								<h3>Category</h3>
-								<ul>
-									<c:forEach items="${category_list}" var="item">
-										<c:choose>
-											<c:when test="${js_cat_id eq  item.getCid()}">
-												<li class="active"><a href="?category=${item.getCid()}">${item.getCtitle()}</a></li>
-											</c:when>
-											<c:otherwise>
-												<li><a href="?category=${item.getCid()}">${item.getCtitle()}</a></li>	
-											</c:otherwise>
-										</c:choose>
-										
-									</c:forEach>
-								</ul>
-							</div>
-						</div>
+					
+						<jsp:include page="sidebar-list.jsp" />
 						<div class="width-three-fourth">
 							<div class="special-outline side-content">
 								<form id="search-ctn" method="GET">

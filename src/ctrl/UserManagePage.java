@@ -1,14 +1,18 @@
 package ctrl;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bean.OrderBean;
 import bean.UserBean;
 import core.User;
+import dao.OrderDAO;
 import exception.CitrusFormException;
 
 /**
@@ -41,7 +45,8 @@ public class UserManagePage extends HttpServlet {
 				functionShipping(request, response);
 				return;
 			} else if (request.getParameter("type").equals("history")) {
-
+				functionHistory(request, response);
+				return;
 			} else if (request.getParameter("type").equals("analytic")) {
 
 			} else if (request.getParameter("type").equals("shipping")) {
@@ -99,6 +104,24 @@ public class UserManagePage extends HttpServlet {
 			
 		} catch (CitrusFormException e) {
 			request.setAttribute("error", e.getMessage());
+		}
+		request.getRequestDispatcher("/WEB-INF/page-manage-shipping.jsp").forward(request, response);
+	}
+	
+
+	protected void functionHistory(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		request.setAttribute("historyactive", "active");
+		try {
+			UserBean user = (UserBean) request.getSession().getAttribute("user");
+			List<OrderBean> list = OrderDAO.getInstance().getOrdersByUser(user.getUid());
+			request.setAttribute("order_list", list);	
+			request.setAttribute("message", String.format("You have submitted %d order(s).",list.size()));
+		} catch (Exception e) {
+			request.setAttribute("error", e.getMessage());
+			request.getRequestDispatcher("/WEB-INF/page-error.jsp").forward(request, response);
+			return;
 		}
 		request.getRequestDispatcher("/WEB-INF/page-manage-shipping.jsp").forward(request, response);
 	}
