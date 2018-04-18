@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import bean.MonthlyBean;
 
@@ -18,6 +20,7 @@ public class MonthlyDAO {
 	}
 	
 	private PreparedStatement getSalesInMonthStatement;
+	private PreparedStatement getSalesReportStatement;
 	
 	protected MonthlyDAO() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		Connection connection = CitrusDAO.getInstance().getConnection();
@@ -29,6 +32,25 @@ public class MonthlyDAO {
 				+ "and MONTH(otime)=? "
 				+ "GROUP BY YEAR(otime), MONTH(otime) "
 				);
+		
+		this.getSalesReportStatement = connection.prepareStatement("SELECT YEAR(otime) as year, MONTH(otime) as month, SUM(oiamount) as sales "
+				+ "FROM citrus_order, citrus_order_item "
+				+ "WHERE citrus_order.oid=citrus_order_item.oioid "
+				+ "GROUP BY YEAR(otime), MONTH(otime) "
+				);
+	}
+	
+	public synchronized List<MonthlyBean> getSalesReport() throws SQLException{
+		
+		
+		ResultSet results = getSalesReportStatement.executeQuery();
+		List<MonthlyBean> list = new ArrayList<MonthlyBean>();
+		while(results.next()) {
+			list.add( new MonthlyBean(results.getInt("year"), results.getInt("month"), results.getInt("sales")));
+		}
+		
+		
+		return list;
 	}
 	
 	public synchronized MonthlyBean getSalesInMonth(int year, int month) throws SQLException{
@@ -49,8 +71,9 @@ public class MonthlyDAO {
 		MonthlyDAO test;
 		try {
 			test = MonthlyDAO.getInstance();
-			System.out.println(test.getSalesInMonth(2018, 3));
-			System.out.println(test.getSalesInMonth(2018, 4));
+			for(MonthlyBean m: test.getSalesReport()) {
+				System.out.println(m);
+			}
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
