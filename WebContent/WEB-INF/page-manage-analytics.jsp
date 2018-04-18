@@ -15,34 +15,20 @@
 							<div class="special-outline side-content">
 
 								<div class="special-outline side-content">
-									<h2 class="title-left form-title">Order History</h2>
+									<h2 class="title-left form-title">Analytics: Top 10 Seller</h2>
 									<div class="description-content">
 										<p style="font-weight:100;">${message}</p>
 										
-										<c:forEach items="${order_list}" var="item">											
+										<c:forEach items="${top_list}" var="item">
 											<hr>
 											<p>
-												<strong>Order ID</strong>: ${item.getId()} &nbsp;&nbsp;&nbsp;&nbsp;
-												
-												<c:choose>
-													<c:when test="${item.getStatus() == 'COMPLETED'}">
-														<span style="color: #009688;"><i class="far fa-check-circle"></i> Fulfilled</span>
-													</c:when>
-													<c:when test="${item.getStatus() == 'SHIPPED'}">
-														<span style="color: #2196F3;"><i class="fas fa-shipping-fast"></i> Shipping</span>
-													</c:when>
-													<c:when test="${item.getStatus() == 'ORDERED'}">
-														<span style="color: #2196F3;"><i class="far fa-calendar-check"></i> Ordered</span>
-													</c:when>
-													<c:when test="${item.getStatus() == 'DENIED'}">
-														<span style="color: #FF5722;"><i class="far fa-times-circle"></i> Canceled</span>
-													</c:when>
-												</c:choose>
-												
+												<strong>Rank #1</strong>
 												<br/>
-												<strong>Order Time</strong>: ${item.getTimestamp()}
+												<strong>Rank</strong>: <a href="#">My Youth Romantic Comedy Is Wrong, As I Expected, Vol. 2</a>
 												<br/>
-												<strong>Price</strong>: ${item.getTotalPrice() / 100} CAD
+												<strong>Sold</strong>: 666
+												<br/>
+												<strong>Price</strong>: 666.66 CAD
 											</p>
 											
 										</c:forEach>

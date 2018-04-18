@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bean.BookBean;
 import bean.OrderBean;
 import bean.UserBean;
 import core.User;
@@ -123,7 +124,24 @@ public class UserManagePage extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/page-error.jsp").forward(request, response);
 			return;
 		}
-		request.getRequestDispatcher("/WEB-INF/page-manage-shipping.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/page-manage-history.jsp").forward(request, response);
+	}
+	
+
+	protected void functionAnalytics(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		request.setAttribute("historyactive", "active");
+		try {
+			List<BookBean> list = null; // TODO: match
+			request.setAttribute("top_list", list);	
+			request.setAttribute("message", String.format("You have submitted %d order(s).",list.size()));
+		} catch (Exception e) {
+			request.setAttribute("error", e.getMessage());
+			request.getRequestDispatcher("/WEB-INF/page-error.jsp").forward(request, response);
+			return;
+		}
+		request.getRequestDispatcher("/WEB-INF/page-manage-history.jsp").forward(request, response);
 	}
 
 	/**
