@@ -44,13 +44,13 @@ public class User {
 
 	public static void registerUser(String username, String password, String repassword, HttpServletRequest request)
 			throws CitrusFormException {
-		if (username == null) {
+		if ((username == null) || (username == "")) {
 			throw new CitrusFormException("User name cannot be empty!");
 		}
-		if (password == null) {
+		if ((password == null) || (password == "")) {
 			throw new CitrusFormException("Password cannot be empty!");
 		}
-		if (repassword == null) {
+		if ((repassword == null) || (repassword == "")) {
 			throw new CitrusFormException("Please retype password!");
 		}
 		if (!repassword.equals(password)) {
@@ -78,10 +78,10 @@ public class User {
 	}
 
 	public static void login(String username, String password, HttpServletRequest request) throws CitrusFormException {
-		if (username == null) {
+		if ((username == null) || (username == "")) {
 			throw new CitrusFormException("User name cannot be empty!");
 		}
-		if (password == null) {
+		if ((password == null) || (password == "")) {
 			throw new CitrusFormException("Password cannot be empty!");
 		}
 		try {
@@ -110,31 +110,30 @@ public class User {
 	public static void updateBillingInformation(String firstName, String lastName, String cardNumber, String cvv,
 			String address, String province, String country, String postalCode, HttpServletRequest request)
 			throws CitrusFormException {
-		if (firstName == null) {
+		if ((firstName == null) || (firstName == "")) {
 			throw new CitrusFormException("First name cannot be empty!");
 		}
-		if (lastName == null) {
+		if ((lastName == null) || (lastName == "")) {
 			throw new CitrusFormException("Last name cannot be empty!");
 		}
-		if (cardNumber == null) {
+		if ((cardNumber == null) || (cardNumber == "")) {
 			throw new CitrusFormException("Credit card number cannot be empty!");
 		}
-		if (cvv == null) {
+		if ((cvv == null) || (cvv == "")) {
 			throw new CitrusFormException("CVV cannot be empty!");
 		}
-		if (address == null) {
+		if ((address == null) || (address == "")) {
 			throw new CitrusFormException("Address cannot be empty!");
 		}
-		if (province == null) {
+		if ((province == null) || (province == "")) {
 			throw new CitrusFormException("Provience cannot be empty!");
 		}
-		if (country == null) {
+		if ((country == null) || (country == "")) {
 			throw new CitrusFormException("country cannot be empty!");
 		}
-		if (postalCode == null) {
+		if ((postalCode == null) || (postalCode == "")) {
 			throw new CitrusFormException("Postal code cannot be empty!");
 		}
-
 		try {
 			AddressDAO dataSource = AddressDAO.getInstance();
 			HttpSession session = request.getSession(true);
@@ -196,22 +195,22 @@ public class User {
 			, String country, String postalCode, HttpServletRequest request)
 			throws CitrusFormException {
 		
-		if (firstName == null) {
+		if ((firstName == null) || (firstName == "")) {
 			throw new CitrusFormException("First name cannot be empty!");
 		}
-		if (lastName == null) {
+		if ((lastName == null) || (lastName == "")) {
 			throw new CitrusFormException("Last name cannot be empty!");
 		}
-		if (address == null) {
+		if ((address == null) || (address == "")) {
 			throw new CitrusFormException("Address/street cannot be empty!");
 		}
-		if (province == null) {
+		if ((province == null) || (province == "")) {
 			throw new CitrusFormException("Province cannot be empty!");
 		}
-		if (country == null) {
+		if ((country == null) || (country == "")) {
 			throw new CitrusFormException("Country cannot be empty!");
 		}
-		if (postalCode == null) {
+		if ((postalCode == null) || (postalCode == "")) {
 			throw new CitrusFormException("Postal code cannot be empty!");
 		}
 		

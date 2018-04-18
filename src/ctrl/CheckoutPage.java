@@ -57,6 +57,7 @@ public class CheckoutPage extends HttpServlet {
 			if (request.getParameter("cart") != null) {
 				//System.out.println(request.getParameter("cart"));
 				session.setAttribute("cart", request.getParameter("cart"));
+				session.setAttribute("order", null);
 			}
 			
 			if (user == null) {
@@ -76,22 +77,25 @@ public class CheckoutPage extends HttpServlet {
 				session.setAttribute("shipping", shippingAddressData);	
 				
 				// Print out shipping cart for confirm
-				JsonReader jsonReader = Json.createReader(new StringReader((String) session.getAttribute("cart")));
-				JsonObject object = jsonReader.readObject();
-				
-				OrderBean order = new OrderBean(user.getUid());
-				order.setTaxRate(13);
-				for (String k : object.keySet()) {
-					BookBean book = BookDAO.getInstance().getBookByID(Integer.parseInt(k));
-					if (book != null) {
-						order.appendList(new OrderItemBean(book,object.getInt(k)));
-					}					
+				if (session.getAttribute("order") == null) {
+					JsonReader jsonReader = Json.createReader(new StringReader((String) session.getAttribute("cart")));
+					JsonObject object = jsonReader.readObject();
+					
+					OrderBean order = new OrderBean(user.getUid());
+					order.setTaxRate(13);
+					for (String k : object.keySet()) {
+						BookBean book = BookDAO.getInstance().getBookByID(Integer.parseInt(k));
+						if (book != null) {
+							order.appendList(new OrderItemBean(book,object.getInt(k)));
+						}					
+					}
+					
+					jsonReader.close();
+					session.setAttribute("cart", null);	
+					session.setAttribute("order", order);	
 				}
 				
-				jsonReader.close();					
-				
-				session.setAttribute("cart", null);
-				session.setAttribute("order", order);					
+				OrderBean order = (OrderBean) session.getAttribute("order");
 				request.setAttribute("total", String.format("%.2f",order.getTotalPrice()/100.0));
 				request.setAttribute("bill", order.receipt());
 				
@@ -116,7 +120,7 @@ public class CheckoutPage extends HttpServlet {
 					request.setAttribute("bill", order.receipt());
 					request.setAttribute("billing_error", e.getMessage());
 					request.getRequestDispatcher("/WEB-INF/page-checkout-stage2.jsp").forward(request,response);
-					
+					return;	
 				}
 				try {
 					User.updateShippingInformation(request.getParameter("firstname-ship"), request.getParameter("lastname-ship"), 
@@ -126,7 +130,8 @@ public class CheckoutPage extends HttpServlet {
 					request.setAttribute("total", String.format("%.2f",order.getTotalPrice()/100.0));
 					request.setAttribute("bill", order.receipt());
 					request.setAttribute("shipping_error", e.getMessage());
-					request.getRequestDispatcher("/WEB-INF/page-checkout-stage2.jsp").forward(request,response);					
+					request.getRequestDispatcher("/WEB-INF/page-checkout-stage2.jsp").forward(request,response);
+					return;
 				}
 				
 				// process order
