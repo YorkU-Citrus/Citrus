@@ -8,9 +8,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sun.org.apache.bcel.internal.generic.Select;
+
 import bean.BookBean;
 import bean.OrderBean;
 import bean.OrderItemBean;
+import bean.UserStatisticBean;
 
 public class OrderDAO {
 	private static OrderDAO instance = null;
@@ -30,6 +33,7 @@ public class OrderDAO {
 	private PreparedStatement placeOrderStatment;
 	private PreparedStatement addOrderItemStatement;
 	private PreparedStatement getBookSoldInMonthStatement;
+	private PreparedStatement getStatisticStatement;
 	
 	private final int batchSize = 1000;
 	
@@ -62,7 +66,31 @@ public class OrderDAO {
 				+ "AND MONTH(citrus_order.otime)=? "
 				+ "GROUP BY citrus_book.bid, YEAR(citrus_order.otime), MONTH(citrus_order.otime) "
 				);
+		
+		this.getStatisticStatement = connection.prepareStatement("SELECT uname, temp.sazip as zip, COUNT(oid) as order_amount, SUM(oprice) as total_consumption "
+				+ "FROM citrus_user, citrus_order, citrus_shipping_address, "
+				+ "(SELECT SA.sauid , SA.sazip  FROM citrus_shipping_address SA WHERE SA.satime >= "
+				+ 		"(SELECT MAX(SA2.satime) FROM citrus_shipping_address SA2 WHERE SA.sauid=SA2.sauid)) temp "
+				+ "WHERE citrus_user.uid=temp.sauid "
+				+ "AND citrus_user.uid=citrus_order.ouid "
+				+ "AND citrus_shipping_address.sauid=citrus_user.uid "
+				+ "GROUP BY uid, uname, temp.sazip "
+				);
 	}
+	
+	
+	public synchronized List<UserStatisticBean> getStatistic() throws SQLException{
+		ResultSet results = getStatisticStatement.executeQuery();
+		List<UserStatisticBean> list = new ArrayList<UserStatisticBean>();
+		
+		while(results.next()) {
+			list.add(new UserStatisticBean(results.getString("uname"), results.getString("zip"), results.getInt("order_amount"), results.getInt("total_consumption")));
+		}
+		
+		
+		return list;
+	}
+	
 	
 	//get the books sold in year-month
 	public synchronized List<BookBean> getBookSoldInMonth(int year, int month)throws SQLException{
@@ -205,7 +233,7 @@ public class OrderDAO {
 			list.add(item1); list.add(item2); list.add(item3);
 			
 			testOrder.placeOrder(order1, list);
-			*/
+			
 			//System.out.println(testOrder.getOrdersByUser(3));
 			//System.out.println(testOrder.getItemsInOrder(order1.getId()));
 			System.out.println();
@@ -214,6 +242,14 @@ public class OrderDAO {
 			for(BookBean book: monthList) {
 				System.out.println(book);
 			}
+			*/
+			
+			List<UserStatisticBean> list = testOrder.getStatistic();
+			System.out.println(list.size());
+			for(UserStatisticBean u: list) {
+				System.out.println(u);
+			}
+			
 			
 			
 			
