@@ -13,6 +13,17 @@ public class BookBean {
 	private String image;
 	private double rating;
 	private int numberOfComment;
+	private int orderAmount;
+	
+	
+
+	public int getOrderAmount() {
+		return orderAmount;
+	}
+
+	public void setOrderAmount(int orderAmount) {
+		this.orderAmount = orderAmount;
+	}
 
 	public int getBookId() {
 		return bookId;
@@ -105,9 +116,9 @@ public class BookBean {
 	@Override
 	public String toString() {
 		return String.format(
-				"BookBean [bookId=%s, title=%s, price=%s, category=%s, categoryTitle=%s, isbn=%s, description=%s, amount=%s, image=%s, rating=%s, numberOfComment=%s]",
+				"BookBean [bookId=%s, title=%s, price=%s, category=%s, categoryTitle=%s, isbn=%s, description=%s, amount=%s, image=%s, rating=%s, numberOfComment=%s, orderAmount=%s]",
 				bookId, title, price, category, categoryTitle, isbn, description, amount, image, rating,
-				numberOfComment);
+				numberOfComment, orderAmount);
 	}
 
 	public BookBean(int bookId, String title, int price, int category, String categoryTitle, String isbn,
@@ -124,6 +135,23 @@ public class BookBean {
 		this.image = image;
 		this.rating = rating;
 		this.numberOfComment = numberOfComment;
+	}
+	
+	public BookBean(int bookId, String title, int price, int category, String categoryTitle, String isbn,
+			String description, int amount, String image, double rating, int numberOfComment, int orderAmount) {
+		super();
+		this.bookId = bookId;
+		this.title = title;
+		this.price = price;
+		this.category = category;
+		this.categoryTitle = categoryTitle;
+		this.isbn = isbn;
+		this.description = description;
+		this.amount = amount;
+		this.image = image;
+		this.rating = rating;
+		this.numberOfComment = numberOfComment;
+		this.orderAmount = orderAmount;
 	}
 
 	public BookBean(String title, int price, int category, String isbn, String description, int amount, String image) {
