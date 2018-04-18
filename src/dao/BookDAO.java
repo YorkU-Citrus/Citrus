@@ -78,7 +78,10 @@ public class BookDAO {
 				+ "`bdescription` as 'description', `bamount` as 'amount', `bimage` as 'image', "
 				+ "AVG(`cmtrate`) as 'rating', COUNT(`cmtid`) as 'number_comment', "
 				+ "SUM(oiamount) as order_amount "
-				+ "FROM citrus_book, citrus_order_item, citrus_category, citrus_comment "
+				+ "FROM citrus_book "
+				+ "LEFT JOIN citrus_category ON citrus_book.bcategory = citrus_category.cid "
+				+ "LEFT JOIN citrus_comment ON citrus_book.bid = citrus_comment.cmtbid, "
+				+ "citrus_order_item "
 				+ "Where citrus_book.bid=citrus_order_item.oibid "
 				+ "GROUP BY citrus_book.bid "
 				+ "ORDER BY order_amount DESC LIMIT ?");
@@ -279,7 +282,9 @@ public class BookDAO {
 			List<BookBean> allList = test.getBook(0, 4);
 			System.out.println(allList);
 			*/
-			System.out.println(test.getMostPopularBooks(2));
+			List<BookBean> topList = test.getMostPopularBooks(4);
+			System.out.println(topList.size());
+			System.out.println(topList);
 			
 
 		} catch (InstantiationException e) {
