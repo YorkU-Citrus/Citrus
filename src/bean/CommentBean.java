@@ -96,11 +96,10 @@ public class CommentBean {
 		this.status = status;
 	}
 
-	public CommentBean(int userId, Integer bookId, Timestamp timetamp, int rating, String content, String status) {
+	public CommentBean(int userId, Integer bookId, int rating, String content, String status) {
 		super();
 		this.userId = userId;
 		this.bookId = bookId;
-		this.timetamp = timetamp;
 		this.rating = rating;
 		this.content = content;
 		this.status = status;

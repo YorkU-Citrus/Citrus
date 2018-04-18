@@ -65,7 +65,7 @@
 			</div>
 			<div class="row spacing"></div>	
 			<c:choose>
-				<c:when test="${not empty purchased}">
+				<c:when test="${empty no_comment_permission}">
 
 			<div class="row">
 				<div class="width-full" >
@@ -80,10 +80,10 @@
 										(<span id="cmt-rate-display">0</span>/5)
 								</p> 
 								<hr/>
-								<textarea id="cmt-area"></textarea>
+								<textarea id="cmt-area" name="cmt-textarea"></textarea>
 								<hr/>
 								<input type="hidden" name="rate" id="cmt-rate-field" value="0"/>
-								<p><button type="submit" class="normal-button">Submit</button><span class="subtitle">You can post your comment only after you have purchased the book.</span></p> 
+								<p><button type="submit" class="normal-button">Submit</button><span class="subtitle"></span></p> 
 							</form>
 						</div>
 					</div>
@@ -117,7 +117,7 @@
 							<div class="special-outline">
 								<div class="description-content">
 										<hr/>
-										<p><span class="subtitle">You can post your comment only after you have purchased the book.</span></p> 
+										<p><span class="subtitle">${no_comment_permission}</span></p> 
 										<hr/>
 								</div>
 							</div>
