@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bean.UserBean;
 import core.User;
 import exception.CitrusFormException;
 
@@ -30,6 +31,11 @@ public class UserManagePage extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		UserBean user = (UserBean) request.getSession().getAttribute("user");
+		if (user.getRole().equals("MANAGER")) {
+			request.setAttribute("manager", "manager");
+		}
+		
 		if (request.getParameter("type") != null) {
 			if (request.getParameter("type").equals("shipping")) {
 				functionShipping(request, response);
@@ -46,6 +52,10 @@ public class UserManagePage extends HttpServlet {
 
 			} else if (request.getParameter("type").equals("comments")) {
 
+			} else if (request.getParameter("type").equals("signout")) {
+				request.getSession().setAttribute("user", null);
+				response.sendRedirect(request.getContextPath());
+				return;
 			}
 		}
 		// Default use Billing address
