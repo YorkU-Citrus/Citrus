@@ -13,6 +13,7 @@ import bean.BookBean;
 import bean.OrderBean;
 import bean.UserBean;
 import core.User;
+import dao.BookDAO;
 import dao.OrderDAO;
 import exception.CitrusFormException;
 
@@ -133,7 +134,7 @@ public class UserManagePage extends HttpServlet {
 
 		request.setAttribute("historyactive", "active");
 		try {
-			List<BookBean> list = null; // TODO: match
+			List<BookBean> list = BookDAO.getInstance().getMostPopularBooks(10);
 			request.setAttribute("top_list", list);	
 			request.setAttribute("message", String.format("You have submitted %d order(s).",list.size()));
 		} catch (Exception e) {

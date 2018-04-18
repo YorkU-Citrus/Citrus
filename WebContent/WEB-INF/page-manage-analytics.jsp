@@ -24,13 +24,12 @@
 											<p>
 												<strong>Rank #1</strong>
 												<br/>
-												<strong>Rank</strong>: <a href="#">My Youth Romantic Comedy Is Wrong, As I Expected, Vol. 2</a>
+												<strong>Title</strong>: <a href="item?id=${item.getBookId()}">${item.getTitle()}</a>
 												<br/>
 												<strong>Sold</strong>: 666
 												<br/>
 												<strong>Price</strong>: 666.66 CAD
-											</p>
-											
+											</p>											
 										</c:forEach>
 									</div>
 								</div>
