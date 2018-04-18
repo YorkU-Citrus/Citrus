@@ -13,6 +13,7 @@ public class UserBean {
 	private String hashedPassword;
 	private String salt;
 	private Timestamp lastActive; // Time Stamp
+	private String role;
 
 	// create an user from sign up
 	public UserBean(String name, String password) throws UnsupportedEncodingException, NoSuchAlgorithmException {
@@ -23,12 +24,13 @@ public class UserBean {
 	}
 
 	// get an user in database
-	public UserBean(Integer id, String name, String password, String salt, Timestamp timeStamp) {
+	public UserBean(Integer id, String name, String password, String salt, Timestamp timeStamp, String role) {
 		this.uid = id;
 		this.userName = name;
 		this.hashedPassword = password;
 		this.salt = salt;
 		this.lastActive = timeStamp;
+		this.role = role;
 	}
 
 	public boolean verifyPassword(String password) throws UnsupportedEncodingException, NoSuchAlgorithmException {
@@ -92,4 +94,13 @@ public class UserBean {
 	public void setLastActive(Timestamp lastActive) {
 		this.lastActive = lastActive;
 	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+	
 }

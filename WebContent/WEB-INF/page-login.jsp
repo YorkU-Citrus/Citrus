@@ -24,6 +24,10 @@
 						type="password" name="password" /><input type="hidden" name="formtype" value="login"/>
 					<button type="submit">GO</button>
 				</form>
+				<hr>
+						<div class="error-message">
+							<p>You don't have an account? <a href="register">Create a new account</a>.</p>
+						</div>
 			</div>
 		</div>
 	</div>

@@ -37,7 +37,7 @@ public class UserDAO{
 				+ "VALUES (NULL, ?, ?, ?, CURRENT_TIMESTAMP);");
 		
 		//updated, add salt
-		this.getUserByNameStatement = connection.prepareStatement("SELECT `uid` as 'id', `uname` as 'name', `upassword` as 'password',  `usalt` as 'salt', `ulastactive` as 'lastactive' "
+		this.getUserByNameStatement = connection.prepareStatement("SELECT `uid` as 'id', `uname` as 'name', `upassword` as 'password',  `usalt` as 'salt', `ulastactive` as 'lastactive', `urole` as 'role' "
 				+ "FROM `citrus_db`.`citrus_user` "
 				+ "WHERE `uname` = ?; ");
 				
@@ -80,7 +80,8 @@ public class UserDAO{
 					result.getString("name"),
 					result.getString("password"),
 					result.getString("salt"),
-					result.getTimestamp("lastactive")
+					result.getTimestamp("lastactive"),
+					result.getString("role")
 			);
 			
 		} else {
