@@ -16,14 +16,21 @@
 								<div class="special-outline side-content">
 									<h2 class="title-left form-title">Analytics: Books sold each month</h2>
 									<div class="description-content">
-										<c:forEach items="${monthly_list}" var="item">
-											<hr>
-											<p>
-												<span class="info-span"><strong>Year:</strong> ${item.getYear()}</span>
-												<span class="info-span"><strong>Month:</strong> ${item.getMonth()}</span>
-												<span class="info-span"><strong>Sold:</strong> ${item.getSalesVolumn()}</span>
-											</p>											
-										</c:forEach>
+									
+										<table style="width:100%" class="analytics-table">
+										  <tr>
+										    <th>Year</th>
+										    <th>Month</th> 
+										    <th>Sales Volume</th>
+										  </tr>
+											<c:forEach items="${monthly_list}" var="item">
+												<tr>
+													<td class="info-span">${item.getYear()}</td>
+													<td class="info-span">${item.getMonth()}</td>
+													<td class="info-span">${item.getSalesVolumn()}</td>
+												</tr>											
+											</c:forEach>
+										</table>
 									</div>
 								</div>
 								
@@ -32,19 +39,49 @@
 								<div class="special-outline side-content">
 									<h2 class="title-left form-title">Analytics: Top 10 Seller</h2>
 									<div class="description-content">
-										<p style="font-weight:100;">${message}</p>
-										<c:forEach items="${top_list}" var="item">
-											<hr>
-											<p>
-												<strong>Rank #${item.getRank()}</strong>
-												<br/>
-												<strong>Title</strong>: <a href="item?id=${item.getBookId()}">${item.getTitle()}</a>
-												<br/>
-												<strong>Sold</strong>: ${item.getOrderAmount()}
-												<br/>
-												<strong>Price</strong>: ${item.getPrice() /100} CAD
-											</p>											
+
+										<table style="width:100%" class="analytics-table">
+										  <tr>
+										    <th>Rank</th>
+										    <th>Title</th> 
+										    <th>Sales Volume</th>
+										    <th>Price</th>
+										  </tr>
+											<c:forEach items="${top_list}" var="item">
+												<tr>
+													<td class="info-span">#${item.getRank()}</td>
+													<td class="info-span"><a href="item?id=${item.getBookId()}">${item.getTitle()}</a></td>
+													<td class="info-span">${item.getOrderAmount()}</td>
+													<td class="info-span">${item.getPrice() /100} CAD</td>
+												</tr>											
+											</c:forEach>
+										</table>
+					
+									</div>
+								</div>
+								
+								
+								<div class="row spacing"></div>
+								
+								<div class="special-outline side-content">
+									<h2 class="title-left form-title">Analytics: Buyer Report</h2>
+									<div class="description-content">
+									<table style="width:100%" class="analytics-table">
+									  <tr>
+									    <th>User</th>
+									    <th>Postal Code</th> 
+									    <th>Number of Orders</th>
+									    <th>Total Consumption</th>
+									  </tr>
+										<c:forEach items="${buyer_list}" var="item">
+											<tr>
+												<td class="info-span">${item.getName()}</td>
+												<td class="info-span">${item.getPostalCode()}</td>
+												<td class="info-span">${item.getOrderAmount()}</td>
+												<td class="info-span">${item.getTotalConsumption()/ 100} CAD</td>
+											</tr>											
 										</c:forEach>
+									</table>
 									</div>
 								</div>
 								
@@ -54,7 +91,6 @@
 				</div>
 			</div>
 			<div class="row spacing"></div>	
-
 			<div class="row spacing" id="push-bottom"></div>
 			<div class="row spacing"></div>
 			<div class="row spacing"></div>

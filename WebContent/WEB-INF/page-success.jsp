@@ -9,11 +9,10 @@
 			<div class="row">
 				<div class="width-full side-content">
 					<div class="special-outline">
-							<h2 class="title-left"><i class="far fa-check-circle" style="color:#009688"></i> ${error}</h2>
+							<h2 class="title-left"><i class="far fa-check-circle" style="color:#009688"></i> ${information}</h2>
 						<div class="description-content">
-							<p>Please contact web master.</p>
 							<hr>
-							<p>${error_message}</p>
+							<p>${information_detail}.</p>
 							<p><br><br><br><br><br></p>
 						</div>
 					</div>

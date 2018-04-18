@@ -13,10 +13,12 @@ import bean.BookBean;
 import bean.MonthlyBean;
 import bean.OrderBean;
 import bean.UserBean;
+import bean.UserStatisticBean;
 import core.User;
 import dao.BookDAO;
 import dao.MonthlyDAO;
 import dao.OrderDAO;
+import dao.UserDAO;
 import exception.CitrusFormException;
 
 /**
@@ -140,8 +142,12 @@ public class UserManagePage extends HttpServlet {
 		try {
 			List<MonthlyBean> monthlyList = MonthlyDAO.getInstance().getSalesReport();
 			request.setAttribute("monthly_list", monthlyList);
+			
 			List<BookBean> topList = BookDAO.getInstance().getMostPopularBooks(10);
-			request.setAttribute("top_list", topList);	
+			request.setAttribute("top_list", topList);
+			
+			List<UserStatisticBean> buyerList = OrderDAO.getInstance().getBuyerStatistic();
+			request.setAttribute("buyer_list", buyerList);
 		} catch (Exception e) {
 			request.setAttribute("error", e.getMessage());
 			request.getRequestDispatcher("/WEB-INF/page-error.jsp").forward(request, response);

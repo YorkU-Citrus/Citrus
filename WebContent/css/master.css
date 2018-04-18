@@ -28,6 +28,9 @@ form {
 .clearfix{
 	clear: both;
 }
+table {
+	border-spacing: 0;
+}
 
 span.subtitle {
 	font-weight: 100;
@@ -78,6 +81,20 @@ span.subtitle {
 	pointer-events: none;
 }
 
+/*tables*/
+.analytics-table{
+	text-align: center;
+}
+.analytics-table tr:nth-child(even) {
+	background-color: #FFF9C4;
+}
+
+.analytics-table tr:nth-child(odd) {
+	background-color: #FFECB3;
+}
+.analytics-table tr:first-of-type {
+	background: #81D4FA;
+}
 /*Navigation*/
 img#logo-small {
 	margin-left: 10px;
