@@ -41,9 +41,6 @@ public class AddressDAO {
 	}
 	
 	public synchronized int addBillingAddress(BillingAddressBean billing) throws SQLException{
-		System.out.println(billing);
-		System.out.println(billing.getUserId());
-	
 		addBillingAddressStatement.setInt(1, billing.getUserId());
 		addBillingAddressStatement.setString(2, billing.getFirstName());
 		addBillingAddressStatement.setString(3, billing.getLastName());

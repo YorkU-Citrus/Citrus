@@ -38,7 +38,7 @@ public class OrderDAO {
 		this.getOrderByIdStatement = connection.prepareStatement("SELECT * FROM citrus_order WHERE oid=? ");
 		this.updateOrderStatement = connection.prepareStatement("UPDATE citrus_order SET ostatus=? WHERE oid=? ");
 		this.placeOrderStatment = connection.prepareStatement("INSERT INTO `citrus_order`(`oid`, `ouid`, `otime`, `ostatus`, `oprice`) "
-				+ "VALUES (NULL,?,CURRENT_TIMESTAMP,'PROCESSED',?)" , Statement.RETURN_GENERATED_KEYS);
+				+ "VALUES (NULL,?,CURRENT_TIMESTAMP,'ORDERED',?)" , Statement.RETURN_GENERATED_KEYS);
 		this.addOrderItemStatement = connection.prepareStatement("INSERT INTO `citrus_order_item`(`oiid`, `oioid`, `oibid`, `oiamount`) "
 				+ "VALUES (NULL, ?, ?, ?)");
 		this.getItemsInOrderStatement = connection.prepareStatement("SELECT * FROM citrus_order_item WHERE oioid=? ");

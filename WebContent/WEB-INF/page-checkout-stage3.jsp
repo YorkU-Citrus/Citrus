@@ -12,7 +12,7 @@
 					<div class="special-outline">
 					<c:choose>
 						<c:when test="${not empty error}">
-							<h2 class="title-left"><i class="fa-times-circle" style="color:red"></i> ${error}!</h2>
+							<h2 class="title-left"><i class="far fa-times-circle" style="color:red"></i> ${error}</h2>
 							<div class="description-content">
 								<p>Please try again or contact the manager.</p>
 								<p><br><br><br><br><br></p>
@@ -25,6 +25,19 @@
 								<p>Check other products if you love them.</p>
 								<p><br><br><br><br><br></p>
 							</div>
+							
+<script type="text/javascript">
+(function() {
+  document.addEventListener("DOMContentLoaded",
+  function(event) {
+      setCookie("cart", "", 100);
+  });
+  history.pushState(null, null, document.URL);
+  window.addEventListener('popstate', function () {
+      history.pushState(null, null, document.URL);
+  });
+})();
+</script>
 						</c:otherwise>
 					</c:choose>
 					</div>

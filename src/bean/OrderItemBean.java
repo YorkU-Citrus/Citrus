@@ -7,23 +7,27 @@ public class OrderItemBean {
 	private int bookId;
 	private int amount;
 	//private int price;
+	private BookBean book;
 
 	
 	public OrderItemBean(int orderId, int bookId, int amount ) {
-		super();
 		this.orderId = orderId;
 		this.bookId = bookId;
 		this.amount = amount;
 		
 	}
 
-	public OrderItemBean(int bookId, int amount ) {
-		super();
-		this.bookId = bookId;
-		this.amount = amount;
-		
+	public OrderItemBean(BookBean book, int amount ) {
+		this.bookId = book.getBookId();
+		this.book = book;
+		this.amount = amount;		
 	}
 	
+
+	public OrderItemBean(int bookId, int amount ) {
+		this.bookId = bookId;
+		this.amount = amount;		
+	}
 	
 	
 
@@ -31,8 +35,7 @@ public class OrderItemBean {
 	public String toString() {
 		return "OrderItemBean [orderId=" + orderId + ", bookId=" + bookId + ", amount=" + amount + "]";
 	}
-	
-	
+		
 
 	public int getId() {
 		return id;
@@ -61,6 +64,9 @@ public class OrderItemBean {
 		this.amount = amount;
 	}
 	
+	public BookBean getBook() {
+		return this.book;
+	}
 	
 
 }

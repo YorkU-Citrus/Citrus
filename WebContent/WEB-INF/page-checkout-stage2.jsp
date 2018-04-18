@@ -13,6 +13,14 @@
 				<div class="width-two-fourth">
 					<div class="special-outline side-content">
 						<h2 class="title-left form-title">Billing Information</h2>
+						<c:choose>
+							<c:when test="${not empty billing_error }">
+								<div class="payment-form message-box">
+									<span class="error"><i class="fas fa-exclamation-circle"></i>
+										${billing_error}</span>
+								</div>
+							</c:when>
+						</c:choose>
 						<div class="information-form payment-form">
 							<label for="firstname">First Name</label>
 							<input type="text" name="firstname" class="normal-textfield" value="${sessionScope.billing.getFirstName()}"/>
@@ -41,6 +49,14 @@
 				<div class="width-two-fourth" >
 					<div class="special-outline side-content">
 						<h2 class="title-left form-title">Shipping Address</h2>
+						<c:choose>
+							<c:when test="${not empty shipping_error }">
+								<div class="payment-form message-box">
+									<span class="error"><i class="fas fa-exclamation-circle"></i>
+										${shipping_error}</span>
+								</div>
+							</c:when>
+						</c:choose>
 						<div class="information-form payment-form">
 							<button>Same As Billing Address</button>
 							<label for="firstname-ship">First Name</label>
