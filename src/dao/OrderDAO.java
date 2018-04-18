@@ -79,7 +79,7 @@ public class OrderDAO {
 	}
 	
 	
-	public synchronized List<UserStatisticBean> getStatistic() throws SQLException{
+	public synchronized List<UserStatisticBean> getBuyerStatistic() throws SQLException{
 		ResultSet results = getStatisticStatement.executeQuery();
 		List<UserStatisticBean> list = new ArrayList<UserStatisticBean>();
 		
@@ -244,7 +244,7 @@ public class OrderDAO {
 			}
 			*/
 			
-			List<UserStatisticBean> list = testOrder.getStatistic();
+			List<UserStatisticBean> list = testOrder.getBuyerStatistic();
 			System.out.println(list.size());
 			for(UserStatisticBean u: list) {
 				System.out.println(u);

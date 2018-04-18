@@ -84,7 +84,7 @@ public class BookDAO {
 				+ "citrus_order_item "
 				+ "Where citrus_book.bid=citrus_order_item.oibid "
 				+ "GROUP BY citrus_book.bid "
-				+ "ORDER BY order_amount DESC LIMIT ?");
+				+ "ORDER BY order_amount DESC, bprice DESC LIMIT ?");
 		
 	}
 	

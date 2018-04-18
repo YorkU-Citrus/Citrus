@@ -21,7 +21,7 @@
 						<c:otherwise>
 							<h2 class="title-left"><i class="far fa-check-circle" style="color:#009688;"></i> Order Successfully Completed!</h2>
 							<div class="description-content">
-								<p>Your order has be proceed! Your shipment information will be updated immediately.</p>
+								<p>Your order has been proceed! Your shipment information will be updated immediately.</p>
 								<p>Check other products if you love them.</p>
 								<p><br><br><br><br><br></p>
 							</div>

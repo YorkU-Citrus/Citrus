@@ -12,7 +12,6 @@
 							<h2 class="title-left"><i class="far fa-times-circle" style="color:#FF5722;"></i> ${error}</h2>
 						<div class="description-content">
 							<hr>
-							<p>Please contact web master.</p>
 							<p>${error_message}</p>
 							<p><br><br><br><br><br></p>
 						</div>
