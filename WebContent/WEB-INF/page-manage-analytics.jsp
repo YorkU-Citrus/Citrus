@@ -18,17 +18,16 @@
 									<h2 class="title-left form-title">Analytics: Top 10 Seller</h2>
 									<div class="description-content">
 										<p style="font-weight:100;">${message}</p>
-										
 										<c:forEach items="${top_list}" var="item">
 											<hr>
 											<p>
-												<strong>Rank #1</strong>
+												<strong>Rank #${item.getRank()}</strong>
 												<br/>
 												<strong>Title</strong>: <a href="item?id=${item.getBookId()}">${item.getTitle()}</a>
 												<br/>
-												<strong>Sold</strong>: 666
+												<strong>Sold</strong>: ${item.getOrderAmount()}
 												<br/>
-												<strong>Price</strong>: 666.66 CAD
+												<strong>Price</strong>: ${item.getPrice() /100} CAD
 											</p>											
 										</c:forEach>
 									</div>

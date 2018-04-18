@@ -140,6 +140,7 @@ public class BookDAO {
 		
 		ResultSet result = getMostPopularBooksStatement.executeQuery();
 		List<BookBean> resultList = new ArrayList<BookBean>();
+		int rank = 1;
 		while (result.next()) {
 			resultList.add(new BookBean(
 					result.getInt("id"), 
@@ -153,7 +154,8 @@ public class BookDAO {
 					result.getString("image"),
 					result.getDouble("rating"),
 					result.getInt("number_comment"),
-					result.getInt("order_amount")
+					result.getInt("order_amount"),
+					rank ++
 			));
 		}
 		result.close();

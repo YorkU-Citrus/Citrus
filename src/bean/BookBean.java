@@ -14,9 +14,16 @@ public class BookBean {
 	private double rating;
 	private int numberOfComment;
 	private int orderAmount;
+	private int rank;
 	
-	
+	public int getRank() {
+		return rank;
+	}
 
+	public void setRank(int rank) {
+		this.rank = rank;
+	}
+	
 	public int getOrderAmount() {
 		return orderAmount;
 	}
@@ -152,6 +159,24 @@ public class BookBean {
 		this.rating = rating;
 		this.numberOfComment = numberOfComment;
 		this.orderAmount = orderAmount;
+	}
+	
+	public BookBean(int bookId, String title, int price, int category, String categoryTitle, String isbn,
+			String description, int amount, String image, double rating, int numberOfComment, int orderAmount, int rank) {
+		super();
+		this.bookId = bookId;
+		this.title = title;
+		this.price = price;
+		this.category = category;
+		this.categoryTitle = categoryTitle;
+		this.isbn = isbn;
+		this.description = description;
+		this.amount = amount;
+		this.image = image;
+		this.rating = rating;
+		this.numberOfComment = numberOfComment;
+		this.orderAmount = orderAmount;
+		this.rank = rank;
 	}
 
 	public BookBean(String title, int price, int category, String isbn, String description, int amount, String image) {

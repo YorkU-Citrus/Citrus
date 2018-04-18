@@ -49,8 +49,9 @@ public class UserManagePage extends HttpServlet {
 			} else if (request.getParameter("type").equals("history")) {
 				functionHistory(request, response);
 				return;
-			} else if (request.getParameter("type").equals("analytic")) {
-
+			} else if (request.getParameter("type").equals("analytics")) {
+				functionAnalytics(request, response);
+				return;
 			} else if (request.getParameter("type").equals("shipping")) {
 
 			} else if (request.getParameter("type").equals("products")) {
@@ -132,17 +133,16 @@ public class UserManagePage extends HttpServlet {
 	protected void functionAnalytics(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		request.setAttribute("historyactive", "active");
+		request.setAttribute("analyticsactive", "active");
 		try {
 			List<BookBean> list = BookDAO.getInstance().getMostPopularBooks(10);
 			request.setAttribute("top_list", list);	
-			request.setAttribute("message", String.format("You have submitted %d order(s).",list.size()));
 		} catch (Exception e) {
 			request.setAttribute("error", e.getMessage());
 			request.getRequestDispatcher("/WEB-INF/page-error.jsp").forward(request, response);
 			return;
 		}
-		request.getRequestDispatcher("/WEB-INF/page-manage-history.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/page-manage-analytics.jsp").forward(request, response);
 	}
 
 	/**
