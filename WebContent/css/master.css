@@ -95,6 +95,22 @@ span.subtitle {
 .analytics-table tr:first-of-type {
 	background: #81D4FA;
 }
+
+.comment-table tr:nth-child(even) {
+	background-color: #FFF9C4;
+}
+
+.comment-table tr:nth-child(even) td {
+	padding: 5px 10px;
+}
+
+.comment-table tr:nth-child(odd) {
+	background-color: #FFECB3;
+}
+
+.comment-table tr:nth-child(odd) td {
+	padding: 2px 10px;
+}
 /*Navigation*/
 img#logo-small {
 	margin-left: 10px;

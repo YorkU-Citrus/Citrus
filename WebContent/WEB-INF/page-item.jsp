@@ -52,11 +52,43 @@
 									<p>No Comment.</p>
 								</c:when>
 								<c:otherwise>
-									<c:forEach items="${comment_list}" var="item">	
-										<p><strong>${item.getUserName()}</strong> - <i class="far fa-clock"></i> ${item.getTimetamp()} - <i class="far fa-heart"></i> ${item.getRating()}/5</p> 
-										<p>${item.getContent()}</p>
-										<hr/>
-									</c:forEach>
+								
+								
+										<table style="width:100%" class="comment-table">
+											<c:forEach items="${comment_list}" var="item">
+												<tr>
+													<td class="info-span"><strong>${item.getUserName()}</strong></td>
+													<td class="info-span"><i class="far fa-clock"></i> ${item.getTimetamp()}</td>
+													<td class="info-span">
+														<span class="info-span info-star">
+															<c:choose>
+																<c:when test="${item.getRating() eq 1}">
+																<i class="fas fa-heart"></i><i class="far fa-heart"></i><i class="far fa-heart"></i><i class="far fa-heart"></i><i class="far fa-heart"></i>
+																</c:when>
+																<c:when test="${item.getRating() eq 2}">
+																<i class="fas fa-heart"></i><i class="fas fa-heart"></i><i class="far fa-heart"></i><i class="far fa-heart"></i><i class="far fa-heart"></i>
+																</c:when>
+																<c:when test="${item.getRating() eq 3}">
+																<i class="fas fa-heart"></i><i class="fas fa-heart"></i><i class="fas fa-heart"></i><i class="far fa-heart"></i><i class="far fa-heart"></i>
+																</c:when>
+																<c:when test="${item.getRating() eq 4}">
+																<i class="fas fa-heart"></i><i class="fas fa-heart"></i><i class="fas fa-heart"></i><i class="fas fa-heart"></i><i class="far fa-heart"></i>
+																</c:when>
+																<c:when test="${item.getRating() eq 5}">
+																<i class="fas fa-heart"></i><i class="fas fa-heart"></i><i class="fas fa-heart"></i><i class="fas fa-heart"></i><i class="fas fa-heart"></i>
+																</c:when>
+																<c:otherwise>
+																<i class="far fa-heart"></i><i class="far fa-heart"></i><i class="far fa-heart"></i><i class="far fa-heart"></i><i class="far fa-heart"></i>
+																</c:otherwise>
+															</c:choose>
+														</span>
+													</td>
+												</tr>
+												<tr>
+													<td class="info-span" colspan="3">${item.getContent()}</td>
+												</tr>								
+											</c:forEach>
+										</table>					
 								</c:otherwise>
 							</c:choose>
 						</div>
