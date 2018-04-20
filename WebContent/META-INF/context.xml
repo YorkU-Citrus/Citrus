@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context privileged="true" reloadable="true">
+	<WatchedResource>WEB-INF/web.xml</WatchedResource>
+	<Manager pathname="" />
+	<Resource name="jdbc/EECS" factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+		type="javax.sql.DataSource" driverClassName="org.mariadb.jdbc.Driver"
+		url="jdbc:mariadb://yukikaze.yuri.moe:3366/citrus_db" 
+		username="citrus_db" 
+		password="PGDHXSYjY2CMhDAh"/>
+	<ResourceLink global="jdbc/EECS" name="jdbc/EECS"
+		type="javax.sql.DataSource" />
+</Context>

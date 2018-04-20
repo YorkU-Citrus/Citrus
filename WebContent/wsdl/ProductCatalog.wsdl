@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://service" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://service" xmlns:intf="http://service" xmlns:tns1="http://bean" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://service" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://bean"/>
+   <element name="getProductInfo">
+    <complexType>
+     <sequence>
+      <element name="productId" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getProductInfoResponse">
+    <complexType>
+     <sequence>
+      <element name="getProductInfoReturn" type="tns1:BookBean"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+  <schema elementFormDefault="qualified" targetNamespace="http://bean" xmlns="http://www.w3.org/2001/XMLSchema">
+   <complexType name="BookBean">
+    <sequence>
+     <element name="amount" type="xsd:int"/>
+     <element name="bookId" type="xsd:int"/>
+     <element name="category" type="xsd:int"/>
+     <element name="categoryTitle" nillable="true" type="xsd:string"/>
+     <element name="description" nillable="true" type="xsd:string"/>
+     <element name="image" nillable="true" type="xsd:string"/>
+     <element name="isbn" nillable="true" type="xsd:string"/>
+     <element name="numberOfComment" type="xsd:int"/>
+     <element name="orderAmount" type="xsd:int"/>
+     <element name="price" type="xsd:int"/>
+     <element name="rank" type="xsd:int"/>
+     <element name="rating" type="xsd:double"/>
+     <element name="title" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="getProductInfoResponse">
+
+      <wsdl:part element="impl:getProductInfoResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getProductInfoRequest">
+
+      <wsdl:part element="impl:getProductInfo" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:portType name="ProductCatalog">
+
+      <wsdl:operation name="getProductInfo">
+
+         <wsdl:input message="impl:getProductInfoRequest" name="getProductInfoRequest"/>
+
+         <wsdl:output message="impl:getProductInfoResponse" name="getProductInfoResponse"/>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="ProductCatalogSoapBinding" type="impl:ProductCatalog">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="getProductInfo">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getProductInfoRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getProductInfoResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="ProductCatalogService">
+
+      <wsdl:port binding="impl:ProductCatalogSoapBinding" name="ProductCatalog">
+
+         <wsdlsoap:address location="http://localhost:8080/Citrus/services/ProductCatalog"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

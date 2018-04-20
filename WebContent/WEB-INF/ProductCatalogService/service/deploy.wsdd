@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Use this file to deploy some handlers/chains and services      --><!-- Two ways to do this:                                           --><!--   java org.apache.axis.client.AdminClient deploy.wsdd          --><!--      after the axis server is running                          --><!-- or                                                             --><!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   --><!--      from the same directory that the Axis engine runs         --><deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from ProductCatalogService WSDL service -->
+
+  <service name="ProductCatalog" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://service"/>
+      <parameter name="wsdlServiceElement" value="ProductCatalogService"/>
+      <parameter name="schemaQualified" value="http://bean,http://service"/>
+      <parameter name="wsdlServicePort" value="ProductCatalog"/>
+      <parameter name="className" value="service.ProductCatalog"/>
+      <parameter name="wsdlPortType" value="ProductCatalog"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation xmlns:operNS="http://service" xmlns:retNS="http://service" xmlns:rtns="http://bean" name="getProductInfo" qname="operNS:getProductInfo" returnQName="retNS:getProductInfoReturn" returnType="rtns:BookBean" soapAction="">
+        <parameter xmlns:pns="http://service" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:productId" type="tns:int"/>
+      </operation>
+      <parameter name="allowedMethods" value="getProductInfo"/>
+
+      <typeMapping xmlns:ns="http://bean" qname="ns:BookBean" type="java:bean.BookBean" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+  </service>
+</deployment>

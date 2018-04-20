@@ -76,7 +76,7 @@ public class BookDAO {
 		this.getMostPopularBooksStatement = connection.prepareStatement("SELECT " + "`bid` as 'id', `btitle` as 'title', `bprice` as 'price', "
 				+ "`cid` as 'category_id', `ctitle` as 'category_title', `bisbn` as 'isbn', "
 				+ "`bdescription` as 'description', `bamount` as 'amount', `bimage` as 'image', "
-				+ "AVG(`cmtrate`) as 'rating', COUNT(`cmtid`) as 'number_comment', "
+				+ "AVG(`cmtrate`) as 'rating', COUNT(distinct `cmtid`) as 'number_comment', "
 				+ "SUM(oiamount) as order_amount "
 				+ "FROM citrus_book "
 				+ "LEFT JOIN citrus_category ON citrus_book.bcategory = citrus_category.cid "
@@ -84,7 +84,7 @@ public class BookDAO {
 				+ "citrus_order_item "
 				+ "Where citrus_book.bid=citrus_order_item.oibid "
 				+ "GROUP BY citrus_book.bid "
-				+ "ORDER BY order_amount DESC LIMIT ?");
+				+ "ORDER BY order_amount DESC, bprice DESC LIMIT ?");
 		
 	}
 	
