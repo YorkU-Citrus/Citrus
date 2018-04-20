@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import core.User;
 import exception.CitrusFormException;
+import security.DataFilter;
 
 /**
  * Servlet implementation class UserRegisterPage
@@ -30,8 +31,9 @@ public class UserRegisterPage extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if (request.getParameter("formtype") != null) {
-			try {				
-				User.registerUser(request.getParameter("username"), request.getParameter("password"),  request.getParameter("repassword"), request);
+			try {		
+				// Removed the Possible injection
+				User.registerUser(DataFilter.removeHTMLTags(request.getParameter("username")), DataFilter.removeHTMLTags(request.getParameter("password")),  DataFilter.removeHTMLTags(request.getParameter("repassword")), request);
 				if (request.getParameter("checkout") != null) {
 					response.sendRedirect(request.getContextPath() + "/checkout");
 				}else {
