@@ -13,6 +13,7 @@ public class UserDAO{
 	 * Only one object per program.
 	 */
 	private static UserDAO instance = null;
+	private static Connection connection = null;
 
 	public static synchronized UserDAO getInstance()
 			throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
@@ -29,8 +30,12 @@ public class UserDAO{
 	private PreparedStatement updateUserStatement;
 	private PreparedStatement checkUserOrderBookStatement;
 	
-	protected UserDAO() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-		Connection connection = CitrusDAO.getInstance().getConnection();
+	protected UserDAO(){}
+	
+	public void checkConnection()  throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		if (connection == null || (!connection.isValid(0))) {
+			connection = CitrusDAO.getInstance().getConnection();
+		}
 		
 		//updated, add salt
 		this.insertUserStatement = connection.prepareStatement("INSERT "
@@ -52,7 +57,9 @@ public class UserDAO{
 	}
 	
 	//change password, refresh last active time stamp
-	public synchronized int updateUser(UserBean user) throws SQLException{
+	public synchronized int updateUser(UserBean user) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+		checkConnection();
+		
 		updateUserStatement.setString(1, user.getHashedPassword());
 		updateUserStatement.setString(2, user.getSalt());
 		updateUserStatement.setString(3, user.getUserName());
@@ -62,7 +69,9 @@ public class UserDAO{
 	}
 		
 	//Insert user
-	public synchronized int addUser(UserBean user) throws SQLException{
+	public synchronized int addUser(UserBean user) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+		checkConnection();
+		
 		
 		insertUserStatement.setString(1, user.getUserName());
 		insertUserStatement.setString(2, user.getHashedPassword());
@@ -72,7 +81,9 @@ public class UserDAO{
 		
 	}
 	
-	public synchronized UserBean getUserByName(String name) throws SQLException{
+	public synchronized UserBean getUserByName(String name) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+		checkConnection();
+		
 		getUserByNameStatement.setString(1, name);
 		ResultSet result = getUserByNameStatement.executeQuery();
 		
@@ -94,7 +105,9 @@ public class UserDAO{
 	
 	}
 	
-	public synchronized boolean checkUserOrderBook(int userId, int bookId) throws SQLException{
+	public synchronized boolean checkUserOrderBook(int userId, int bookId) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+		checkConnection();
+		
 		checkUserOrderBookStatement.setInt(1, userId);
 		checkUserOrderBookStatement.setInt(2, bookId);
 		

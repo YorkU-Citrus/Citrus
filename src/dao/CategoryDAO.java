@@ -13,6 +13,7 @@ import bean.CategoryBean;
 public class CategoryDAO {
 
 	private static CategoryDAO instance = null;
+	private static Connection connection = null;
 	
 	public static synchronized CategoryDAO getInstance()
 			throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
@@ -25,13 +26,20 @@ public class CategoryDAO {
 	private PreparedStatement getCategoryByIdStatement;
 	private PreparedStatement getCategoryStatement;
 	
-	protected CategoryDAO() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-		Connection connection = CitrusDAO.getInstance().getConnection();
+	protected CategoryDAO() {}
+	
+	public void checkConnection() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		if (connection == null || (!connection.isValid(0))) {
+			connection = CitrusDAO.getInstance().getConnection();
+		}
+		
 		this.getCategoryByIdStatement = connection.prepareStatement("SELECT * FROM citrus_category WHERE cid=?; ");
 		this.getCategoryStatement = connection.prepareStatement("SELECT * FROM citrus_category; ");
 	}
 	
-	public synchronized CategoryBean getCategoryById(int cid) throws SQLException{
+	public synchronized CategoryBean getCategoryById(int cid) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+		checkConnection();
+		
 		getCategoryByIdStatement.setInt(1, cid);
 		ResultSet result = getCategoryByIdStatement.executeQuery();
 		
@@ -47,7 +55,9 @@ public class CategoryDAO {
 		
 	}
 	
-	public synchronized List<CategoryBean> getCategory() throws SQLException{
+	public synchronized List<CategoryBean> getCategory() throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+		checkConnection();
+		
 		ResultSet resultSet = getCategoryStatement.executeQuery();
 		List<CategoryBean> list = new ArrayList<CategoryBean>();
 		while(resultSet.next()) {

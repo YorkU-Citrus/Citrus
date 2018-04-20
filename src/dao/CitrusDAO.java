@@ -108,10 +108,11 @@ public class CitrusDAO {
 	}
 	
 	public synchronized Connection getConnection() throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException  {
-		if ((this.db_connection == null ) || (this.db_connection.isClosed())) {
+		if ((this.db_connection == null ) || (!this.db_connection.isValid(0))) {
 			try {
 				DataSource source = (DataSource) (new InitialContext()).lookup("java:/comp/env/jdbc/EECS");
 				db_connection = source.getConnection();
+				db_connection.setAutoCommit(true);
 				System.out.println("Connection Pool Connect: For Production Environment Use");
 				
 			} catch (NamingException e) {

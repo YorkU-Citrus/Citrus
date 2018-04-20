@@ -8,8 +8,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sun.org.apache.bcel.internal.generic.Select;
-
 import bean.BookBean;
 import bean.OrderBean;
 import bean.OrderItemBean;
@@ -17,6 +15,7 @@ import bean.UserStatisticBean;
 
 public class OrderDAO {
 	private static OrderDAO instance = null;
+	private static Connection connection = null;
 	
 	public static synchronized OrderDAO getInstance()
 			throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
@@ -37,9 +36,12 @@ public class OrderDAO {
 	
 	private final int batchSize = 1000;
 	
-	protected OrderDAO() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-		Connection connection = CitrusDAO.getInstance().getConnection();
-		
+	protected OrderDAO(){}
+	
+	public void checkConnection() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		if (connection == null || (!connection.isValid(0))) {
+			connection = CitrusDAO.getInstance().getConnection();
+		}
 		this.getOrderByUserStatement = connection.prepareStatement("SELECT * FROM citrus_order WHERE ouid=? ");
 		this.getOrderByIdStatement = connection.prepareStatement("SELECT * FROM citrus_order WHERE oid=? ");
 		this.updateOrderStatement = connection.prepareStatement("UPDATE citrus_order SET ostatus=? WHERE oid=? ");
@@ -79,7 +81,9 @@ public class OrderDAO {
 	}
 	
 	
-	public synchronized List<UserStatisticBean> getBuyerStatistic() throws SQLException{
+	public synchronized List<UserStatisticBean> getBuyerStatistic() throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+		checkConnection();
+		
 		ResultSet results = getStatisticStatement.executeQuery();
 		List<UserStatisticBean> list = new ArrayList<UserStatisticBean>();
 		
@@ -93,7 +97,9 @@ public class OrderDAO {
 	
 	
 	//get the books sold in year-month
-	public synchronized List<BookBean> getBookSoldInMonth(int year, int month)throws SQLException{
+	public synchronized List<BookBean> getBookSoldInMonth(int year, int month)throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+		checkConnection();
+		
 		getBookSoldInMonthStatement.setInt(1, year);
 		getBookSoldInMonthStatement.setInt(2, month);
 		
@@ -120,7 +126,9 @@ public class OrderDAO {
 		return resultList;
 	}
 	
-	public synchronized List<OrderItemBean> getItemsInOrder(int orderId) throws SQLException	{
+	public synchronized List<OrderItemBean> getItemsInOrder(int orderId) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException	{
+		checkConnection();
+		
 		getItemsInOrderStatement.setInt(1, orderId);
 		ResultSet resultSet = getItemsInOrderStatement.executeQuery();
 		List<OrderItemBean> list = new ArrayList<OrderItemBean>();
@@ -134,7 +142,9 @@ public class OrderDAO {
 	
 	
 	//called by placeOrder()
-	private synchronized int addOrderItems(List<OrderItemBean> itemList) throws SQLException	{
+	private synchronized int addOrderItems(List<OrderItemBean> itemList) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException	{
+		checkConnection();
+		
 		int numItems = 0;
 		
 		for(OrderItemBean item: itemList) {
@@ -154,7 +164,9 @@ public class OrderDAO {
 		return numItems;
 	}
 	
-	public synchronized void placeOrder(OrderBean order, List<OrderItemBean> itemList) throws SQLException{
+	public synchronized void placeOrder(OrderBean order, List<OrderItemBean> itemList) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+		checkConnection();
+		
 		placeOrderStatment.setInt(1, order.getUserId());
 		placeOrderStatment.setInt(2, order.getTotalPrice());
 		
@@ -173,7 +185,9 @@ public class OrderDAO {
 		}
 	}
 	
-	public synchronized int updateOrderStatus(int orderId, String status) throws SQLException{
+	public synchronized int updateOrderStatus(int orderId, String status) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+		checkConnection();
+		
 		updateOrderStatement.setString(1, status);
 		updateOrderStatement.setInt(2, orderId);
 		
@@ -181,7 +195,9 @@ public class OrderDAO {
 	}
 	
 	
-	public synchronized OrderBean getOrderById(int orderId) throws SQLException{
+	public synchronized OrderBean getOrderById(int orderId) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+		checkConnection();
+		
 		getOrderByIdStatement.setInt(1, orderId);
 		ResultSet result = getOrderByIdStatement.executeQuery();
 		
@@ -198,7 +214,9 @@ public class OrderDAO {
 		}
 	}
 	
-	public synchronized List<OrderBean> getOrdersByUser(int userId) throws SQLException {
+	public synchronized List<OrderBean> getOrdersByUser(int userId) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+		checkConnection();
+		
 		getOrderByUserStatement.setInt(1, userId);
 		List<OrderBean> list = new ArrayList<OrderBean>();
 		ResultSet resultSet = getOrderByUserStatement.executeQuery();

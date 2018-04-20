@@ -12,6 +12,7 @@ import bean.BillingAddressBean;
 
 public class AddressDAO {
 	private static AddressDAO instance = null;
+	private static Connection connection = null;
 	
 	public static synchronized AddressDAO getInstance()
 			throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
@@ -26,8 +27,12 @@ public class AddressDAO {
 	private PreparedStatement getBillingAddressByUserStatement;
 	private PreparedStatement addBillingAddressStatement;
 	
-	protected AddressDAO() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-		Connection connection = CitrusDAO.getInstance().getConnection();
+	protected AddressDAO() {}
+	
+	public void checkConnection() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		if (connection == null || (!connection.isValid(0))) {
+			connection = CitrusDAO.getInstance().getConnection();
+		}
 		this.getShippingAddressByUserStatement = connection.prepareStatement("SELECT *  FROM `citrus_shipping_address` WHERE `sauid` = ? ORDER BY `satime` DESC LIMIT 1");
 		
 		this.addShippingAddressStatement = connection.prepareStatement("INSERT INTO `citrus_shipping_address`(`said`, `sauid`, `satime`, `safirst`, `salast`, `sastreet`, `saprovince`, `sacountry`, `sazip`) "
@@ -40,7 +45,9 @@ public class AddressDAO {
 				+ "VALUES (NULL, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?, ?)");
 	}
 	
-	public synchronized int addBillingAddress(BillingAddressBean billing) throws SQLException{
+	public synchronized int addBillingAddress(BillingAddressBean billing) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+		checkConnection();
+		
 		addBillingAddressStatement.setInt(1, billing.getUserId());
 		addBillingAddressStatement.setString(2, billing.getFirstName());
 		addBillingAddressStatement.setString(3, billing.getLastName());
@@ -58,7 +65,9 @@ public class AddressDAO {
 	
 	
 	//choose the latest address
-	public synchronized BillingAddressBean getBillingAddressByUser(int userId) throws SQLException{
+	public synchronized BillingAddressBean getBillingAddressByUser(int userId) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+		checkConnection();
+		
 		getBillingAddressByUserStatement.setInt(1, userId);		
 		ResultSet result = getBillingAddressByUserStatement.executeQuery();
 		
@@ -80,7 +89,9 @@ public class AddressDAO {
 	
 	
 	//choose the lastest address
-	public synchronized AddressBean getAddressByUser(int userId) throws SQLException{
+	public synchronized AddressBean getAddressByUser(int userId) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+		checkConnection();
+		
 		getShippingAddressByUserStatement.setInt(1, userId);
 		ResultSet result = getShippingAddressByUserStatement.executeQuery();
 		
@@ -101,7 +112,9 @@ public class AddressDAO {
 	}
 	
 	//add or update
-	public synchronized int addAddress(AddressBean address) throws SQLException {
+	public synchronized int addAddress(AddressBean address) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+		checkConnection();
+		
 		addShippingAddressStatement.setInt(1, address.getUserId());
 		addShippingAddressStatement.setString(2, address.getFirstName());
 		addShippingAddressStatement.setString(3, address.getLastName());

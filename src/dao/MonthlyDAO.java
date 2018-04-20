@@ -11,6 +11,7 @@ import bean.MonthlyBean;
 
 public class MonthlyDAO {
 	private static MonthlyDAO instance = null;
+	private static Connection connection = null;
 	
 	public static synchronized MonthlyDAO getInstance() throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 		if (instance == null) {
@@ -22,9 +23,12 @@ public class MonthlyDAO {
 	private PreparedStatement getSalesInMonthStatement;
 	private PreparedStatement getSalesReportStatement;
 	
-	protected MonthlyDAO() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-		Connection connection = CitrusDAO.getInstance().getConnection();
-		
+	protected MonthlyDAO() {}
+	
+	public void checkConnection() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		if (connection == null || (!connection.isValid(0))) {
+			connection = CitrusDAO.getInstance().getConnection();
+		}
 		this.getSalesInMonthStatement = connection.prepareStatement("SELECT YEAR(otime) as year, MONTH(otime) as month, SUM(oiamount) as sales "
 				+ "FROM citrus_order, citrus_order_item "
 				+ "WHERE citrus_order.oid=citrus_order_item.oioid "
@@ -40,8 +44,8 @@ public class MonthlyDAO {
 				);
 	}
 	
-	public synchronized List<MonthlyBean> getSalesReport() throws SQLException{
-		
+	public synchronized List<MonthlyBean> getSalesReport() throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+		checkConnection();
 		
 		ResultSet results = getSalesReportStatement.executeQuery();
 		List<MonthlyBean> list = new ArrayList<MonthlyBean>();
@@ -53,7 +57,9 @@ public class MonthlyDAO {
 		return list;
 	}
 	
-	public synchronized MonthlyBean getSalesInMonth(int year, int month) throws SQLException{
+	public synchronized MonthlyBean getSalesInMonth(int year, int month) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+		checkConnection();
+		
 		getSalesInMonthStatement.setInt(1, year);
 		getSalesInMonthStatement.setInt(2, month);
 		
