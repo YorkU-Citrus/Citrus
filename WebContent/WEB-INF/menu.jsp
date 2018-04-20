@@ -37,7 +37,7 @@
 				<div class="width-full">
 					<div id="header-slide">
 						<div class="img-box">
-							<img src="${pageContext.request.contextPath}/res/20180316235046.png" />
+							<a href="list?category=2" ><img src="${pageContext.request.contextPath}/res/20180316235046.png" /></a>
 						</div>
 					</div>
 				</div>

@@ -12,16 +12,16 @@
 					<div class="special-outline">
 					<c:choose>
 						<c:when test="${not empty error}">
-							<h2 class="title-left"><i class="far fa-times-circle" style="color:red"></i> ${error}</h2>
+							<h2 class="title-left"><i class="far fa-times-circle" style="color:#FF5722;"></i> ${error}</h2>
 							<div class="description-content">
 								<p>Please try again or contact the manager.</p>
 								<p><br><br><br><br><br></p>
 							</div>
 						</c:when>
 						<c:otherwise>
-							<h2 class="title-left"><i class="far fa-check-circle" style="color:green"></i> Order Successfully Completed!</h2>
+							<h2 class="title-left"><i class="far fa-check-circle" style="color:#009688;"></i> Order Successfully Completed!</h2>
 							<div class="description-content">
-								<p>Your order has be proceed! Your shipment information will be updated immediately.</p>
+								<p>Your order has been proceed! Your shipment information will be updated immediately.</p>
 								<p>Check other products if you love them.</p>
 								<p><br><br><br><br><br></p>
 							</div>

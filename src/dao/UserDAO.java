@@ -27,6 +27,7 @@ public class UserDAO{
 	private PreparedStatement insertUserStatement;
 	private PreparedStatement getUserByNameStatement;
 	private PreparedStatement updateUserStatement;
+	private PreparedStatement checkUserOrderBookStatement;
 	
 	protected UserDAO() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		Connection connection = CitrusDAO.getInstance().getConnection();
@@ -39,12 +40,14 @@ public class UserDAO{
 		//updated, add salt
 		this.getUserByNameStatement = connection.prepareStatement("SELECT `uid` as 'id', `uname` as 'name', `upassword` as 'password',  `usalt` as 'salt', `ulastactive` as 'lastactive', `urole` as 'role' "
 				+ "FROM `citrus_db`.`citrus_user` "
-				+ "WHERE `uname` = ?; ");
+				+ "WHERE `uname` = ? LIMIT 1; ");
 				
 		//updated, add salt
 		this.updateUserStatement = connection.prepareStatement("UPDATE `citrus_db`.`citrus_user` "
 				+ "SET `upassword`=?,  'usalt'=?, `ulastactive`=CURRENT_TIMESTAMP "
 				+ "WHERE `uname`=?; ");
+		
+		this.checkUserOrderBookStatement = connection.prepareStatement("SELECT * FROM `citrus_order` LEFT JOIN `citrus_order_item` ON `oid` = `oioid` WHERE `ouid` = ? AND `ostatus` = 'COMPLETED' AND `oibid` = ? LIMIT 1;");
 		
 	}
 	
@@ -89,6 +92,18 @@ public class UserDAO{
 		}
 		
 	
+	}
+	
+	public synchronized boolean checkUserOrderBook(int userId, int bookId) throws SQLException{
+		checkUserOrderBookStatement.setInt(1, userId);
+		checkUserOrderBookStatement.setInt(2, bookId);
+		
+		ResultSet result = checkUserOrderBookStatement.executeQuery();
+		if (result.next()) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 	
 	public static void main(String[] args) {
