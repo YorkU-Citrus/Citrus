@@ -48,7 +48,24 @@ public class ManagerPageFilter implements Filter {
 				request.setAttribute("error", "Please login!");
 				request.getRequestDispatcher("/WEB-INF/page-error.jsp").forward(request,response);
 				return;
-			}	
+			}
+			
+			if (user.getRole() != "MANAGER") {
+				//System.out.println(request.getParameter("type"));
+				if (
+						(request.getParameter("type") == null)||
+						(request.getParameter("type").equals("billing"))||
+						(request.getParameter("type").equals("shipping"))||
+						(request.getParameter("type").equals("history"))||
+						(request.getParameter("type").equals("signout"))
+					) {
+					// no problem
+				}else {
+					request.setAttribute("error", "You do not have permission.");
+					request.getRequestDispatcher("/WEB-INF/page-error.jsp").forward(request,response);
+					return;
+				}
+			}
 		}catch(Exception e) {
 			request.setAttribute("error", e.getMessage());
 			request.getRequestDispatcher("/WEB-INF/page-error.jsp").forward(request,response);
