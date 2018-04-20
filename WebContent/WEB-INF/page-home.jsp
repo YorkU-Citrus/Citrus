@@ -18,7 +18,7 @@
 						<div class="thumb-title">
 							<h4>${item.getTitle()}</h4>
 							<span class="info-span"><i class="far fa-heart"></i> ${item.getRating()}/5</span> 
-							<!-- <span class="info-span"><i class="far fa-comment"></i> ${item.getNumberOfComment()}</span> -->
+							<span class="info-span"><i class="far fa-comment"></i> ${item.getNumberOfComment()}</span>
 						</div>
 					</a>
 				</div>

@@ -17,6 +17,7 @@ import dao.BookDAO;
 import dao.CommentDAO;
 import dao.UserDAO;
 import exception.CitrusFormException;
+import security.DataFilter;
 
 /**
  * Servlet implementation class BookItemPage
@@ -58,11 +59,11 @@ public class BookItemPage extends HttpServlet {
 			if (request.getParameter("cmt-textarea") != null) {
 				UserBean user = (UserBean) request.getSession().getAttribute("user");
 				if (user == null) {
-					request.setAttribute("error", "Please login to continue!");
+					request.setAttribute("error", "Please <a href='login'>login</a> to continue!");
 					request.getRequestDispatcher("/WEB-INF/page-error.jsp").forward(request, response);
 					return;
 				}
-				CommentDAO.getInstance().addComment(new CommentBean(user.getUid(),data.getBookId(),Integer.parseInt(request.getParameter("rate")),request.getParameter("cmt-textarea"), "PUBLISH"));
+				CommentDAO.getInstance().addComment(new CommentBean(user.getUid(),data.getBookId(),Integer.parseInt(request.getParameter("rate")),DataFilter.removeHTMLTags(request.getParameter("cmt-textarea")), "PUBLISH"));
 
 				request.setAttribute("information", "Your comment has been posted!");
 				request.setAttribute("information-detail", "You will see you comment soon.");
@@ -80,7 +81,7 @@ public class BookItemPage extends HttpServlet {
 			// Permission to post comment
 			UserBean user = (UserBean) request.getSession().getAttribute("user");
 			if (user == null) {
-				request.setAttribute("no_comment_permission", "Please login to post the comment.");
+				request.setAttribute("no_comment_permission", "Please <a href='login'>login</a> to post the comment.");
 			}else if (!UserDAO.getInstance().checkUserOrderBook(user.getUid(), data.getBookId())) {
 				request.setAttribute("no_comment_permission", "You can post your comment only after you have purchased the book.");
 			}else {
