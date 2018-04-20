@@ -117,6 +117,10 @@ img#logo-small {
 	display: none;
 }
 
+#mainpage .img-box.thumb-img {
+	height: 300px;
+}
+
 #sub-title{
 	font-size: 16px;
 	font-weight: 300;
@@ -273,13 +277,13 @@ form#search .search-button:hover, form#search-ctn .search-button:hover{
 	padding: 5px;
 	background-color: rgba(0, 0, 0, 0.5411764705882353);
 	position: relative;
-	margin-top: -60px;
-	height: 60px;
+	margin-top: -120px;
+	height: 100px;
 	opacity: 0;
 	transition: opacity 0.5s;
 	-moz-transition: opacity 0.5s;
 	-webkit-transition: opacity 0.5s;
-	-o-transition: opacity 0.5s;	
+	-o-transition: opacity 0.5s;
 	color: rgba(255, 255, 255, 0.7994117647058824);
 }
 
@@ -548,6 +552,10 @@ button.checkout-btn {
 	form#search .search-text{
 		width: 140px;
 	}
+	#mainpage .img-box.thumb-img {
+		height: 250px;
+	}
+	
 }
 @media (max-width: 992px) {
 	.nav-menu li{
