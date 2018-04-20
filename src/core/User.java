@@ -12,6 +12,7 @@ import bean.UserBean;
 import dao.AddressDAO;
 import dao.UserDAO;
 import exception.CitrusFormException;
+import security.DataFilter;
 
 @Path("user")
 public class User {
@@ -22,8 +23,8 @@ public class User {
 	public String RestRegisterUser(@FormParam("username") String username, @FormParam("password") String password,
 			@FormParam("repassword") String repassword, @Context HttpServletRequest request) {
 		try {
-			registerUser(username, password, repassword, request);
-			return Json.createObjectBuilder().add("success", username).build().toString();
+			registerUser(DataFilter.removeHTMLTags(username), DataFilter.removeHTMLTags(password), DataFilter.removeHTMLTags(repassword), request);
+			return Json.createObjectBuilder().add("success", DataFilter.removeHTMLTags(username)).build().toString();
 		} catch (Exception e) {
 			return Json.createObjectBuilder().add("error", e.getMessage()).build().toString();
 		}
@@ -35,13 +36,13 @@ public class User {
 	public String RestUserLogin(@FormParam("username") String username, @FormParam("password") String password,
 			@Context HttpServletRequest request) {
 		try {
-			login(username, password, request);
-			return Json.createObjectBuilder().add("success", username).build().toString();
+			login(DataFilter.removeHTMLTags(username), DataFilter.removeHTMLTags(password), request);
+			return Json.createObjectBuilder().add("success", DataFilter.removeHTMLTags(username)).build().toString();
 		} catch (Exception e) {
 			return Json.createObjectBuilder().add("error", e.getMessage()).build().toString();
 		}
 	}
-
+	// Possible injection already removed in Upper classes.
 	public static void registerUser(String username, String password, String repassword, HttpServletRequest request)
 			throws CitrusFormException {
 		if ((username == null) || (username == "")) {
@@ -213,7 +214,6 @@ public class User {
 		if ((postalCode == null) || (postalCode == "")) {
 			throw new CitrusFormException("Postal code cannot be empty!");
 		}
-		
 		try {
 			AddressDAO dataSource = AddressDAO.getInstance();
 			HttpSession session = request.getSession(true);
