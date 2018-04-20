@@ -129,7 +129,7 @@
 
 		let onloadingbooks = false;
 		let offset = 0;
-		let request_url = "http://localhost:8080/Citrus/REST/book/";
+		let request_url = "${pageContext.request.contextPath}/REST/book/";
 
 		let search_keyword = "${js_search}"==="" ? null : "${js_search}";
 		let category_id = "${js_cat_id}"==="" ? null : "${js_cat_id}";

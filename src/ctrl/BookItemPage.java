@@ -82,7 +82,7 @@ public class BookItemPage extends HttpServlet {
 			if (user == null) {
 				request.setAttribute("no_comment_permission", "Please <a href='login'>login</a> to post the comment.");
 			}else if (!UserDAO.getInstance().checkUserOrderBook(user.getUid(), data.getBookId())) {
-				request.setAttribute("no_comment_permission", "You can post your comment only after you have purchased the book.");
+				request.setAttribute("no_comment_permission", "You can post your comment only after you have received the book (order in \"fulfilled\\\" status).");
 			}else {
 				
 			}
