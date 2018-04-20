@@ -17,11 +17,6 @@ import exception.CitrusFormException;
 
 @Path("user")
 public class User {
-	// To Check weather a country provided is valid or not.
-	private static final Set<String> ISO_COUNTRIES = new HashSet<String>(Arrays.asList(Locale.getDefault().getDisplayCountry()));
-	public static boolean isValidISOCountry(String s) {
-        return ISO_COUNTRIES.contains(s);  
-    }
 	@POST
 	@Path("/register/")
 	@Produces("application/json")
@@ -147,10 +142,6 @@ public class User {
 		if ((country == null) || (country == "")) {
 			throw new CitrusFormException("Country cannot be empty!");
 		}
-		if(!isValidISOCountry(country)) {
-			throw new CitrusFormException("Country provided is not a Valid Country");
-		}
-		
 		if ((postalCode == null) || (postalCode == "")) {
 			throw new CitrusFormException("Postal code cannot be empty!");
 		}
@@ -229,9 +220,6 @@ public class User {
 		}
 		if ((country == null) || (country == "")) {
 			throw new CitrusFormException("Country cannot be empty!");
-		}
-		if(!isValidISOCountry(country)) {
-			throw new CitrusFormException("Country provided is not a Valid Country");
 		}
 		if ((postalCode == null) || (postalCode == "")) {
 			throw new CitrusFormException("Postal code cannot be empty!");
