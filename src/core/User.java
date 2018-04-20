@@ -1,4 +1,4 @@
-package core;
+3package core;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Locale;
@@ -126,14 +126,14 @@ public class User {
 		if ((cardNumber == null) || (cardNumber == "")) {
 			throw new CitrusFormException("Credit card number cannot be empty!");
 		}
-		if ((cardNumber.length() != 14) && cardNumber.chars().allMatch(Character::isDigit)) {
+		if ((cardNumber.length() != 14) && !cardNumber.chars().allMatch(Character::isDigit)) {
 			throw new CitrusFormException("Credit card number should be of 14 digits and be of Type Number");
 		}
 		
 		if ((cvv == null) || (cvv == "")) {
 			throw new CitrusFormException("CVV cannot be empty!");
 		}
-		if((cvv.length() != 3) && (cvv.chars().allMatch(Character::isDigit))) {
+		if((cvv.length() != 3) && !(cvv.chars().allMatch(Character::isDigit))) {
 			throw new CitrusFormException("CVV should be of 3 digits and be of Type Number");
 		}
 		
