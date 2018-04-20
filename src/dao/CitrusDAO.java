@@ -8,6 +8,11 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.*;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
+import org.apache.tomcat.jdbc.pool.DataSource;
+
 public class CitrusDAO {
 
 	// Singleton
@@ -43,15 +48,25 @@ public class CitrusDAO {
 
 	// Constructor
 	protected CitrusDAO() throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
-		// Set up the DB connection.
-		// Register the driver with DriverManager.
-		Class.forName("org.mariadb.jdbc.Driver").newInstance();
+		try {
+			DataSource source = (DataSource) (new InitialContext()).lookup("java:/comp/env/jdbc/EECS");
+			db_connection = source.getConnection();
+			System.out.println("Connection Pool Connect: For Production Environment Use");
+			
+		} catch (NamingException e) {
+			e.printStackTrace();
+			System.out.println("Manually Connect: For Debug Use");
+			
+			// Set up the DB connection.
+			// Register the driver with DriverManager.
+			Class.forName("org.mariadb.jdbc.Driver").newInstance();
 
-		// initialize the connection
-		db_connection = DriverManager.getConnection(url, "citrus_db", "PGDHXSYjY2CMhDAh");
+			// initialize the connection
+			db_connection = DriverManager.getConnection(url, "citrus_db", "PGDHXSYjY2CMhDAh");
 
-		// turn on auto commit
-		db_connection.setAutoCommit(true);
+			// turn on auto commit
+			db_connection.setAutoCommit(true);
+		}
 	}
 
 	// Methods

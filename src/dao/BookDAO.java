@@ -34,7 +34,6 @@ public class BookDAO {
 	private PreparedStatement getBookBySearchStatement;
 	private PreparedStatement getBookStatement;
 	private PreparedStatement getMostPopularBooksStatement;
-	private PreparedStatement getBookSoldInMonthStatement;
 
 	protected BookDAO() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		Connection connection = CitrusDAO.getInstance().getConnection();
@@ -77,7 +76,7 @@ public class BookDAO {
 		this.getMostPopularBooksStatement = connection.prepareStatement("SELECT " + "`bid` as 'id', `btitle` as 'title', `bprice` as 'price', "
 				+ "`cid` as 'category_id', `ctitle` as 'category_title', `bisbn` as 'isbn', "
 				+ "`bdescription` as 'description', `bamount` as 'amount', `bimage` as 'image', "
-				+ "AVG(`cmtrate`) as 'rating', COUNT(`cmtid`) as 'number_comment', "
+				+ "AVG(`cmtrate`) as 'rating', COUNT(distinct `cmtid`) as 'number_comment', "
 				+ "SUM(oiamount) as order_amount "
 				+ "FROM citrus_book "
 				+ "LEFT JOIN citrus_category ON citrus_book.bcategory = citrus_category.cid "
@@ -85,53 +84,8 @@ public class BookDAO {
 				+ "citrus_order_item "
 				+ "Where citrus_book.bid=citrus_order_item.oibid "
 				+ "GROUP BY citrus_book.bid "
-				+ "ORDER BY order_amount DESC LIMIT ?");
+				+ "ORDER BY order_amount DESC, bprice DESC LIMIT ?");
 		
-		this.getBookSoldInMonthStatement = connection.prepareStatement("SELECT " + "`bid` as 'id', `btitle` as 'title', `bprice` as 'price', "
-				+ "`cid` as 'category_id', `ctitle` as 'category_title', `bisbn` as 'isbn', "
-				+ "`bdescription` as 'description', `bamount` as 'amount', `bimage` as 'image', "
-				+ "AVG(`cmtrate`) as 'rating', COUNT(`cmtid`) as 'number_comment', "
-				+ "SUM(oiamount) as order_amount, "
-				+ "YEAR(citrus_order.otime) as year, "
-				+ "MONTH(citrus_order.otime) as month "
-				+ "FROM citrus_book "
-				+ "LEFT JOIN citrus_category ON citrus_book.bcategory = citrus_category.cid "
-				+ "LEFT JOIN citrus_comment ON citrus_book.bid = citrus_comment.cmtbid, "
-				+ "citrus_order_item, citrus_order "
-				+ "Where citrus_book.bid=citrus_order_item.oibid "
-				+ "AND citrus_order.oid=citrus_order_item.oioid "
-				+ "AND YEAR(citrus_order.otime)=? "
-				+ "AND MONTH(citrus_order.otime)=? "
-				+ "GROUP BY citrus_book.bid, YEAR(citrus_order.otime), MONTH(citrus_order.otime) "
-				);
-	}
-
-	//get the books sold in year-month
-	public synchronized List<BookBean> getBookSoldInMonth(int year, int month)throws SQLException{
-		getBookSoldInMonthStatement.setInt(1, year);
-		getBookSoldInMonthStatement.setInt(2, month);
-		
-		ResultSet result = getBookSoldInMonthStatement.executeQuery();
-		List<BookBean> resultList = new ArrayList<BookBean>();
-		while (result.next()) {
-			resultList.add(new BookBean(
-					result.getInt("id"), 
-					result.getString("title"), 
-					result.getInt("price"),
-					result.getInt("category_id"), 
-					result.getString("category_title"),
-					result.getString("isbn"), 
-					result.getString("description"),
-					result.getInt("amount"), 
-					result.getString("image"),
-					result.getDouble("rating"),
-					result.getInt("number_comment"),
-					result.getInt("order_amount")
-			));
-		}
-		result.close();
-
-		return resultList;
 	}
 	
 	//get the TOP (int top) sold books
@@ -335,11 +289,11 @@ public class BookDAO {
 			//System.out.println(topList.size());
 			//System.out.println(topList);
 			
-			List<BookBean> monthList = test.getBookSoldInMonth(2018, 3);
-			System.out.println(monthList.size());
-			for(BookBean book: monthList) {
-				System.out.println(book);
-			}
+			//List<BookBean> monthList = test.getBookSoldInMonth(2018, 3);
+			//System.out.println(monthList.size());
+			//for(BookBean book: monthList) {
+			//	System.out.println(book);
+		//	}
 
 		} catch (InstantiationException e) {
 			e.printStackTrace();

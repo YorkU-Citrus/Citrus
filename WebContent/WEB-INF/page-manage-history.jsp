@@ -19,33 +19,38 @@
 									<div class="description-content">
 										<p style="font-weight:100;">${message}</p>
 										
-										<c:forEach items="${order_list}" var="item">											
-											<hr>
-											<p>
-												<strong>Order ID</strong>: ${item.getId()} &nbsp;&nbsp;&nbsp;&nbsp;
-												
-												<c:choose>
-													<c:when test="${item.getStatus() == 'COMPLETED'}">
-														<span style="color: #009688;"><i class="far fa-check-circle"></i> Fulfilled</span>
-													</c:when>
-													<c:when test="${item.getStatus() == 'SHIPPED'}">
-														<span style="color: #2196F3;"><i class="fas fa-shipping-fast"></i> Shipping</span>
-													</c:when>
-													<c:when test="${item.getStatus() == 'ORDERED'}">
-														<span style="color: #2196F3;"><i class="far fa-calendar-check"></i> Ordered</span>
-													</c:when>
-													<c:when test="${item.getStatus() == 'DENIED'}">
-														<span style="color: #FF5722;"><i class="far fa-times-circle"></i> Canceled</span>
-													</c:when>
-												</c:choose>
-												
-												<br/>
-												<strong>Order Time</strong>: ${item.getTimestamp()}
-												<br/>
-												<strong>Price</strong>: ${item.getTotalPrice() / 100} CAD
-											</p>
-											
-										</c:forEach>
+										<table style="width:100%" class="analytics-table">
+										  <tr>
+										    <th>Order ID</th>
+										    <th>Time</th> 
+										    <th>Price</th>
+										    <th>Status</th>
+										  </tr>
+											<c:forEach items="${order_list}" var="item">
+												<tr>
+													<td class="info-span">${item.getId()}</td>
+													<td class="info-span">${item.getTimestamp()}</td>
+													<td class="info-span">${item.getTotalPrice() / 100} CAD</td>
+													<td class="info-span">
+														<c:choose>
+															<c:when test="${item.getStatus() == 'COMPLETED'}">
+																<span style="color: #009688;"><i class="far fa-check-circle"></i> Fulfilled</span>
+															</c:when>
+															<c:when test="${item.getStatus() == 'SHIPPED'}">
+																<span style="color: #2196F3;"><i class="fas fa-shipping-fast"></i> Shipping</span>
+															</c:when>
+															<c:when test="${item.getStatus() == 'ORDERED'}">
+																<span style="color: #2196F3;"><i class="far fa-calendar-check"></i> Ordered</span>
+															</c:when>
+															<c:when test="${item.getStatus() == 'DENIED'}">
+																<span style="color: #FF5722;"><i class="far fa-times-circle"></i> Canceled</span>
+															</c:when>
+														</c:choose>
+													</td>
+												</tr>											
+											</c:forEach>
+										</table>
+										
 									</div>
 								</div>
 								

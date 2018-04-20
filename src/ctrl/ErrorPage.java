@@ -26,6 +26,8 @@ public class ErrorPage extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setAttribute("error", "404 Page Not Found");
+		request.setAttribute("error_message", "There is no such a web page on this website.");
 		request.getRequestDispatcher("/WEB-INF/page-error.jsp").forward(request,response);
 	}
 

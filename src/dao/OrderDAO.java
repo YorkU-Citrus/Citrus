@@ -8,8 +8,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sun.org.apache.bcel.internal.generic.Select;
+
+import bean.BookBean;
 import bean.OrderBean;
 import bean.OrderItemBean;
+import bean.UserStatisticBean;
 
 public class OrderDAO {
 	private static OrderDAO instance = null;
@@ -28,6 +32,8 @@ public class OrderDAO {
 	private PreparedStatement updateOrderStatement;
 	private PreparedStatement placeOrderStatment;
 	private PreparedStatement addOrderItemStatement;
+	private PreparedStatement getBookSoldInMonthStatement;
+	private PreparedStatement getStatisticStatement;
 	
 	private final int batchSize = 1000;
 	
@@ -42,6 +48,76 @@ public class OrderDAO {
 		this.addOrderItemStatement = connection.prepareStatement("INSERT INTO `citrus_order_item`(`oiid`, `oioid`, `oibid`, `oiamount`) "
 				+ "VALUES (NULL, ?, ?, ?)");
 		this.getItemsInOrderStatement = connection.prepareStatement("SELECT * FROM citrus_order_item WHERE oioid=? ");
+		
+		this.getBookSoldInMonthStatement = connection.prepareStatement("SELECT " + "`bid` as 'id', `btitle` as 'title', `bprice` as 'price', "
+				+ "`cid` as 'category_id', `ctitle` as 'category_title', `bisbn` as 'isbn', "
+				+ "`bdescription` as 'description', `bamount` as 'amount', `bimage` as 'image', "
+				+ "AVG(`cmtrate`) as 'rating', COUNT(`cmtid`) as 'number_comment', "
+				+ "SUM(oiamount) as order_amount, "
+				+ "YEAR(citrus_order.otime) as year, "
+				+ "MONTH(citrus_order.otime) as month "
+				+ "FROM citrus_book "
+				+ "LEFT JOIN citrus_category ON citrus_book.bcategory = citrus_category.cid "
+				+ "LEFT JOIN citrus_comment ON citrus_book.bid = citrus_comment.cmtbid, "
+				+ "citrus_order_item, citrus_order "
+				+ "Where citrus_book.bid=citrus_order_item.oibid "
+				+ "AND citrus_order.oid=citrus_order_item.oioid "
+				+ "AND YEAR(citrus_order.otime)=? "
+				+ "AND MONTH(citrus_order.otime)=? "
+				+ "GROUP BY citrus_book.bid, YEAR(citrus_order.otime), MONTH(citrus_order.otime) "
+				);
+		
+		this.getStatisticStatement = connection.prepareStatement("SELECT uname, temp.sazip as zip, COUNT(oid) as order_amount, SUM(oprice) as total_consumption "
+				+ "FROM citrus_user, citrus_order, citrus_shipping_address, "
+				+ "(SELECT SA.sauid , SA.sazip  FROM citrus_shipping_address SA WHERE SA.satime >= "
+				+ 		"(SELECT MAX(SA2.satime) FROM citrus_shipping_address SA2 WHERE SA.sauid=SA2.sauid)) temp "
+				+ "WHERE citrus_user.uid=temp.sauid "
+				+ "AND citrus_user.uid=citrus_order.ouid "
+				+ "AND citrus_shipping_address.sauid=citrus_user.uid "
+				+ "GROUP BY uid, uname, temp.sazip "
+				);
+	}
+	
+	
+	public synchronized List<UserStatisticBean> getBuyerStatistic() throws SQLException{
+		ResultSet results = getStatisticStatement.executeQuery();
+		List<UserStatisticBean> list = new ArrayList<UserStatisticBean>();
+		
+		while(results.next()) {
+			list.add(new UserStatisticBean(results.getString("uname"), results.getString("zip"), results.getInt("order_amount"), results.getInt("total_consumption")));
+		}
+		
+		
+		return list;
+	}
+	
+	
+	//get the books sold in year-month
+	public synchronized List<BookBean> getBookSoldInMonth(int year, int month)throws SQLException{
+		getBookSoldInMonthStatement.setInt(1, year);
+		getBookSoldInMonthStatement.setInt(2, month);
+		
+		ResultSet result = getBookSoldInMonthStatement.executeQuery();
+		List<BookBean> resultList = new ArrayList<BookBean>();
+		while (result.next()) {
+			resultList.add(new BookBean(
+					result.getInt("id"), 
+					result.getString("title"), 
+					result.getInt("price"),
+					result.getInt("category_id"), 
+					result.getString("category_title"),
+					result.getString("isbn"), 
+					result.getString("description"),
+					result.getInt("amount"), 
+					result.getString("image"),
+					result.getDouble("rating"),
+					result.getInt("number_comment"),
+					result.getInt("order_amount")
+			));
+		}
+		result.close();
+
+		return resultList;
 	}
 	
 	public synchronized List<OrderItemBean> getItemsInOrder(int orderId) throws SQLException	{
@@ -147,6 +223,7 @@ public class OrderDAO {
 			
 			//Delete entries in DB then try
 			OrderDAO testOrder = OrderDAO.getInstance();
+			/*
 			List<OrderItemBean> list = new ArrayList<OrderItemBean>();
 			
 			OrderBean order1 = new OrderBean(3, 12354);
@@ -157,8 +234,21 @@ public class OrderDAO {
 			
 			testOrder.placeOrder(order1, list);
 			
-			System.out.println(testOrder.getOrdersByUser(3));
-			System.out.println(testOrder.getItemsInOrder(order1.getId()));
+			//System.out.println(testOrder.getOrdersByUser(3));
+			//System.out.println(testOrder.getItemsInOrder(order1.getId()));
+			System.out.println();
+			List<BookBean> monthList = testOrder.getBookSoldInMonth(2018, 4);
+			System.out.println(monthList.size());
+			for(BookBean book: monthList) {
+				System.out.println(book);
+			}
+			*/
+			
+			List<UserStatisticBean> list = testOrder.getBuyerStatistic();
+			System.out.println(list.size());
+			for(UserStatisticBean u: list) {
+				System.out.println(u);
+			}
 			
 			
 			

@@ -10,12 +10,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import bean.BookBean;
+import bean.MonthlyBean;
 import bean.OrderBean;
 import bean.UserBean;
+import bean.UserStatisticBean;
 import core.User;
 import dao.BookDAO;
+import dao.MonthlyDAO;
 import dao.OrderDAO;
+import dao.UserDAO;
 import exception.CitrusFormException;
+import security.DataFilter;
 
 /**
  * Servlet implementation class UserManagePage
@@ -52,14 +57,15 @@ public class UserManagePage extends HttpServlet {
 			} else if (request.getParameter("type").equals("analytics")) {
 				functionAnalytics(request, response);
 				return;
-			} else if (request.getParameter("type").equals("shipping")) {
-
 			} else if (request.getParameter("type").equals("products")) {
-
+				functionProducts(request, response);
+				return;
 			} else if (request.getParameter("type").equals("orders")) {
-
+				functionOrders(request, response);
+				return;
 			} else if (request.getParameter("type").equals("comments")) {
-
+				functionComments(request, response);
+				return;
 			} else if (request.getParameter("type").equals("signout")) {
 				request.getSession().setAttribute("user", null);
 				response.sendRedirect(request.getContextPath());
@@ -75,12 +81,12 @@ public class UserManagePage extends HttpServlet {
 
 		request.setAttribute("billingactive", "active");
 		try {
-			//
+			// Removing Possible Injection
 			if (request.getParameter("formtype") != null) {
-				User.updateBillingInformation(request.getParameter("firstname"), request.getParameter("lastname"),
-						request.getParameter("creditcard"), request.getParameter("creditcard-password"),
-						request.getParameter("address"), request.getParameter("province"),
-						request.getParameter("country"), request.getParameter("pcode"), request);
+				User.updateBillingInformation(DataFilter.removeHTMLTags(request.getParameter("firstname")), DataFilter.removeHTMLTags(request.getParameter("lastname")),
+						DataFilter.removeHTMLTags(request.getParameter("creditcard")), DataFilter.removeHTMLTags(request.getParameter("creditcard-password")),
+						DataFilter.removeHTMLTags(request.getParameter("address")), DataFilter.removeHTMLTags(request.getParameter("province")),
+						DataFilter.removeHTMLTags(request.getParameter("country")), DataFilter.removeHTMLTags(request.getParameter("pcode")), request);
 				request.setAttribute("success", "Your information has been updated.");
 			}
 			User.loadBillingInformation(request);
@@ -98,9 +104,9 @@ public class UserManagePage extends HttpServlet {
 		try {
 			if (request.getParameter("formtype") != null) {
 				
-				User.updateShippingInformation(request.getParameter("firstname"), request.getParameter("lastname"), 
-						request.getParameter("address"), request.getParameter("province"), 
-						request.getParameter("country"), request.getParameter("pcode"), request);
+				User.updateShippingInformation(DataFilter.removeHTMLTags(request.getParameter("firstname")), DataFilter.removeHTMLTags(request.getParameter("lastname")), 
+						DataFilter.removeHTMLTags(request.getParameter("address")), DataFilter.removeHTMLTags(request.getParameter("province")), 
+						DataFilter.removeHTMLTags(request.getParameter("country")), DataFilter.removeHTMLTags(request.getParameter("pcode")), request);
 					request.setAttribute("success", "Your shipping information has been updated.");
 			}
 			User.loadShippingInformation(request);
@@ -135,14 +141,44 @@ public class UserManagePage extends HttpServlet {
 
 		request.setAttribute("analyticsactive", "active");
 		try {
-			List<BookBean> list = BookDAO.getInstance().getMostPopularBooks(10);
-			request.setAttribute("top_list", list);	
+			List<MonthlyBean> monthlyList = MonthlyDAO.getInstance().getSalesReport();
+			request.setAttribute("monthly_list", monthlyList);
+			
+			List<BookBean> topList = BookDAO.getInstance().getMostPopularBooks(10);
+			request.setAttribute("top_list", topList);
+			
+			List<UserStatisticBean> buyerList = OrderDAO.getInstance().getBuyerStatistic();
+			request.setAttribute("buyer_list", buyerList);
 		} catch (Exception e) {
 			request.setAttribute("error", e.getMessage());
 			request.getRequestDispatcher("/WEB-INF/page-error.jsp").forward(request, response);
 			return;
 		}
 		request.getRequestDispatcher("/WEB-INF/page-manage-analytics.jsp").forward(request, response);
+	}
+	
+
+
+	protected void functionProducts(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		request.setAttribute("productsactive", "active");
+		request.getRequestDispatcher("/WEB-INF/page-manage-products.jsp").forward(request, response);
+	}
+	
+
+	protected void functionOrders(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		request.setAttribute("ordersactive", "active");
+		request.getRequestDispatcher("/WEB-INF/page-manage-orders.jsp").forward(request, response);
+	}
+
+	protected void functionComments(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		request.setAttribute("commentsactive", "active");
+		request.getRequestDispatcher("/WEB-INF/page-manage-comments.jsp").forward(request, response);
 	}
 
 	/**
