@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import bean.CategoryBean;
 import dao.CategoryDAO;
 import exception.CitrusFormException;
+import security.DataFilter;
 
 /**
  * Servlet implementation class BookListPage
@@ -49,7 +50,7 @@ public class BookListPage extends HttpServlet {
 				request.setAttribute("js_cat_id", Integer.parseInt(request.getParameter("category")));				
 			}else if (request.getParameter("search") != null) {
 				// TODO: Need to filter out search keyword escaping HTML
-				String search_keyword = request.getParameter("search");
+				String search_keyword = DataFilter.removeHTMLTags(request.getParameter("search"));
 				request.setAttribute("note", String.format("Search using keyword [ <strong>%s</strong> ].", search_keyword));
 				request.setAttribute("js_search", search_keyword);
 			}
