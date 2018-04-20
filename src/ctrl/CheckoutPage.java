@@ -134,6 +134,33 @@ public class CheckoutPage extends HttpServlet {
 					return;
 				}
 				
+				// Check Credit Card
+				// IMPLEMENTED 3rd request denied
+				if (session.getAttribute("requirementG") == null) {
+					session.setAttribute("requirementG", 0);
+				}
+				session.setAttribute("requirementG", (int)session.getAttribute("requirementG") + 1);
+				if ((int)session.getAttribute("requirementG") % 3 == 0) {
+					request.setAttribute("billing_error", "Credit Card Authorization Faild");
+					request.getRequestDispatcher("/WEB-INF/page-checkout-stage2.jsp").forward(request,response);
+					return;
+				}
+				
+				
+				
+				
+				try {
+					User.updateShippingInformation(request.getParameter("firstname-ship"), request.getParameter("lastname-ship"), 
+							request.getParameter("addr1-ship"), request.getParameter("province-ship"), 
+							request.getParameter("country-ship"), request.getParameter("pcode-ship"), request);
+				}catch(CitrusFormException e) {		
+					request.setAttribute("total", String.format("%.2f",order.getTotalPrice()/100.0));
+					request.setAttribute("bill", order.receipt());
+					request.setAttribute("shipping_error", e.getMessage());
+					request.getRequestDispatcher("/WEB-INF/page-checkout-stage2.jsp").forward(request,response);
+					return;
+				}
+				
 				// process order
 				OrderDAO.getInstance().placeOrder(order, order.getOderList());
 				
