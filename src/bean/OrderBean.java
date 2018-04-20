@@ -5,12 +5,24 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name="orderType")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class OrderBean {
+	@XmlElement(name="orderId")
 	private int id;
+	@XmlElement(name="userId")
 	private int userId;
 	private Timestamp timestamp;
+	@XmlElement(name="status")
 	private String status;
+	@XmlElement(name="priceInCents")
 	private int totalPrice;
+	@XmlElement(name="items")
 	private List<OrderItemBean> list;
 	private int taxRate; // in percentage
 	

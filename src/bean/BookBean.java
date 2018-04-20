@@ -1,12 +1,22 @@
 package bean;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name="orderItemType")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class BookBean {
 	// bookId, title, price, bcat, isbn, dscpt, amount, image
 	private int bookId;
+	@XmlElement(name="amount")
 	private String title;
 	private int price;
 	private int category;
+	@XmlElement(name="category")
 	private String categoryTitle;
+	@XmlElement(name="isbn")
 	private String isbn;
 	private String description;
 	private int amount;
