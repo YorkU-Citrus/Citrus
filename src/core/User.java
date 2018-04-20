@@ -107,7 +107,7 @@ public class User {
 		}
 	}
 
-	public static void updateBillingInformation(String firstName, String lastName, String cardNumber, String cvv,
+	public static void updateBillingInformation(String firstName, String lastName, 
 			String address, String province, String country, String postalCode, HttpServletRequest request)
 			throws CitrusFormException {
 		if ((firstName == null) || (firstName == "")) {
@@ -115,12 +115,6 @@ public class User {
 		}
 		if ((lastName == null) || (lastName == "")) {
 			throw new CitrusFormException("Last name cannot be empty!");
-		}
-		if ((cardNumber == null) || (cardNumber == "")) {
-			throw new CitrusFormException("Credit card number cannot be empty!");
-		}
-		if ((cvv == null) || (cvv == "")) {
-			throw new CitrusFormException("CVV cannot be empty!");
 		}
 		if ((address == null) || (address == "")) {
 			throw new CitrusFormException("Address cannot be empty!");
@@ -142,7 +136,7 @@ public class User {
 				throw new CitrusFormException("Please login!");
 			}
 
-			BillingAddressBean data = new BillingAddressBean(user.getUid(), firstName, lastName, cardNumber, cvv,
+			BillingAddressBean data = new BillingAddressBean(user.getUid(), firstName, lastName,
 					address, province, country, postalCode);
 			dataSource.addBillingAddress(data);
 			

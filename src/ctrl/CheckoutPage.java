@@ -111,8 +111,8 @@ public class CheckoutPage extends HttpServlet {
 
 				// Update billing and shipping address
 				try {
+					//request.getParameter("creditcard"), request.getParameter("creditcard-password"),
 					User.updateBillingInformation(request.getParameter("firstname"), request.getParameter("lastname"),
-							request.getParameter("creditcard"), request.getParameter("creditcard-password"),
 							request.getParameter("addr1"), request.getParameter("province"),
 							request.getParameter("country"), request.getParameter("pcode"), request);
 				}catch(CitrusFormException e) {		

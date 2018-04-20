@@ -41,8 +41,8 @@ public class AddressDAO {
 		this.getBillingAddressByUserStatement = connection.prepareStatement("SELECT *  FROM `citrus_billing_address` WHERE `bauid` = ? ORDER BY `batime` DESC LIMIT 1");
 		
 		this.addBillingAddressStatement = connection.prepareStatement("INSERT INTO `citrus_billing_address`"
-				+ "(`baid`, `bauid`, `batime`, `bafirst`, `balast`, `bacredit`, `bacvv`, `bastreet`, `baprovince`, `bacountry`, `bazip`) "
-				+ "VALUES (NULL, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?, ?)");
+				+ "(`baid`, `bauid`, `batime`, `bafirst`, `balast`, `bastreet`, `baprovince`, `bacountry`, `bazip`) "
+				+ "VALUES (NULL, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?)");
 	}
 	
 	public synchronized int addBillingAddress(BillingAddressBean billing) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
@@ -51,12 +51,10 @@ public class AddressDAO {
 		addBillingAddressStatement.setInt(1, billing.getUserId());
 		addBillingAddressStatement.setString(2, billing.getFirstName());
 		addBillingAddressStatement.setString(3, billing.getLastName());
-		addBillingAddressStatement.setString(4, billing.getCredit());
-		addBillingAddressStatement.setString(5, billing.getCvv());
-		addBillingAddressStatement.setString(6, billing.getStreet());
-		addBillingAddressStatement.setString(7, billing.getProvince());
-		addBillingAddressStatement.setString(8, billing.getCountry());
-		addBillingAddressStatement.setString(9, billing.getZip());
+		addBillingAddressStatement.setString(4, billing.getStreet());
+		addBillingAddressStatement.setString(5, billing.getProvince());
+		addBillingAddressStatement.setString(6, billing.getCountry());
+		addBillingAddressStatement.setString(7, billing.getZip());
 		
 		
 		return addBillingAddressStatement.executeUpdate();
@@ -75,8 +73,6 @@ public class AddressDAO {
 			return new BillingAddressBean(result.getInt("bauid"), result.getTimestamp("batime"), 
 					result.getString("bafirst"), 
 					result.getString("balast"), 
-					result.getString("bacredit"), 
-					result.getString("bacvv"), 
 					result.getString("bastreet"), 
 					result.getString("baprovince"), 
 					result.getString("bacountry"), 
@@ -141,7 +137,7 @@ public class AddressDAO {
 			
 			//System.out.println(test.getAddressByUser(1));
 			
-			BillingAddressBean ba1 = new BillingAddressBean(3, new Timestamp(new Date().getTime()), " My dad ", "pays for me", "TD 11223344", "CVV", "Jane", "AN", "Wakada", "666 666");
+			BillingAddressBean ba1 = new BillingAddressBean(3, new Timestamp(new Date().getTime()), " My dad ", "pays for me", "Jane", "AN", "Wakada", "666 666");
 			//System.out.println(ba1);
 			
 			test.addBillingAddress(ba1);
