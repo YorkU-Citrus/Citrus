@@ -90,6 +90,7 @@ public class BookItemPage extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/page-item.jsp").forward(request, response);
 		} catch (CitrusFormException e) {
 			e.printStackTrace();
+			request.setAttribute("error", e.getMessage());
 			request.getRequestDispatcher("/WEB-INF/page-error.jsp").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();

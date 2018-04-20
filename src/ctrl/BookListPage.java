@@ -59,6 +59,8 @@ public class BookListPage extends HttpServlet {
 
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException | CitrusFormException e) {
 			e.printStackTrace();
+			request.setAttribute("error", e.getMessage());
+			request.getRequestDispatcher("/WEB-INF/page-error.jsp").forward(request, response);
 		}
 	}
 
