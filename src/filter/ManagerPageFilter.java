@@ -50,8 +50,8 @@ public class ManagerPageFilter implements Filter {
 				return;
 			}
 			
-			if (user.getRole() != "MANAGER") {
-				//System.out.println(request.getParameter("type"));
+			if (!user.getRole().equals("MANAGER")) {
+				//System.out.println(user.getRole());
 				if (
 						(request.getParameter("type") == null)||
 						(request.getParameter("type").equals("billing"))||

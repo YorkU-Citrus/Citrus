@@ -75,7 +75,7 @@
 									  </tr>
 										<c:forEach items="${buyer_list}" var="item">
 											<tr>
-												<td class="info-span">${item.getName()}</td>
+												<td class="info-span">${item.getUserAnnomizedName()}</td>
 												<td class="info-span">${item.getPostalCode()}</td>
 												<td class="info-span">${item.getOrderAmount()}</td>
 												<td class="info-span">${item.getTotalConsumption()/ 100} CAD</td>

@@ -26,6 +26,11 @@ public class UserStatisticBean {
 	public String getName() {
 		return name;
 	}
+
+	public String getUserAnnomizedName() {
+		return this.getName().charAt(0) + "****" + this.getName().charAt(this.getName().length() - 1);
+	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}
