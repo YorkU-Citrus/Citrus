@@ -20,6 +20,7 @@ import dao.MonthlyDAO;
 import dao.OrderDAO;
 import dao.UserDAO;
 import exception.CitrusFormException;
+import security.DataFilter;
 
 /**
  * Servlet implementation class UserManagePage
@@ -80,12 +81,12 @@ public class UserManagePage extends HttpServlet {
 
 		request.setAttribute("billingactive", "active");
 		try {
-			//
+			// Removing Possible Injection
 			if (request.getParameter("formtype") != null) {
-				User.updateBillingInformation(request.getParameter("firstname"), request.getParameter("lastname"),
-						request.getParameter("creditcard"), request.getParameter("creditcard-password"),
-						request.getParameter("address"), request.getParameter("province"),
-						request.getParameter("country"), request.getParameter("pcode"), request);
+				User.updateBillingInformation(DataFilter.removeHTMLTags(request.getParameter("firstname")), DataFilter.removeHTMLTags(request.getParameter("lastname")),
+						DataFilter.removeHTMLTags(request.getParameter("creditcard")), DataFilter.removeHTMLTags(request.getParameter("creditcard-password")),
+						DataFilter.removeHTMLTags(request.getParameter("address")), DataFilter.removeHTMLTags(request.getParameter("province")),
+						DataFilter.removeHTMLTags(request.getParameter("country")), DataFilter.removeHTMLTags(request.getParameter("pcode")), request);
 				request.setAttribute("success", "Your information has been updated.");
 			}
 			User.loadBillingInformation(request);
@@ -103,9 +104,9 @@ public class UserManagePage extends HttpServlet {
 		try {
 			if (request.getParameter("formtype") != null) {
 				
-				User.updateShippingInformation(request.getParameter("firstname"), request.getParameter("lastname"), 
-						request.getParameter("address"), request.getParameter("province"), 
-						request.getParameter("country"), request.getParameter("pcode"), request);
+				User.updateShippingInformation(DataFilter.removeHTMLTags(request.getParameter("firstname")), DataFilter.removeHTMLTags(request.getParameter("lastname")), 
+						DataFilter.removeHTMLTags(request.getParameter("address")), DataFilter.removeHTMLTags(request.getParameter("province")), 
+						DataFilter.removeHTMLTags(request.getParameter("country")), DataFilter.removeHTMLTags(request.getParameter("pcode")), request);
 					request.setAttribute("success", "Your shipping information has been updated.");
 			}
 			User.loadShippingInformation(request);
