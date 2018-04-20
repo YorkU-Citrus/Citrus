@@ -13,6 +13,7 @@ public class BookBean {
 	private String image;
 	private double rating;
 	private int numberOfComment;
+	
 	private int orderAmount;
 	private int rank;
 	
@@ -188,6 +189,10 @@ public class BookBean {
 		this.description = description;
 		this.amount = amount;
 		this.image = image;
+	}
+	
+	public BookBean() {
+		super();
 	}
 
 }
