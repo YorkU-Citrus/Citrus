@@ -6,19 +6,21 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name="orderItemType")
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlAccessorType(XmlAccessType.NONE)
 public class OrderItemBean {
 	//oiid, oioid, oibid, oiamount
 
 	private int id;
 	private int orderId;
 	private int bookId;
-	@XmlElement(name="amount")
-	private int amount;
-	//private int price;
 	@XmlElement(name="book")
 	private BookBean book;
+	@XmlElement(name="amount")
+	private int amount;
 
+	public OrderItemBean() {
+		
+	}
 	
 	public OrderItemBean(int orderId, int bookId, int amount ) {
 		this.orderId = orderId;

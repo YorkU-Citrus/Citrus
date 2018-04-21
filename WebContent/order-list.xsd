@@ -4,7 +4,7 @@
 	<xsd:element name="orderList" type="orderListType" />
 	<xsd:complexType name="orderListType">
 		<xsd:sequence>
-			<xsd:element name="orderList" minOccurs="0" maxOccurs="unbounded" type="orderType" />
+			<xsd:element name="order" minOccurs="0" maxOccurs="unbounded" type="orderType" />
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -27,7 +27,7 @@
 			<xsd:element name="status" type="xsd:string" />
 			<xsd:element name="priceInCents" type="xsd:string" />
 			<xsd:sequence>
-				<xsd:element name="items" type="orderItemType" />
+				<xsd:element name="item" minOccurs="0" maxOccurs="unbounded" type="orderItemType" />
 			</xsd:sequence>
 		</xsd:sequence>
 	</xsd:complexType>
@@ -49,7 +49,13 @@
 	<xsd:complexType name="bookType">
 		<xsd:sequence>
 			<xsd:element name="title" type="xsd:string" />
-			<xsd:element name="category" type="xsd:string" />
+			<xsd:element name="price">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:integer">
+						<xsd:minInclusive value="0" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
 			<xsd:element name="isbn" type="xsd:string" />
 		</xsd:sequence>
 	</xsd:complexType>
