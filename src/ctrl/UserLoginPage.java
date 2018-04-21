@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import core.User;
 import exception.CitrusFormException;
-import security.DataFilter;
 /**
  * Servlet implementation class UserLoginPage
  */
@@ -31,8 +30,7 @@ public class UserLoginPage extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if (request.getParameter("formtype") != null) {
 			try {
-				// Possible Injection Avoidance. Therefore no need to do this in USER.java
-				User.login(DataFilter.removeHTMLTags(request.getParameter("username")), DataFilter.removeHTMLTags(request.getParameter("password")), request);
+				User.login(request.getParameter("username"), request.getParameter("password"), request);
 				if (request.getParameter("checkout") != null) {
 					response.sendRedirect(request.getContextPath() + "/checkout");
 				}else {

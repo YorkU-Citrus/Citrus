@@ -22,9 +22,9 @@ public class DataFilter {
         Matcher m_html=p_html.matcher(htmlString); 
         htmlString=m_html.replaceAll("");  
 
-       return htmlString.trim(); //·µ»ØÎÄ±¾×Ö·û´® 
+       return htmlString.trim(); 
 	}
-	
+		
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
