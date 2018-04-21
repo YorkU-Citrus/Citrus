@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <jsp:include page="header.jsp" />
-	
+<script type="text/javascript" src="js/master.js"></script>	
 		<!--Content begin-->
 		<div class="container">
 			<div class="row spacing"></div>
@@ -58,7 +58,7 @@
 							</c:when>
 						</c:choose>
 						<div class="information-form payment-form">
-							<button>Same As Billing Address</button>
+							<button onclick="sameAsBillingAddress()">Same As Billing Address</button>
 							<label for="firstname-ship">First Name</label>
 							<input type="text" name="firstname-ship" class="normal-textfield" value="${sessionScope.shipping.getFirstName()}"/>
 							<label for="lastname-ship">Last Name</label>
