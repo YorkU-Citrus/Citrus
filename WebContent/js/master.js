@@ -22,12 +22,12 @@ function getCookie(cname) {
 }
 
 function sameAsBillingAddress(){
-	document.getElementsByName("firstname").innerHTML = document.getElementsByName("firstname-ship").innerHTML;
-	document.getElementsByName("lastname").innerHTML = document.getElementsByName("lastname-ship").innerHTML;
-	document.getElementsByName("addr1").innerHTML = document.getElementsByName("addr1-ship").innerHTML;
-	document.getElementsByName("province").innerHTML = document.getElementsByName("province-ship").innerHTML;
-	document.getElementsByName("country").innerHTML = document.getElementsByName("country-ship").innerHTML;
-	document.getElementsByName("pcode").innerHTML = document.getElementsByName("pcode-ship").innerHTML;
+	document.getElementsByName("firstname-ship").innerHTML = document.getElementsByName("firstname").innerHTML;
+	document.getElementsByName("lastname-ship").innerHTML = document.getElementsByName("lastname").innerHTML;
+	document.getElementsByName("addr1-ship").innerHTML = document.getElementsByName("addr1").innerHTML;
+	document.getElementsByName("province-ship").innerHTML = document.getElementsByName("province").innerHTML;
+	document.getElementsByName("country-ship").innerHTML = document.getElementsByName("country").innerHTML;
+	document.getElementsByName("pcode-ship").innerHTML = document.getElementsByName("pcode").innerHTML;
 
 }
 
