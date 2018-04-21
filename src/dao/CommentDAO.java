@@ -16,6 +16,7 @@ public class CommentDAO {
 	 * Only one object per program.
 	 */
 	private static CommentDAO instance = null;
+	private static Connection connection = null;
 
 	public static synchronized CommentDAO getInstance()
 			throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
@@ -31,8 +32,12 @@ public class CommentDAO {
 	private PreparedStatement updateCommentStatusStatement;
 	private PreparedStatement getCommentsByBookId;
 
-	protected CommentDAO() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-		Connection connection = CitrusDAO.getInstance().getConnection();
+	protected CommentDAO() {}
+	
+	public void checkConnection() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		if (connection == null || (!connection.isValid(0))) {
+			connection = CitrusDAO.getInstance().getConnection();
+		}
 		this.insertCommentStatement = connection.prepareStatement("INSERT "
 				+ "INTO `citrus_db`.`citrus_comment` (`cmtid`, `cmtuid`, `cmtbid`, `cmttime`, `cmtrate`, `cmtcontent`, `cmtstatus`) "
 				+ "VALUES (NULL, ?, ?, CURRENT_TIMESTAMP, ?, ?, ?);");
@@ -43,7 +48,9 @@ public class CommentDAO {
 	}
 
 	// Insert new comment
-	public synchronized int addComment(CommentBean comment) throws SQLException {
+	public synchronized int addComment(CommentBean comment) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+		checkConnection();
+		
 		// Execute
 		insertCommentStatement.setInt(1, comment.getUserId());
 		insertCommentStatement.setInt(2, comment.getBookId());
@@ -58,7 +65,9 @@ public class CommentDAO {
 	}
 	
 	// Update comments
-	public synchronized int updateCommentStatus(int commentId, String status) throws SQLException {
+	public synchronized int updateCommentStatus(int commentId, String status) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+		checkConnection();
+		
 		// Execute
 		updateCommentStatusStatement.setString(1, status);
 		updateCommentStatusStatement.setInt(2, commentId);
@@ -66,7 +75,9 @@ public class CommentDAO {
 	}
 	
 	// Get comments for a book
-	public synchronized List<CommentBean> getCommentByBookId(int bookId, String status, int offset, int limit) throws SQLException{
+	public synchronized List<CommentBean> getCommentByBookId(int bookId, String status, int offset, int limit) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+		checkConnection();
+		
 		// Execute
 		getCommentsByBookId.setInt(1, bookId);
 		getCommentsByBookId.setString(2, status);

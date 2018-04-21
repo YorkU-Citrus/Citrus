@@ -47,26 +47,7 @@ public class CitrusDAO {
 	public static final String url = "jdbc:mariadb://yukikaze.yuri.moe:3366/citrus_db";
 
 	// Constructor
-	protected CitrusDAO() throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
-		try {
-			DataSource source = (DataSource) (new InitialContext()).lookup("java:/comp/env/jdbc/EECS");
-			db_connection = source.getConnection();
-			System.out.println("Connection Pool Connect: For Production Environment Use");
-			
-		} catch (NamingException e) {
-			e.printStackTrace();
-			System.out.println("Manually Connect: For Debug Use");
-			
-			// Set up the DB connection.
-			// Register the driver with DriverManager.
-			Class.forName("org.mariadb.jdbc.Driver").newInstance();
-
-			// initialize the connection
-			db_connection = DriverManager.getConnection(url, "citrus_db", "PGDHXSYjY2CMhDAh");
-
-			// turn on auto commit
-			db_connection.setAutoCommit(true);
-		}
+	protected CitrusDAO(){
 	}
 
 	// Methods
@@ -126,7 +107,29 @@ public class CitrusDAO {
 		return effectedRow;
 	}
 	
-	public Connection getConnection() {
+	public synchronized Connection getConnection() throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException  {
+		if ((this.db_connection == null ) || (!this.db_connection.isValid(0))) {
+			try {
+				DataSource source = (DataSource) (new InitialContext()).lookup("java:/comp/env/jdbc/EECS");
+				db_connection = source.getConnection();
+				db_connection.setAutoCommit(true);
+				System.out.println("Connection Pool Connect: For Production Environment Use");
+				
+			} catch (NamingException e) {
+				e.printStackTrace();
+				System.out.println("Manually Connect: For Debug Use");
+				
+				// Set up the DB connection.
+				// Register the driver with DriverManager.
+				Class.forName("org.mariadb.jdbc.Driver").newInstance();
+
+				// initialize the connection
+				db_connection = DriverManager.getConnection(url, "citrus_db", "PGDHXSYjY2CMhDAh");
+
+				// turn on auto commit
+				db_connection.setAutoCommit(true);
+			}
+		}
 		return this.db_connection;
 	}
 

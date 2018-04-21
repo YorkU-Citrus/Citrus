@@ -21,36 +21,30 @@ public class BillingAddressBean {
 	private Timestamp timestamp;
 	private String firstName;
 	private String lastName;
-	private String credit;
-	private String cvv;
 	private String street;
 	private String province;
 	private String country;
 	private String zip;
 	
+	public BillingAddressBean() {
+		
+	}
 	
-	
-	public BillingAddressBean(int userId, Timestamp timestamp, String firstName, String lastName, String credit,
-			String cvv, String street, String province, String country, String zip) {
+	public BillingAddressBean(int userId, Timestamp timestamp, String firstName, String lastName,  String street, String province, String country, String zip) {
 		this.userId = userId;
 		this.timestamp = timestamp;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.credit = credit;
-		this.cvv = cvv;
 		this.street = street;
 		this.province = province;
 		this.country = country;
 		this.zip = zip;
 	}
 	
-	public BillingAddressBean(int userId, String firstName, String lastName, String credit,
-			String cvv, String street, String province, String country, String zip) {
+	public BillingAddressBean(int userId, String firstName, String lastName,  String street, String province, String country, String zip) {
 		this.userId = userId;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.credit = credit;
-		this.cvv = cvv;
 		this.street = street;
 		this.province = province;
 		this.country = country;
@@ -105,27 +99,6 @@ public class BillingAddressBean {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-
-
-	public String getCredit() {
-		return credit;
-	}
-
-
-	public void setCredit(String credit) {
-		this.credit = credit;
-	}
-
-
-	public String getCvv() {
-		return cvv;
-	}
-
-
-	public void setCvv(String cvv) {
-		this.cvv = cvv;
-	}
-
 
 	public String getStreet() {
 		return street;

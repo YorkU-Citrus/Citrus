@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name="orderType")
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlAccessorType(XmlAccessType.NONE)
 public class OrderBean {
 	@XmlElement(name="orderId")
 	private int id;
@@ -22,9 +22,14 @@ public class OrderBean {
 	private String status;
 	@XmlElement(name="priceInCents")
 	private int totalPrice;
-	@XmlElement(name="items")
+	@XmlElement(name="item")
 	private List<OrderItemBean> list;
 	private int taxRate; // in percentage
+	
+	
+	public OrderBean() {
+		
+	}
 	
 	public OrderBean(int id, int userId, Timestamp timestamp, String status, int totalPrice) {
 		this.id = id;
@@ -32,6 +37,7 @@ public class OrderBean {
 		this.timestamp = timestamp;
 		this.status = status;
 		this.totalPrice = totalPrice;
+		this.list = new ArrayList<OrderItemBean>();
 	}
 
 	public OrderBean(int userId) {
@@ -46,6 +52,7 @@ public class OrderBean {
 		this.timestamp = new Timestamp(new Date().getTime());
 		this.list = new ArrayList<OrderItemBean>();
 		this.totalPrice = total;
+		this.list = new ArrayList<OrderItemBean>();
 	}
 	
 	@Override

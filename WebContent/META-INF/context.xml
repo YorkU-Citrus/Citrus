@@ -6,7 +6,9 @@
 		type="javax.sql.DataSource" driverClassName="org.mariadb.jdbc.Driver"
 		url="jdbc:mariadb://yukikaze.yuri.moe:3366/citrus_db" 
 		username="citrus_db" 
-		password="PGDHXSYjY2CMhDAh"/>
+		password="PGDHXSYjY2CMhDAh"
+		validationQuery="SELECT 1"
+		validationInterval="5"/>
 	<ResourceLink global="jdbc/EECS" name="jdbc/EECS"
 		type="javax.sql.DataSource" />
 </Context>

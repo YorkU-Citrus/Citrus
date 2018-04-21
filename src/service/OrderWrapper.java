@@ -1,5 +1,6 @@
 package service;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,16 +10,22 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import bean.OrderBean;
+import dao.OrderDAO;
 
 
-@XmlRootElement(name="orderListType")
+@XmlRootElement(name="orderList")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class OrderWrapper {
 
-	@XmlElement	(name="orderList")
+	@XmlElement	(name="order")
 	public List<OrderBean> list;
 	
 	public OrderWrapper() {
-		this.list = new ArrayList<OrderBean>();
+		
+	}
+	
+	public OrderWrapper(long offset, long limit) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		this.list = OrderDAO.getInstance().getAllOrders(offset, limit);
+		//System.out.println(list);
 	}
 }

@@ -5,17 +5,17 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name="orderItemType")
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name="bookType")
+@XmlAccessorType(XmlAccessType.NONE)
 public class BookBean {
 	// bookId, title, price, bcat, isbn, dscpt, amount, image
 	private int bookId;
-	@XmlElement(name="amount")
+	@XmlElement(name="title")
 	private String title;
+	@XmlElement(name="price")
 	private int price;
-	private int category;
-	@XmlElement(name="category")
 	private String categoryTitle;
+	private int category;
 	@XmlElement(name="isbn")
 	private String isbn;
 	private String description;
@@ -203,6 +203,13 @@ public class BookBean {
 	
 	public BookBean() {
 		super();
+	}
+
+	public BookBean(int bookId, String title, int price, String isbn) {
+		this.bookId = bookId;
+		this.title = title;
+		this.price = price;
+		this.isbn = isbn;
 	}
 
 }

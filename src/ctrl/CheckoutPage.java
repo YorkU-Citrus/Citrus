@@ -112,10 +112,10 @@ public class CheckoutPage extends HttpServlet {
 				// Removed Possible injections
 				// Update billing and shipping address
 				try {
-					User.updateBillingInformation(DataFilter.removeHTMLTags(request.getParameter("firstname")), DataFilter.removeHTMLTags(request.getParameter("lastname")),
-							DataFilter.removeHTMLTags(request.getParameter("creditcard")), DataFilter.removeHTMLTags(request.getParameter("creditcard-password")),
-							DataFilter.removeHTMLTags(request.getParameter("addr1")), DataFilter.removeHTMLTags(request.getParameter("province")),
-							DataFilter.removeHTMLTags(request.getParameter("country")), DataFilter.removeHTMLTags(request.getParameter("pcode")), request);
+					//request.getParameter("creditcard"), request.getParameter("creditcard-password"),
+					User.updateBillingInformation(request.getParameter("firstname"), request.getParameter("lastname"),
+							request.getParameter("addr1"), request.getParameter("province"),
+							request.getParameter("country"), request.getParameter("pcode"), request);
 				}catch(CitrusFormException e) {		
 					request.setAttribute("total", String.format("%.2f",order.getTotalPrice()/100.0));
 					request.setAttribute("bill", order.receipt());
@@ -127,6 +127,33 @@ public class CheckoutPage extends HttpServlet {
 					User.updateShippingInformation(DataFilter.removeHTMLTags(request.getParameter("firstname-ship")), DataFilter.removeHTMLTags(request.getParameter("lastname-ship")), 
 							DataFilter.removeHTMLTags(request.getParameter("addr1-ship")), DataFilter.removeHTMLTags(request.getParameter("province-ship")), 
 							DataFilter.removeHTMLTags(request.getParameter("country-ship")), DataFilter.removeHTMLTags(request.getParameter("pcode-ship")), request);
+				}catch(CitrusFormException e) {		
+					request.setAttribute("total", String.format("%.2f",order.getTotalPrice()/100.0));
+					request.setAttribute("bill", order.receipt());
+					request.setAttribute("shipping_error", e.getMessage());
+					request.getRequestDispatcher("/WEB-INF/page-checkout-stage2.jsp").forward(request,response);
+					return;
+				}
+				
+				// Check Credit Card
+				// IMPLEMENTED 3rd request denied
+				if (session.getAttribute("requirementG") == null) {
+					session.setAttribute("requirementG", 0);
+				}
+				session.setAttribute("requirementG", (int)session.getAttribute("requirementG") + 1);
+				if ((int)session.getAttribute("requirementG") % 3 == 0) {
+					request.setAttribute("billing_error", "Credit Card Authorization Faild");
+					request.getRequestDispatcher("/WEB-INF/page-checkout-stage2.jsp").forward(request,response);
+					return;
+				}
+				
+				
+				
+				
+				try {
+					User.updateShippingInformation(request.getParameter("firstname-ship"), request.getParameter("lastname-ship"), 
+							request.getParameter("addr1-ship"), request.getParameter("province-ship"), 
+							request.getParameter("country-ship"), request.getParameter("pcode-ship"), request);
 				}catch(CitrusFormException e) {		
 					request.setAttribute("total", String.format("%.2f",order.getTotalPrice()/100.0));
 					request.setAttribute("bill", order.receipt());

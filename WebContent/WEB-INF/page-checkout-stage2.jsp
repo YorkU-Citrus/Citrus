@@ -29,9 +29,9 @@
 							<hr />
 							<span><strong>Credit Card Information</strong></span>
 							<label for="creditcard">Credit Car Number</label>
-							<input type="text" name="creditcard" class="normal-textfield" value="${sessionScope.billing.getCredit()}"/>
+							<input type="text" name="creditcard" class="normal-textfield" value=""/>
 							<label for="creditcard-password">CVV</label>
-							<input type="password" name="creditcard-password" class="normal-textfield" value="${sessionScope.billing.getCvv()}"/>
+							<input type="password" name="creditcard-password" class="normal-textfield" value=""/>
 							<hr />
 							<span><strong>Billing address</strong></span>
 							<label for="addr1">Address</label>
