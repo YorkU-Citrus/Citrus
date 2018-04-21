@@ -24,6 +24,7 @@ import dao.AddressDAO;
 import dao.BookDAO;
 import dao.OrderDAO;
 import exception.CitrusFormException;
+import security.DataFilter;
 
 /**
  * Servlet implementation class CheckoutPage
@@ -108,7 +109,7 @@ public class CheckoutPage extends HttpServlet {
 			if ((session.getAttribute("order") != null) && (request.getParameter("checkoutform") != null)) {
 				OrderBean order = (OrderBean) session.getAttribute("order");
 				//System.out.println(order.receipt());				
-
+				// Removed Possible injections
 				// Update billing and shipping address
 				try {
 					//request.getParameter("creditcard"), request.getParameter("creditcard-password"),
@@ -123,9 +124,9 @@ public class CheckoutPage extends HttpServlet {
 					return;	
 				}
 				try {
-					User.updateShippingInformation(request.getParameter("firstname-ship"), request.getParameter("lastname-ship"), 
-							request.getParameter("addr1-ship"), request.getParameter("province-ship"), 
-							request.getParameter("country-ship"), request.getParameter("pcode-ship"), request);
+					User.updateShippingInformation(DataFilter.removeHTMLTags(request.getParameter("firstname-ship")), DataFilter.removeHTMLTags(request.getParameter("lastname-ship")), 
+							DataFilter.removeHTMLTags(request.getParameter("addr1-ship")), DataFilter.removeHTMLTags(request.getParameter("province-ship")), 
+							DataFilter.removeHTMLTags(request.getParameter("country-ship")), DataFilter.removeHTMLTags(request.getParameter("pcode-ship")), request);
 				}catch(CitrusFormException e) {		
 					request.setAttribute("total", String.format("%.2f",order.getTotalPrice()/100.0));
 					request.setAttribute("bill", order.receipt());
