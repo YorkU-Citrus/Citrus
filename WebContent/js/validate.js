@@ -7,11 +7,11 @@ function isValidCountry(){
 	    		document.getElementById("countrylist").appendChild(z);
 	    }
 }
-function isValidProvince(input){
-	
-}
 function isValidCardNumber(){
-	
+	var input = document.getElementById("CVV").value;
+	if(isNaN(input)){
+		alert("Credit Card must be a number");
+	}
 }
 function isValidCVV(){
 	var input = document.getElementById("CVV").value;
@@ -19,8 +19,8 @@ function isValidCVV(){
 		alert("CVV must be a number");
 	}
 }
+// Postal Code of each code is different so Quite hard to generate Reg-ex
 function isValidPostalCode(input){
 	
 }
-
 window.onload = isValidCountry;
