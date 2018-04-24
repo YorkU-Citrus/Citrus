@@ -160,6 +160,30 @@ public class CheckoutPage extends HttpServlet {
 				
 				// Check Credit Card
 				// IMPLEMENTED 3rd request denied
+
+				try {
+					String creditcard = request.getParameter("creditcard");
+					String cvvcode = request.getParameter("creditcard-password");
+					if ((creditcard == null) || (creditcard == "")) {
+						throw new CitrusFormException("Please enter your credit card number");
+					}
+					if (!creditcard.matches("^[0-9]{16}$")) {
+						throw new CitrusFormException("Please enter a valid credit card number");
+					}
+					if ((cvvcode == null) || (cvvcode == "")) {
+						throw new CitrusFormException("Please enter your CVV number");
+					}
+					if (!cvvcode.matches("^[0-9]{3,4}$")) {
+						throw new CitrusFormException("Please enter a valid CVV number");
+					}
+				}catch(CitrusFormException e) {		
+					request.setAttribute("total", String.format("%.2f",order.getTotalPrice()/100.0));
+					request.setAttribute("bill", order.receipt());
+					request.setAttribute("billing_error", e.getMessage());
+					request.getRequestDispatcher("/WEB-INF/page-checkout-stage2.jsp").forward(request,response);
+					return;
+				}
+				
 				if (session.getAttribute("requirementG") == null) {
 					session.setAttribute("requirementG", 0);
 				}

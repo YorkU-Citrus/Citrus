@@ -137,21 +137,39 @@ public class User {
 		if ((firstName == null) || (firstName == "")) {
 			throw new CitrusFormException("First name cannot be empty!");
 		}
+		if (!firstName.matches("^[a-zA-Z\\'\\-\\_\\s]{2,20}$")) {
+			throw new CitrusFormException("Please enter a valid first name.");
+		} 
 		if ((lastName == null) || (lastName == "")) {
 			throw new CitrusFormException("Last name cannot be empty!");
 		}
+		if (!lastName.matches("^[a-zA-Z\\'\\-\\_\\s]{2,20}$")) {
+			throw new CitrusFormException("Please enter a valid last name.");
+		} 
 		if ((address == null) || (address == "")) {
 			throw new CitrusFormException("Address cannot be empty!");
 		}
+		if (!address.matches("^[a-zA-Z0-9\\(\\)\\'\\-\\_\\s]{2,20}$")) {
+			throw new CitrusFormException("Please enter a valid address.");
+		} 
 		if ((province == null) || (province == "")) {
 			throw new CitrusFormException("Provience cannot be empty!");
 		}
+		if (!province.matches("^[a-zA-Z0-9\\(\\)\\'\\-\\_\\s]{2,20}$")) {
+			throw new CitrusFormException("Please enter a valid province.");
+		} 
 		if ((country == null) || (country == "")) {
 			throw new CitrusFormException("country cannot be empty!");
 		}
+		if (!country.matches("^[a-zA-Z0-9\\(\\)\\'\\-\\_\\s]{2,20}$")) {
+			throw new CitrusFormException("Please enter a valid country.");
+		} 
 		if ((postalCode == null) || (postalCode == "")) {
 			throw new CitrusFormException("Postal code cannot be empty!");
 		}
+		if (!province.matches("^[a-zA-Z0-9\\(\\)\\'\\-\\_\\s]{2,20}$")) {
+			throw new CitrusFormException("Please enter a valid postal code.");
+		} 
 		try {
 			AddressDAO dataSource = AddressDAO.getInstance();
 			HttpSession session = request.getSession(true);
@@ -212,25 +230,42 @@ public class User {
 	public static void updateShippingInformation(String firstName, String lastName, String address, String province
 			, String country, String postalCode, HttpServletRequest request)
 			throws CitrusFormException {
-		
 		if ((firstName == null) || (firstName == "")) {
 			throw new CitrusFormException("First name cannot be empty!");
 		}
+		if (!firstName.matches("^[a-zA-Z\\'\\-\\_\\s]{2,20}$")) {
+			throw new CitrusFormException("Please enter a valid first name.");
+		} 
 		if ((lastName == null) || (lastName == "")) {
 			throw new CitrusFormException("Last name cannot be empty!");
 		}
+		if (!lastName.matches("^[a-zA-Z\\'\\-\\_\\s]{2,20}$")) {
+			throw new CitrusFormException("Please enter a valid last name.");
+		} 
 		if ((address == null) || (address == "")) {
-			throw new CitrusFormException("Address/street cannot be empty!");
+			throw new CitrusFormException("Address cannot be empty!");
 		}
+		if (!address.matches("^[a-zA-Z0-9\\(\\)\\'\\-\\_\\s]{2,20}$")) {
+			throw new CitrusFormException("Please enter a valid address.");
+		} 
 		if ((province == null) || (province == "")) {
-			throw new CitrusFormException("Province cannot be empty!");
+			throw new CitrusFormException("Provience cannot be empty!");
 		}
+		if (!province.matches("^[a-zA-Z0-9\\(\\)\\'\\-\\_\\s]{2,20}$")) {
+			throw new CitrusFormException("Please enter a valid province.");
+		} 
 		if ((country == null) || (country == "")) {
-			throw new CitrusFormException("Country cannot be empty!");
+			throw new CitrusFormException("country cannot be empty!");
 		}
+		if (!country.matches("^[a-zA-Z0-9\\(\\)\\'\\-\\_\\s]{2,20}$")) {
+			throw new CitrusFormException("Please enter a valid country.");
+		} 
 		if ((postalCode == null) || (postalCode == "")) {
 			throw new CitrusFormException("Postal code cannot be empty!");
 		}
+		if (!province.matches("^[a-zA-Z0-9\\(\\)\\'\\-\\_\\s]{2,20}$")) {
+			throw new CitrusFormException("Please enter a valid postal code.");
+		} 
 		try {
 			AddressDAO dataSource = AddressDAO.getInstance();
 			HttpSession session = request.getSession(true);
