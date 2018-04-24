@@ -34,6 +34,7 @@ public class OrderDAO {
 	private PreparedStatement getBookSoldInMonthStatement;
 	private PreparedStatement getStatisticStatement;
 	private PreparedStatement getAllOrdersStatement;
+	private PreparedStatement getOrderByBookStatement;
 
 	private final int batchSize = 1000;
 
@@ -79,9 +80,17 @@ public class OrderDAO {
 				+ "(SELECT * FROM `citrus_order` ORDER BY `oid` DESC LIMIT ?,?) as subq "
 				+ "LEFT JOIN `citrus_order_item` ON `oid` = `oioid` " + "LEFT JOIN `citrus_book` ON `oibid` = `bid` "
 				+ "LEFT JOIN `citrus_category` ON `bcategory` = `cid` " + "ORDER BY `oid` DESC " + "");
-
+		
+		this.getOrderByBookStatement = connection.prepareStatement("SELECT * "
+				+ "FROM citrus_order, citrus_order_item "
+				+ "WHERE citrus_order.oid=citrus_order_item.oioid AND citrus_order_item.oibid=? "
+				+ "GROUP BY citrus_order.oid, citrus_order.ouid, citrus_order.otime, citrus_order.ostatus, citrus_order.oprice "
+				+ "ORDER BY otime DESC "
+				+ "LIMIT ?,? ");
 	}
 
+	
+	
 	public synchronized List<UserStatisticBean> getBuyerStatistic()
 			throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 		checkConnection();
@@ -264,9 +273,22 @@ public class OrderDAO {
 		return list;
 	}
 	
-	public synchronized List<OrderBean> getOrderByBookId(int bookId, long offset, long limit){
-		// TODO
+	public synchronized List<OrderBean> getOrderByBookId(int bookId, long offset, long limit) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{
+		checkConnection();
+		
 		List<OrderBean> list = new ArrayList<OrderBean>();
+		
+		getOrderByBookStatement.setInt(1, bookId);
+		getOrderByBookStatement.setLong(2, offset);
+		getOrderByBookStatement.setLong(3, limit);
+		
+		ResultSet results = getOrderByBookStatement.executeQuery();
+		
+		while(results.next()) {
+			list.add(new OrderBean(results.getInt("oid"), results.getInt("ouid"), results.getTimestamp("otime"),
+					results.getString("ostatus"), results.getInt("oprice")));
+		}
+		results.close();
 		return list;
 	}
 
@@ -293,9 +315,9 @@ public class OrderDAO {
 			 * for(BookBean book: monthList) { System.out.println(book); }
 			 */
 
-			List<UserStatisticBean> list = testOrder.getBuyerStatistic();
+			List<OrderBean> list = testOrder.getOrderByBookId(18, 1, 3);
 			System.out.println(list.size());
-			for (UserStatisticBean u : list) {
+			for (OrderBean u : list) {
 				System.out.println(u);
 			}
 
