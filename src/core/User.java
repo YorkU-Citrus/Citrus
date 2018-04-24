@@ -23,7 +23,7 @@ public class User {
 	public String RestRegisterUser(@FormParam("username") String username, @FormParam("password") String password,
 			@FormParam("repassword") String repassword, @Context HttpServletRequest request) {
 		try {
-			registerUser(DataFilter.removeHTMLTags(username), DataFilter.removeHTMLTags(password), DataFilter.removeHTMLTags(repassword), request);
+			registerUser(username,password,repassword, request);
 			return Json.createObjectBuilder().add("success", DataFilter.removeHTMLTags(username)).build().toString();
 		} catch (Exception e) {
 			return Json.createObjectBuilder().add("error", e.getMessage()).build().toString();
@@ -36,27 +36,40 @@ public class User {
 	public String RestUserLogin(@FormParam("username") String username, @FormParam("password") String password,
 			@Context HttpServletRequest request) {
 		try {
-			login(DataFilter.removeHTMLTags(username), DataFilter.removeHTMLTags(password), request);
+			login(username,password, request);
 			return Json.createObjectBuilder().add("success", DataFilter.removeHTMLTags(username)).build().toString();
 		} catch (Exception e) {
 			return Json.createObjectBuilder().add("error", e.getMessage()).build().toString();
 		}
 	}
-	// Possible injection already removed in Upper classes.
+	
+	
 	public static void registerUser(String username, String password, String repassword, HttpServletRequest request)
 			throws CitrusFormException {
 		if ((username == null) || (username == "")) {
 			throw new CitrusFormException("User name cannot be empty!");
 		}
+		
+		if (!username.matches("^[a-z0-9\\-\\_]{3,20}$")) {
+			throw new CitrusFormException("User name should only consist of lowercase characters and numbers! <br/>Length should between 3 and 20.");
+		} 
+
 		if ((password == null) || (password == "")) {
 			throw new CitrusFormException("Password cannot be empty!");
 		}
+
+		if (!password.matches("^[a-zA-Z0-9\\-\\_\\.\\,]{6,20}$")) {
+			throw new CitrusFormException("You can only use characters, number and -_., for your password. <br/>Length should between 6 and 20.");
+		} 
+		
 		if ((repassword == null) || (repassword == "")) {
 			throw new CitrusFormException("Please retype password!");
 		}
+		
 		if (!repassword.equals(password)) {
 			throw new CitrusFormException("Two passwords are not the same!");
 		}
+		
 		try {
 			UserDAO dataSource = UserDAO.getInstance();
 			if (dataSource.getUserByName(username) == null) {
@@ -82,9 +95,19 @@ public class User {
 		if ((username == null) || (username == "")) {
 			throw new CitrusFormException("User name cannot be empty!");
 		}
+
+		if (!username.matches("^[a-z0-9\\-\\_]{3,20}$")) {
+			throw new CitrusFormException("User name should only consist of lowercase characters and numbers! <br/>Length should between 3 and 20.");
+		} 
+		
 		if ((password == null) || (password == "")) {
 			throw new CitrusFormException("Password cannot be empty!");
 		}
+
+		if (!password.matches("^[a-zA-Z0-9\\-\\_\\.\\,]{6,20}$")) {
+			throw new CitrusFormException("You can only use characters, number and -_., for your password. <br/>Length should between 6 and 20.");
+		} 
+		
 		try {
 			UserDAO dataSource = UserDAO.getInstance();
 			UserBean user = dataSource.getUserByName(username);
