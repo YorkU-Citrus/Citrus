@@ -71,10 +71,22 @@ public class CheckoutPage extends HttpServlet {
 				// load billing address
 				BillingAddressBean billingAddressData = AddressDAO.getInstance().getBillingAddressByUser(user.getUid());
 				session.setAttribute("billing", billingAddressData);
+				session.setAttribute("b_firstname", billingAddressData.getFirstName());
+				session.setAttribute("b_lastname", billingAddressData.getLastName());
+				session.setAttribute("b_address", billingAddressData.getStreet());
+				session.setAttribute("b_provience", billingAddressData.getProvince());
+				session.setAttribute("b_country", billingAddressData.getCountry());
+				session.setAttribute("b_postal", billingAddressData.getZip());
 				
 				// load shipping address
 				AddressBean shippingAddressData = AddressDAO.getInstance().getAddressByUser(user.getUid());	
 				session.setAttribute("shipping", shippingAddressData);	
+				session.setAttribute("s_firstname", shippingAddressData.getFirstName());
+				session.setAttribute("s_lastname", shippingAddressData.getLastName());
+				session.setAttribute("s_address", shippingAddressData.getStreet());
+				session.setAttribute("s_provience", shippingAddressData.getProvince());
+				session.setAttribute("s_country", shippingAddressData.getCountry());
+				session.setAttribute("s_postal", shippingAddressData.getZip());
 				
 				// Print out shipping cart for confirm
 				if (session.getAttribute("order") == null) {
@@ -107,11 +119,23 @@ public class CheckoutPage extends HttpServlet {
 			// SESSION["cart"] -> SESSION["order"]
 			if ((session.getAttribute("order") != null) && (request.getParameter("checkoutform") != null)) {
 				OrderBean order = (OrderBean) session.getAttribute("order");
-				//System.out.println(order.receipt());				
-				// Removed Possible injections
+
+				session.setAttribute("b_firstname", request.getParameter("firstname"));
+				session.setAttribute("b_lastname", request.getParameter("lastname"));
+				session.setAttribute("b_address", request.getParameter("addr1"));
+				session.setAttribute("b_provience", request.getParameter("province"));
+				session.setAttribute("b_country", request.getParameter("country"));
+				session.setAttribute("b_postal", request.getParameter("pcode"));
+				
+				session.setAttribute("s_firstname", request.getParameter("firstname-ship"));
+				session.setAttribute("s_lastname", request.getParameter("lastname-ship"));
+				session.setAttribute("s_address", request.getParameter("addr1-ship"));
+				session.setAttribute("s_provience", request.getParameter("province-ship"));
+				session.setAttribute("s_country", request.getParameter("country-ship"));
+				session.setAttribute("s_postal", request.getParameter("pcode-ship"));
+				
 				// Update billing and shipping address
 				try {
-					//request.getParameter("creditcard"), request.getParameter("creditcard-password"),
 					User.updateBillingInformation(request.getParameter("firstname"), request.getParameter("lastname"),
 							request.getParameter("addr1"), request.getParameter("province"),
 							request.getParameter("country"), request.getParameter("pcode"), request);

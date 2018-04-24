@@ -22,26 +22,24 @@
 							</c:when>
 						</c:choose>
 						<div class="information-form payment-form">
-							<label for="firstname">First Name</label>
-							<input type="text" name="firstname" class="normal-textfield" value="${sessionScope.billing.getFirstName()}"/>
-							<label for="lastname">First Name</label>
-							<input type="text" name="lastname" class="normal-textfield" value="${sessionScope.billing.getLastName()}"/>
-							<hr />
 							<span><strong>Credit Card Information</strong></span>
 							<label for="creditcard">Credit Car Number</label>
 							<input type="text" name="creditcard" class="normal-textfield" value=""/>
 							<label for="creditcard-password">CVV</label>
 							<input type="password" name="creditcard-password" class="normal-textfield" value=""/>
 							<hr />
-							<span><strong>Billing address</strong></span>
+							<label for="firstname">First Name</label>
+							<input type="text" name="firstname" class="normal-textfield" value="${sessionScope.b_firstname}"/>
+							<label for="lastname">Last Name</label>
+							<input type="text" name="lastname" class="normal-textfield" value="${sessionScope.b_lastname}"/>
 							<label for="addr1">Address</label>
-							<input type="text" name="addr1" class="normal-textfield" value="${sessionScope.billing.getStreet()}"/>
+							<input type="text" name="addr1" class="normal-textfield" value="${sessionScope.b_address}"/>
 							<label for="province">Province</label>
-							<input type="text" name="province" class="normal-textfield" value="${sessionScope.billing.getProvince()}"/>
+							<input type="text" name="province" class="normal-textfield" value="${sessionScope.b_provience}"/>
 							<label for="country">Country</label>
-							<input type="text" name="country" class="normal-textfield" value="${sessionScope.billing.getCountry()}"/>
+							<input type="text" name="country" class="normal-textfield" value="${sessionScope.b_country}"/>
 							<label for="pcode">Postal Code</label>
-							<input type="text" name="pcode" class="normal-textfield" value="${sessionScope.billing.getZip()}"/>
+							<input type="text" name="pcode" class="normal-textfield" value="${sessionScope.b_postal}"/>
 							<div class="clearfix"></div>
 						</div>
 					</div>
@@ -60,17 +58,17 @@
 						<div class="information-form payment-form">
 							<button>Same As Billing Address</button>
 							<label for="firstname-ship">First Name</label>
-							<input type="text" name="firstname-ship" class="normal-textfield" value="${sessionScope.shipping.getFirstName()}"/>
+							<input type="text" name="firstname-ship" class="normal-textfield" value="${sessionScope.s_firstname}"/>
 							<label for="lastname-ship">Last Name</label>
-							<input type="text" name="lastname-ship" class="normal-textfield" value="${sessionScope.shipping.getLastName()}"/>
+							<input type="text" name="lastname-ship" class="normal-textfield" value="${sessionScope.s_lastname}"/>
 							<label for="addr1-ship">Address</label>
-							<input type="text" name="addr1-ship" class="normal-textfield" value="${sessionScope.shipping.getStreet()}"/>
+							<input type="text" name="addr1-ship" class="normal-textfield" value="${sessionScope.s_address}"/>
 							<label for="province-ship">Province</label>
-							<input type="text" name="province-ship" class="normal-textfield" value="${sessionScope.shipping.getProvince()}"/>
+							<input type="text" name="province-ship" class="normal-textfield" value="${sessionScope.s_provience}"/>
 							<label for="country-ship">Country</label>
-							<input type="text" name="country-ship" class="normal-textfield" value="${sessionScope.shipping.getCountry()}"/>
+							<input type="text" name="country-ship" class="normal-textfield" value="${sessionScope.s_country}"/>
 							<label for="pcode-ship">Postal Code</label>
-							<input type="text" name="pcode-ship" class="normal-textfield" value="${sessionScope.shipping.getZip()}"/>
+							<input type="text" name="pcode-ship" class="normal-textfield" value="${sessionScope.s_postal}"/>
 							<div class="clearfix"></div>
 						</div>
 					</div>
