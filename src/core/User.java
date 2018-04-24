@@ -1,4 +1,4 @@
-3package core;
+package core;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Locale;
