@@ -30,7 +30,9 @@ public class OrderProcess {
 	@GET
 	@Path("/")
 	@Produces("text/xml")
-	public String getOrderByPartNumber(@DefaultValue("0") @QueryParam("offset") long offset,
+	public String getOrderByPartNumber(
+			@QueryParam("partNumber") int partNumber,
+			@DefaultValue("0") @QueryParam("offset") long offset,
 			@DefaultValue("65536") @QueryParam("limit") long limit)
 			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, JAXBException,
 			SAXException {
@@ -38,7 +40,7 @@ public class OrderProcess {
 		String xsdPath = actualPath + "order-list.xsd";
 		// System.out.println(String.format("Hello, world! \nActual path: %s",
 		// actualPath));
-		OrderWrapper data = new OrderWrapper(offset, limit);
+		OrderWrapper data = new OrderWrapper(partNumber, offset, limit);
 
 		// Create a context
 		JAXBContext jaxbContext = JAXBContext.newInstance(OrderWrapper.class); // instantiate a context

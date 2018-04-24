@@ -23,8 +23,8 @@ public class OrderWrapper {
 		
 	}
 	
-	public OrderWrapper(long offset, long limit) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-		this.list = OrderDAO.getInstance().getAllOrders(offset, limit);
+	public OrderWrapper(int partNumber, long offset, long limit) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		this.list = OrderDAO.getInstance().getOrderByBookId(partNumber, offset, limit);
 		//System.out.println(list);
 	}
 }

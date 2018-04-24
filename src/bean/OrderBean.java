@@ -22,7 +22,6 @@ public class OrderBean {
 	private String status;
 	@XmlElement(name="priceInCents")
 	private int totalPrice;
-	@XmlElement(name="item")
 	private List<OrderItemBean> list;
 	private int taxRate; // in percentage
 	
@@ -53,6 +52,11 @@ public class OrderBean {
 		this.list = new ArrayList<OrderItemBean>();
 		this.totalPrice = total;
 		this.list = new ArrayList<OrderItemBean>();
+	}
+	
+	@XmlElement(name="timestamp")
+	public String getTimeStampString() {
+		return timestamp.toString();
 	}
 	
 	@Override
