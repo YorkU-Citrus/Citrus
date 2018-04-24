@@ -185,7 +185,7 @@
 		}
 
 
-		let request_url = "http://localhost:8080/Citrus/REST/book/";
+		let request_url = "${pageContext.request.contextPath}/REST/book/";
 
 		function fetchBookInfoById(bookId, cb){
 			var request = new XMLHttpRequest();
