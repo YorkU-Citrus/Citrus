@@ -263,6 +263,12 @@ public class OrderDAO {
 		resultSet.close();
 		return list;
 	}
+	
+	public synchronized List<OrderBean> getOrderByBookId(int bookId, long offset, long limit){
+		// TODO
+		List<OrderBean> list = new ArrayList<OrderBean>();
+		return list;
+	}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
