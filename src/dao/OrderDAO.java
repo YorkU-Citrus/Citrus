@@ -13,6 +13,10 @@ import bean.OrderBean;
 import bean.OrderItemBean;
 import bean.UserStatisticBean;
 
+/**
+ * @author lover
+ *
+ */
 public class OrderDAO {
 	private static OrderDAO instance = null;
 	private static Connection connection = null;
@@ -41,6 +45,13 @@ public class OrderDAO {
 	protected OrderDAO() {
 	}
 
+	/**
+	 * Check if the connection is valid; if not, get a new connection
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public void checkConnection()
 			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		if (connection == null || (!connection.isValid(0))) {
@@ -91,6 +102,14 @@ public class OrderDAO {
 
 	
 	
+	/**
+	 * Get the buyer statistics for analysis
+	 * @return a list of UserStatisticBean 
+	 * @throws SQLException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 */
 	public synchronized List<UserStatisticBean> getBuyerStatistic()
 			throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 		checkConnection();
@@ -106,7 +125,17 @@ public class OrderDAO {
 		return list;
 	}
 
-	// get the books sold in year-month
+	
+	/**
+	 * Get the books sold in given month
+	 * @param year 
+	 * @param month
+	 * @return a list of books sold in given month
+	 * @throws SQLException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 */
 	public synchronized List<BookBean> getBookSoldInMonth(int year, int month)
 			throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 		checkConnection();
@@ -127,6 +156,15 @@ public class OrderDAO {
 		return resultList;
 	}
 
+	/**
+	 * Get all the books in an order
+	 * @param orderId
+	 * @return a list of OrderItemBean
+	 * @throws SQLException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 */
 	public synchronized List<OrderItemBean> getItemsInOrder(int orderId)
 			throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 		checkConnection();
@@ -167,6 +205,17 @@ public class OrderDAO {
 		return numItems;
 	}
 
+	/**
+	 * Place an order, status = "ordered"
+	 * @param order
+	 * an OrderBean to be added into database
+	 * @param itemList
+	 * a list of OrderItemBean
+	 * @throws SQLException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 */
 	public synchronized void placeOrder(OrderBean order, List<OrderItemBean> itemList)
 			throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 		checkConnection();
@@ -192,6 +241,17 @@ public class OrderDAO {
 		}
 	}
 
+	/**
+	 * Update order status
+	 * @param orderId
+	 * @param status
+	 * the new status of the order
+	 * @return number of updated orders
+	 * @throws SQLException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 */
 	public synchronized int updateOrderStatus(int orderId, String status)
 			throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 		checkConnection();
@@ -202,6 +262,15 @@ public class OrderDAO {
 		return updateOrderStatement.executeUpdate();
 	}
 
+	/**
+	 * Get the order with given order id
+	 * @param orderId
+	 * @return the OrderBean
+	 * @throws SQLException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 */
 	public synchronized OrderBean getOrderById(int orderId)
 			throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 		checkConnection();
@@ -217,6 +286,15 @@ public class OrderDAO {
 		}
 	}
 
+	/**
+	 * Get all the orders made by the given user
+	 * @param userId
+	 * @return a list of OrderBean
+	 * @throws SQLException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 */
 	public synchronized List<OrderBean> getOrdersByUser(int userId)
 			throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 		checkConnection();
@@ -234,6 +312,18 @@ public class OrderDAO {
 		return list;
 	}
 	
+	/**
+	 * Get 'limit' number of orders with 'offset' , ordered by time 
+	 * @param offset
+	 * number of orders to be ignored
+	 * @param limit
+	 * number of orders wanted
+	 * @return a list of OrderBean
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public synchronized List<OrderBean> getAllOrders(long offset, long limit) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{
 		checkConnection();
 		
@@ -273,6 +363,19 @@ public class OrderDAO {
 		return list;
 	}
 	
+	/**
+	 * Get all the orders containing a certain book
+	 * @param bookId
+	 * @param offset
+	 * number of orders to be ignored
+	 * @param limit
+	 * number of orders wanted
+	 * @return a list of OrderBean
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public synchronized List<OrderBean> getOrderByBookId(int bookId, long offset, long limit) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{
 		checkConnection();
 		

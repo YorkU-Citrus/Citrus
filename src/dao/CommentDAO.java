@@ -34,6 +34,13 @@ public class CommentDAO {
 
 	protected CommentDAO() {}
 	
+	/**
+	 * Check if the connection is valid; if not, get a new connection
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public void checkConnection() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		if (connection == null || (!connection.isValid(0))) {
 			connection = CitrusDAO.getInstance().getConnection();
@@ -47,7 +54,17 @@ public class CommentDAO {
 
 	}
 
-	// Insert new comment
+	
+	/**
+	 * Post a comment
+	 * @param comment
+	 * the CommentBean representing the comment to be posted
+	 * @return number of comments posted
+	 * @throws SQLException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 */
 	public synchronized int addComment(CommentBean comment) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 		checkConnection();
 		
@@ -64,7 +81,18 @@ public class CommentDAO {
 		return insertCommentStatement.executeUpdate();
 	}
 	
-	// Update comments
+	
+	/**
+	 * Update the status of the comment
+	 * @param commentId
+	 * @param status
+	 * the new status of the comment
+	 * @return number of comments updated
+	 * @throws SQLException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 */
 	public synchronized int updateCommentStatus(int commentId, String status) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 		checkConnection();
 		
@@ -74,7 +102,21 @@ public class CommentDAO {
 		return updateCommentStatusStatement.executeUpdate();		
 	}
 	
-	// Get comments for a book
+
+	/**
+	 * Get 'limit' number of comments with 'offset' which status='status' for a book, ordered by time 
+	 * @param bookId
+	 * @param status
+	 * @param offset
+	 * number of first set of comments to be ignored
+	 * @param limit
+	 * number of comments wanted
+	 * @return a list of CommentBean
+	 * @throws SQLException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 */
 	public synchronized List<CommentBean> getCommentByBookId(int bookId, String status, int offset, int limit) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
 		checkConnection();
 		

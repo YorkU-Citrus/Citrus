@@ -25,6 +25,13 @@ public class MonthlyDAO {
 	
 	protected MonthlyDAO() {}
 	
+	/**
+	 * Check if the connection is valid; if not, get a new connection
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public void checkConnection() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		if (connection == null || (!connection.isValid(0))) {
 			connection = CitrusDAO.getInstance().getConnection();
@@ -44,6 +51,14 @@ public class MonthlyDAO {
 				);
 	}
 	
+	/**
+	 * Get the sales report for every month
+	 * @return a list of MonthlyBean
+	 * @throws SQLException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 */
 	public synchronized List<MonthlyBean> getSalesReport() throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
 		checkConnection();
 		
@@ -57,6 +72,16 @@ public class MonthlyDAO {
 		return list;
 	}
 	
+	/**
+	 * Get the sales report of the given month
+	 * @param year
+	 * @param month
+	 * @return a MonthlyBean for that month
+	 * @throws SQLException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 */
 	public synchronized MonthlyBean getSalesInMonth(int year, int month) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
 		checkConnection();
 		
