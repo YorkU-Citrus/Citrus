@@ -10,14 +10,21 @@ public class AddressBean {
 	private String province;
 	private String country;
 	private String zip;
-	
-	
 	@Override
 	public String toString() {
 		return "AddressBean [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName
 				+ ", street=" + street + ", province=" + province + ", country=" + country + ", zip=" + zip + "]";
 	}
-	
+	/**
+	 * Wrapper to Store Whole Address
+	 * @param userId
+	 * @param firstName
+	 * @param lastName
+	 * @param street
+	 * @param province
+	 * @param country
+	 * @param zip
+	 */
 	
 	public AddressBean(int userId, String firstName, String lastName, String street, String province,
 			String country, String zip) {
