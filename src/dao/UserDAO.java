@@ -32,6 +32,13 @@ public class UserDAO{
 	
 	protected UserDAO(){}
 	
+	/**
+	 * Check if the connection is valid; if not, get a new connection
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public void checkConnection()  throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		if (connection == null || (!connection.isValid(0))) {
 			connection = CitrusDAO.getInstance().getConnection();
@@ -56,7 +63,16 @@ public class UserDAO{
 		
 	}
 	
-	//change password, refresh last active time stamp
+	/**
+	 * Update an user: change password, refresh last active time stamp, etc.
+	 * @param user
+	 * an UserBean representing the user's current state
+	 * @return the number of users updated 
+	 * @throws SQLException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 */
 	public synchronized int updateUser(UserBean user) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
 		checkConnection();
 		
@@ -68,7 +84,16 @@ public class UserDAO{
 		return updateUserStatement.executeUpdate();
 	}
 		
-	//Insert user
+
+	/**
+	 * Sign up an user in the database
+	 * @param user
+	 * @return number of users added
+	 * @throws SQLException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 */
 	public synchronized int addUser(UserBean user) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
 		checkConnection();
 		
@@ -81,6 +106,16 @@ public class UserDAO{
 		
 	}
 	
+	/**
+	 * Get an user by name
+	 * @param name
+	 * the user name
+	 * @return an UserBean representing the user with given name
+	 * @throws SQLException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 */
 	public synchronized UserBean getUserByName(String name) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
 		checkConnection();
 		
@@ -105,6 +140,16 @@ public class UserDAO{
 	
 	}
 	
+	/**
+	 * Check if the user had ordered the book
+	 * @param userId
+	 * @param bookId
+	 * @return true if user had ordered the book, otherwise false
+	 * @throws SQLException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 */
 	public synchronized boolean checkUserOrderBook(int userId, int bookId) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
 		checkConnection();
 		

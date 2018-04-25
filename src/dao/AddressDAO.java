@@ -29,6 +29,13 @@ public class AddressDAO {
 	
 	protected AddressDAO() {}
 	
+	/**
+	 * Check if the connection is valid; if not, get a new connection
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public void checkConnection() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		if (connection == null || (!connection.isValid(0))) {
 			connection = CitrusDAO.getInstance().getConnection();
@@ -45,6 +52,16 @@ public class AddressDAO {
 				+ "VALUES (NULL, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?)");
 	}
 	
+	/**
+	 * Add an billing address into the database
+	 * @param billing
+	 * the BillingAddressBean to be added
+	 * @return number of records added
+	 * @throws SQLException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 */
 	public synchronized int addBillingAddress(BillingAddressBean billing) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
 		checkConnection();
 		
@@ -63,6 +80,15 @@ public class AddressDAO {
 	
 	
 	//choose the latest address
+	/**
+	 * Get the billing address of the user, choose the latest one
+	 * @param userId
+	 * @return a BillingAddressBean
+	 * @throws SQLException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 */
 	public synchronized BillingAddressBean getBillingAddressByUser(int userId) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
 		checkConnection();
 		
@@ -85,6 +111,15 @@ public class AddressDAO {
 	
 	
 	//choose the lastest address
+	/**
+	 * Get the address of the user, choose the latest one
+	 * @param userId
+	 * @return
+	 * @throws SQLException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 */
 	public synchronized AddressBean getAddressByUser(int userId) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
 		checkConnection();
 		
@@ -108,6 +143,16 @@ public class AddressDAO {
 	}
 	
 	//add or update
+	/**
+	 * Add or update an address
+	 * @param address
+	 * the AddressBean to be added
+	 * @return number of records affected
+	 * @throws SQLException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 */
 	public synchronized int addAddress(AddressBean address) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 		checkConnection();
 		

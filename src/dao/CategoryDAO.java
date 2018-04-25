@@ -28,6 +28,13 @@ public class CategoryDAO {
 	
 	protected CategoryDAO() {}
 	
+	/**
+	 * Check if the connection is valid; if not, get a new connection
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public void checkConnection() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		if (connection == null || (!connection.isValid(0))) {
 			connection = CitrusDAO.getInstance().getConnection();
@@ -37,6 +44,16 @@ public class CategoryDAO {
 		this.getCategoryStatement = connection.prepareStatement("SELECT * FROM citrus_category; ");
 	}
 	
+	/**
+	 * Get the category with given id
+	 * @param cid
+	 * the category id
+	 * @return a CategoryBean 
+	 * @throws SQLException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 */
 	public synchronized CategoryBean getCategoryById(int cid) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
 		checkConnection();
 		
@@ -55,6 +72,14 @@ public class CategoryDAO {
 		
 	}
 	
+	/**
+	 * Get all the categories in database
+	 * @return a list of categories
+	 * @throws SQLException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 */
 	public synchronized List<CategoryBean> getCategory() throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
 		checkConnection();
 		

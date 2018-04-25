@@ -39,6 +39,13 @@ public class BookDAO {
 	protected BookDAO() {
 	}
 
+	/**
+	 * Check if the connection is valid; if not, get a new connection
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public void checkConnection()
 			throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		if (connection == null || (!connection.isValid(0))) {
@@ -95,7 +102,15 @@ public class BookDAO {
 
 	}
 
-	// get the TOP (int top) sold books
+	/**
+	 * Get the TOP #'top' popular books 
+	 * @param top
+	 * @return a list of BookBean, representing the most popular books
+	 * @throws SQLException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 */
 	public synchronized List<BookBean> getMostPopularBooks(int top) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 		checkConnection();
 		
@@ -116,7 +131,17 @@ public class BookDAO {
 		return resultList;
 	}
 
-	// Insert new book
+	
+	/**
+	 * Add a book into the database
+	 * @param book
+	 * the BookBean to be added
+	 * @return number of books added
+	 * @throws SQLException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 */
 	public synchronized int addBook(BookBean book) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 		checkConnection();
 		
@@ -131,6 +156,16 @@ public class BookDAO {
 		return insertBookStatement.executeUpdate();
 	}
 
+	/**
+	 * Get the book with given id 
+	 * @param bid
+	 * the book id 
+	 * @return the BookBean
+	 * @throws SQLException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 */
 	public synchronized BookBean getBookByID(int bid) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 		checkConnection();
 		
@@ -151,11 +186,14 @@ public class BookDAO {
 	}
 
 	/**
+	 * Get books in given category
 	 * @param category
+	 * the category id
 	 * @param offset
 	 *            the first index is ZERO
 	 * @param limit
-	 * @return
+	 * number of books wanted
+	 * @return a list of BookBean in that category
 	 * @throws SQLException
 	 * @throws ClassNotFoundException 
 	 * @throws IllegalAccessException 
@@ -190,6 +228,19 @@ public class BookDAO {
 		return getBooksByCategory(category.getCid(), offset, limit);
 	}
 
+	/**
+	 * Search books with keyword
+	 * @param keyword
+	 * @param offset
+	 * number of first set of books to be ignored 
+	 * @param limit
+	 * number of books wanted
+	 * @return a list of BookBean relevant to the keyword
+	 * @throws SQLException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException
+	 */
 	public synchronized List<BookBean> getBooksBySearch(String keyword, int offset, int limit) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 		checkConnection();
 		
@@ -213,9 +264,11 @@ public class BookDAO {
 	}
 
 	/**
+	 * Get books in database
 	 * @param offset
 	 * @param limit
 	 *            the first index is ZERO
+	 *            number of books wanted
 	 * @return
 	 * @throws SQLException
 	 * @throws ClassNotFoundException 
