@@ -149,7 +149,7 @@ public class User {
 		if ((address == null) || (address == "")) {
 			throw new CitrusFormException("Address cannot be empty!");
 		}
-		if (!address.matches("^[a-zA-Z0-9\\(\\)\\'\\-\\_\\s]{2,20}$")) {
+		if (!address.matches("^[\\s\\S]{2,100}$")) {
 			throw new CitrusFormException("Please enter a valid address.");
 		} 
 		if ((province == null) || (province == "")) {
@@ -245,7 +245,7 @@ public class User {
 		if ((address == null) || (address == "")) {
 			throw new CitrusFormException("Address cannot be empty!");
 		}
-		if (!address.matches("^[a-zA-Z0-9\\(\\)\\'\\-\\_\\s]{2,20}$")) {
+		if (!address.matches("^[\\s\\S]{2,100}$")) {
 			throw new CitrusFormException("Please enter a valid address.");
 		} 
 		if ((province == null) || (province == "")) {

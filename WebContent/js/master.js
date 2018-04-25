@@ -84,8 +84,13 @@ function getCookie(cname) {
               for (var i in cart_obj){
                 total += cart_obj[i];
               }
-              dot.innerHTML = total;
-              dot.hidden = false;
+              if (total == 0){
+            	  dot.hidden = true;
+                  setCookie("cart", "", 100);
+              }else{
+            	  dot.innerHTML = total;
+            	  dot.hidden = false;
+              }
             }
           }catch(error){
             setCookie("cart", "", 100);

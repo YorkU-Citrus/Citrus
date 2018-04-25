@@ -70,23 +70,27 @@ public class CheckoutPage extends HttpServlet {
 				
 				// load billing address
 				BillingAddressBean billingAddressData = AddressDAO.getInstance().getBillingAddressByUser(user.getUid());
-				session.setAttribute("billing", billingAddressData);
-				session.setAttribute("b_firstname", billingAddressData.getFirstName());
-				session.setAttribute("b_lastname", billingAddressData.getLastName());
-				session.setAttribute("b_address", billingAddressData.getStreet());
-				session.setAttribute("b_provience", billingAddressData.getProvince());
-				session.setAttribute("b_country", billingAddressData.getCountry());
-				session.setAttribute("b_postal", billingAddressData.getZip());
+				if (billingAddressData != null) {
+					session.setAttribute("billing", billingAddressData);
+					session.setAttribute("b_firstname", billingAddressData.getFirstName());
+					session.setAttribute("b_lastname", billingAddressData.getLastName());
+					session.setAttribute("b_address", billingAddressData.getStreet());
+					session.setAttribute("b_provience", billingAddressData.getProvince());
+					session.setAttribute("b_country", billingAddressData.getCountry());
+					session.setAttribute("b_postal", billingAddressData.getZip());
+				}
 				
 				// load shipping address
-				AddressBean shippingAddressData = AddressDAO.getInstance().getAddressByUser(user.getUid());	
-				session.setAttribute("shipping", shippingAddressData);	
-				session.setAttribute("s_firstname", shippingAddressData.getFirstName());
-				session.setAttribute("s_lastname", shippingAddressData.getLastName());
-				session.setAttribute("s_address", shippingAddressData.getStreet());
-				session.setAttribute("s_provience", shippingAddressData.getProvince());
-				session.setAttribute("s_country", shippingAddressData.getCountry());
-				session.setAttribute("s_postal", shippingAddressData.getZip());
+				AddressBean shippingAddressData = AddressDAO.getInstance().getAddressByUser(user.getUid());
+				if (shippingAddressData != null) {
+					session.setAttribute("shipping", shippingAddressData);	
+					session.setAttribute("s_firstname", shippingAddressData.getFirstName());
+					session.setAttribute("s_lastname", shippingAddressData.getLastName());
+					session.setAttribute("s_address", shippingAddressData.getStreet());
+					session.setAttribute("s_provience", shippingAddressData.getProvince());
+					session.setAttribute("s_country", shippingAddressData.getCountry());
+					session.setAttribute("s_postal", shippingAddressData.getZip());
+				}
 				
 				// Print out shipping cart for confirm
 				if (session.getAttribute("order") == null) {
@@ -120,19 +124,20 @@ public class CheckoutPage extends HttpServlet {
 			if ((session.getAttribute("order") != null) && (request.getParameter("checkoutform") != null)) {
 				OrderBean order = (OrderBean) session.getAttribute("order");
 
-				session.setAttribute("b_firstname", request.getParameter("firstname"));
-				session.setAttribute("b_lastname", request.getParameter("lastname"));
-				session.setAttribute("b_address", request.getParameter("addr1"));
-				session.setAttribute("b_provience", request.getParameter("province"));
-				session.setAttribute("b_country", request.getParameter("country"));
-				session.setAttribute("b_postal", request.getParameter("pcode"));
+				// Keep the form data although it is not correct.
+				if (request.getParameter("firstname") != null) session.setAttribute("b_firstname", request.getParameter("firstname"));
+				if (request.getParameter("lastname") != null) session.setAttribute("b_lastname", request.getParameter("lastname"));
+				if (request.getParameter("addr1") != null) session.setAttribute("b_address", request.getParameter("addr1"));
+				if (request.getParameter("province") != null) session.setAttribute("b_provience", request.getParameter("province"));
+				if (request.getParameter("country") != null) session.setAttribute("b_country", request.getParameter("country"));
+				if (request.getParameter("pcode") != null) session.setAttribute("b_postal", request.getParameter("pcode"));
 				
-				session.setAttribute("s_firstname", request.getParameter("firstname-ship"));
-				session.setAttribute("s_lastname", request.getParameter("lastname-ship"));
-				session.setAttribute("s_address", request.getParameter("addr1-ship"));
-				session.setAttribute("s_provience", request.getParameter("province-ship"));
-				session.setAttribute("s_country", request.getParameter("country-ship"));
-				session.setAttribute("s_postal", request.getParameter("pcode-ship"));
+				if (request.getParameter("firstname-ship") != null) session.setAttribute("s_firstname", request.getParameter("firstname-ship"));
+				if (request.getParameter("lastname-ship") != null) session.setAttribute("s_lastname", request.getParameter("lastname-ship"));
+				if (request.getParameter("addr1-ship") != null) session.setAttribute("s_address", request.getParameter("addr1-ship"));
+				if (request.getParameter("province-ship") != null) session.setAttribute("s_provience", request.getParameter("province-ship"));
+				if (request.getParameter("country-ship") != null) session.setAttribute("s_country", request.getParameter("country-ship"));
+				if (request.getParameter("pcode-ship") != null) session.setAttribute("s_postal", request.getParameter("pcode-ship"));
 				
 				// Update billing and shipping address
 				try {
@@ -223,7 +228,7 @@ public class CheckoutPage extends HttpServlet {
 			throw new Exception("You cannot visit this page.");
 			
 		}catch (Exception e) {
-			//e.printStackTrace();
+			e.printStackTrace();			
 			request.setAttribute("error", e.getMessage());
 			request.getRequestDispatcher("/WEB-INF/page-error.jsp").forward(request,response);
 			
