@@ -1,5 +1,7 @@
 package bean;
-
+/**
+ * 	An object to Store Shipping Address.
+ */
 public class AddressBean {
 	//said, sauid, satime, safirst, salast, sastreet, saprovince, sacountry, sazip
 	//private int id;
@@ -37,7 +39,7 @@ public class AddressBean {
 		this.country = country;
 		this.zip = zip;
 	}
-	
+  
 	/**
 	 * Returns the User Id
 	 * @return userId
