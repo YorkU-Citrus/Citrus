@@ -30,7 +30,7 @@
 									</div>
 								</c:when>
 							</c:choose>
-							<form class="information-form payment-form" method="POST">
+							<form class="information-form payment-form" method="POST" action="manage?type=billing">
 								<label for="firstname">First Name</label> <input type="text"
 									name="firstname" class="normal-textfield" value="${sessionScope.billing.getFirstName()}" /> <label
 									for="lastname">Last Name</label> <input type="text"

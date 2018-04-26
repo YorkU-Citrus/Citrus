@@ -21,7 +21,7 @@
 			<ul>
 				<li class="${analyticsactive}"><a href="?type=analytics">Analytics Page</a></li>
 				<li class="${productsactive}"><a href="?type=products">Products</a></li>
-				<li class="${ordersactive}"><a href="?type=orders">Orders</a></li>
+				<!-- <li class="${ordersactive}"><a href="?type=orders">Orders</a></li> -->
 				<li class="${commentsactive}"><a href="?type=comments">Comments</a></li>
 			</ul>
 		</div>

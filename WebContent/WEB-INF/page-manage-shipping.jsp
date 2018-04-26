@@ -31,7 +31,7 @@
 								</c:when>
 							</c:choose>
 							
-<!-- payment form -->		<form class="information-form payment-form" method="POST">
+<!-- payment form -->		<form class="information-form payment-form" method="POST" action="manage?type=shipping">
 								<label for="firstname">First Name</label> 
 								<input type="text"
 									name="firstname" class="normal-textfield" value="${sessionScope.shipping.getFirstName()}" /> 

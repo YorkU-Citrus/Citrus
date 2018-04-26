@@ -82,7 +82,7 @@ public class UserManagePage extends HttpServlet {
 		try {
 			// Removing Possible Injection
 			if (request.getParameter("formtype") != null) {
-				User.updateShippingInformation(request.getParameter("firstname"), request.getParameter("lastname"), 
+				User.updateBillingInformation(request.getParameter("firstname"), request.getParameter("lastname"), 
 												request.getParameter("address"), request.getParameter("province"), 
 												request.getParameter("country"), request.getParameter("pcode"), request);
 				request.setAttribute("success", "Your information has been updated.");
