@@ -20,6 +20,14 @@ public class User {
 	@POST
 	@Path("/register/")
 	@Produces("application/json")
+	/**
+	 * This Methods Takes Username, Password and RePassword as Arguments and register a user. If the User Doesn't already exists
+	 * @param username
+	 * @param password
+	 * @param repassword
+	 * @param request
+	 * @return String (Success or Failure with exception)
+	 */
 	public String RestRegisterUser(@FormParam("username") String username, @FormParam("password") String password,
 			@FormParam("repassword") String repassword, @Context HttpServletRequest request) {
 		try {
@@ -33,6 +41,13 @@ public class User {
 	@POST
 	@Path("/login/")
 	@Produces("application/json")
+	/**
+	 * This Methods Takes Username and Password  as Arguments and Login a user to its account.
+	 * @param username
+	 * @param password
+	 * @param request
+	 * @return String (Success or Failure with exception)
+	 */
 	public String RestUserLogin(@FormParam("username") String username, @FormParam("password") String password,
 			@Context HttpServletRequest request) {
 		try {
@@ -43,7 +58,16 @@ public class User {
 		}
 	}
 	
-	
+	/**
+	 * Helper method for RestRegisterUser. It takes UserName , Password and RePassword to create new User. This method 
+	 * also do all the necessary Error checking of input by robust regex (which is tailored for each field) so that 
+	 * no invalid input is processed.
+	 * @param username
+	 * @param password
+	 * @param repassword
+	 * @param request
+	 * @throws CitrusFormException
+	 */
 	public static void registerUser(String username, String password, String repassword, HttpServletRequest request)
 			throws CitrusFormException {
 		if ((username == null) || (username == "")) {
@@ -69,7 +93,9 @@ public class User {
 		if (!repassword.equals(password)) {
 			throw new CitrusFormException("Two passwords are not the same!");
 		}
-		
+		/*
+		 * Connects to Database and Register User.
+		 */
 		try {
 			UserDAO dataSource = UserDAO.getInstance();
 			if (dataSource.getUserByName(username) == null) {
@@ -90,7 +116,16 @@ public class User {
 			throw new CitrusFormException("Undefined Error: " + e.getMessage());
 		}
 	}
-
+	
+	/**
+	 * Helper method for RestUserLogin. It takes UserName and Password to login User to its account. This method 
+	 * also do all the necessary Error checking of input by robust regex (which is tailored for each field) so that 
+	 * no invalid input is processed
+	 * @param username
+	 * @param password
+	 * @param request
+	 * @throws CitrusFormException
+	 */
 	public static void login(String username, String password, HttpServletRequest request) throws CitrusFormException {
 		if ((username == null) || (username == "")) {
 			throw new CitrusFormException("User name cannot be empty!");
@@ -130,7 +165,7 @@ public class User {
 			throw new CitrusFormException("Undefined Error: " + e.getMessage());
 		}
 	}
-
+	
 	public static void updateBillingInformation(String firstName, String lastName, 
 			String address, String province, String country, String postalCode, HttpServletRequest request)
 			throws CitrusFormException {
