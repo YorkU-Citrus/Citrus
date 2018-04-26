@@ -239,7 +239,11 @@ public class User {
 			throw new CitrusFormException("Undefined Error: " + e.getMessage());
 		}
 	}
-
+	/**
+	 * This method load all the billing Information of User
+	 * @param request
+	 * @throws CitrusFormException
+	 */
 	public static void loadBillingInformation(HttpServletRequest request) throws CitrusFormException {
 		try {
 			AddressDAO dataSource = AddressDAO.getInstance();
@@ -257,7 +261,11 @@ public class User {
 			throw new CitrusFormException("Undefined Error: " + e.getMessage());
 		}
 	}
-	
+	/**
+	 * This method load all the billing Information of User
+	 * @param request
+	 * @throws CitrusFormException
+	 */
 	public static void loadShippingInformation(HttpServletRequest request) throws CitrusFormException {
 		try {
 			AddressDAO dataSource = AddressDAO.getInstance();
@@ -276,7 +284,19 @@ public class User {
 		}
 		
 	}
-	
+	/**
+	 * This Method updates the Shipping Information to User Desired Address. This method 
+	 * also do all the necessary Error checking of input by robust regex (which is tailored for each field) so that 
+	 * no invalid input is processed
+	 * @param firstName
+	 * @param lastName
+	 * @param address
+	 * @param province
+	 * @param country
+	 * @param postalCode
+	 * @param request
+	 * @throws CitrusFormException
+	 */
 	public static void updateShippingInformation(String firstName, String lastName, String address, String province
 			, String country, String postalCode, HttpServletRequest request)
 			throws CitrusFormException {
