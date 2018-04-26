@@ -165,7 +165,19 @@ public class User {
 			throw new CitrusFormException("Undefined Error: " + e.getMessage());
 		}
 	}
-	
+	/**
+	 * This Method updates the Billing Information to User Desired Address. This method 
+	 * also do all the necessary Error checking of input by robust regex (which is tailored for each field) so that 
+	 * no invalid input is processed
+	 * @param firstName
+	 * @param lastName
+	 * @param address
+	 * @param province
+	 * @param country
+	 * @param postalCode
+	 * @param request
+	 * @throws CitrusFormException
+	 */
 	public static void updateBillingInformation(String firstName, String lastName, 
 			String address, String province, String country, String postalCode, HttpServletRequest request)
 			throws CitrusFormException {
@@ -205,6 +217,9 @@ public class User {
 		if (!province.matches("^[a-zA-Z0-9\\(\\)\\'\\-\\_\\s]{2,20}$")) {
 			throw new CitrusFormException("Please enter a valid postal code.");
 		} 
+		/*
+		 * Connects to database and update the Billing address
+		 */
 		try {
 			AddressDAO dataSource = AddressDAO.getInstance();
 			HttpSession session = request.getSession(true);
