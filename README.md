@@ -22,6 +22,4 @@ This code is released with the permission from the course instructor.
 Please do not use any part of the code in you assignment. Please review [Academic Honesty Guidelines ](http://www.cs.yorku.ca/admin/coscOnAcadHonesty.html) if you are not clear about it.
 
 ## Authors
-Jun Lin Chen (Michael)
-Chenxing Zheng
-Vishal Malik
+Jun Lin Chen (Michael), Chenxing Zheng, Vishal Malik
